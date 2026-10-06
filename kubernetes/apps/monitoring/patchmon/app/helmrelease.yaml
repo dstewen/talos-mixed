@@ -1,0 +1,117 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: patchmon
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: patchmon
+  values:
+    controllers:
+      patchmon:
+        labels:
+          postgres: "true"
+        annotations:
+          reloader.stakater.com/auto: "true"
+        initContainers:
+          init-db:
+            image:
+              repository: ghcr.io/home-operations/postgres-init
+              tag: 18.6.0@sha256:b6d3af974df781c673d37e49bdddfa14a6f5be28b18d2cb7713f0449bea4057b
+            envFrom: &envFrom
+              - secretRef:
+                  name: patchmon-secret
+              - secretRef:
+                  name: cluster-secrets
+        containers:
+          app:
+            image:
+              repository: ghcr.io/patchmon/patchmon-server
+              tag: 2.1.3@sha256:9eba4008c8e25f72929752bba7499b5deda26cf5de3e4678dbf760d16822b2f2
+            env:
+              TZ: ${TIMEZONE}
+              CORS_ORIGIN: https://patchmon.${SECRET_DOMAIN}
+              PORT: &port 3000
+              REDIS_HOST: patchmon-dragonfly
+              REDIS_PORT: 6379
+              REDIS_DB: 2
+              SERVER_PROTOCOL: https
+              SERVER_HOST: patchmon.${SECRET_DOMAIN}
+              SERVER_PORT: 443
+              # OIDC Auth
+              NODE_ENV: development
+              OIDC_ENABLED: true
+              OIDC_SCOPES: "openid email profile groups"
+              OIDC_AUTO_CREATE_USERS: true
+              OIDC_DEFAULT_ROLE: user
+              OIDC_DISABLE_LOCAL_AUTH: false
+              OIDC_BUTTON_TEXT: "Login with SSO"
+            envFrom: *envFrom
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: false
+            resources:
+              requests:
+                cpu: 10m
+              limits:
+                memory: 1024Mi
+    defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/worker
+                    operator: In
+                    values:
+                      - worker
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              preference:
+                matchExpressions:
+                  - key: kubernetes.io/arch
+                    operator: In
+                    values:
+                      - arm64
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
+    service:
+      app:
+        ports:
+          http:
+            port: *port
+    route:
+      app:
+        annotations:
+          gethomepage.dev/enabled: "true"
+          gethomepage.dev/group: Update-Management
+          gethomepage.dev/name: Patchmon
+          gethomepage.dev/icon: patchmon.png
+          gethomepage.dev/pod-selector: app.kubernetes.io/controller=patchmon
+          gethomepage.dev/href: https://patchmon.${SECRET_DOMAIN}
+        hostnames:
+          - "{{ .Release.Name }}.${SECRET_DOMAIN}"
+        parentRefs:
+          - name: envoy-internal
+            namespace: network
+            sectionName: https
+    persistence:
+      agents:
+        existingClaim: "{{ .Release.Name }}"
+        advancedMounts:
+          patchmon:
+            app:
+              - path: /app/agents
+      tmpfs:
+        type: emptyDir
+        advancedMounts:
+          patchmon:
+            app:
+              - path: /tmp
+                subPath: tmp

@@ -1,0 +1,65 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app actual-budget-exporter
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: actual-budget-exporter
+  install:
+    remediation:
+      retries: -1
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    controllers:
+      actual-budget-exporter:
+        strategy: RollingUpdate
+        pod:
+          annotations:
+            secret.reloader.stakater.com/reload: actual-budget-exporter-config
+
+        containers:
+          app:
+            image:
+              repository: docker.io/sakowicz/actual-budget-prometheus-exporter
+              tag: 1.2.16@sha256:ee968dda6d96b5c1508007a1b60c9d9c32eeaf60166471864539e660363ceeb5
+            env:
+              TZ: "${TIMEZONE}"
+            envFrom:
+              - secretRef:
+                  name: actual-budget-exporter-secret
+            probes:
+              liveness:
+                enabled: true
+              readiness:
+                enabled: true
+    defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/worker
+                    operator: In
+                    values:
+                      - worker
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 1
+              preference:
+                matchExpressions:
+                  - key: kubernetes.io/arch
+                    operator: In
+                    values:
+                      - arm64
+    service:
+      metrics:
+        controller: *app
+        ports:
+          metrics:
+            port: 3001
