@@ -1,0 +1,15 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/volsync.backube/replicationdestination_v1alpha1.json
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: unifi-dest
+  namespace: home
+spec:
+  trigger:
+    manual: restore-once
+  restic:
+    repository: unifi-restic-secret
+    copyMethod: Direct
+    destinationPVC: unifi-config
+    storageClassName: local-hostpath
