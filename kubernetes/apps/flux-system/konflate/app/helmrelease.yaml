@@ -11,7 +11,7 @@ spec:
   interval: 1h
   values:
     config:
-      repo: github://dstewen/talos-homelab
+      repo: github://dstewen/talos-mixed
       statusChecks: true
       prComments: true
       publicUrl: https://{{ .Release.Name }}.davidstewen.com
