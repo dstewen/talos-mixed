@@ -176,7 +176,7 @@ spec:
               - name: TERM
                 value: xterm-256color
               - name: TZ
-                value: "${TIMEZONE}"
+                value: "$${TIMEZONE}"
               - name: LITELLM_API_KEY
                 value: "sk-dVujhw0SK5rF1FAyQG-dmQ"
             envFrom:
