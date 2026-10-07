@@ -12,8 +12,8 @@ resources:
   - ./blackbox-exporter/ks.yaml
   #  - ./cloudflare-exporter/ks.yaml
   #  - ./frigate-exporter/ks.yaml
-  - ./grafana/ks.yaml
-  - ./k8s-ephemeral-storage-metrics/ks.yaml
+  #  - ./grafana/ks.yaml
+  #  - ./k8s-ephemeral-storage-metrics/ks.yaml
   - ./keda/ks.yaml
   - ./kromgo/ks.yaml
   - ./kube-prometheus-stack/ks.yaml
