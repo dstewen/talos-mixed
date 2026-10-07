@@ -13,6 +13,6 @@ resources:
   - ./node-red/ks.yaml
   - ./smtp-relay/ks.yaml
   - ./unifi/ks.yaml
-  - ./wallos/ks.yaml
+  #  - ./wallos/ks.yaml
   - ./wyoming-piper/ks.yaml
   - ./wyoming-whisper/ks.yaml
