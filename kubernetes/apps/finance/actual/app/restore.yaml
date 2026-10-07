@@ -1,0 +1,15 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/volsync.backube/replicationdestination_v1alpha1.json
+apiVersion: volsync.backube/v1alpha1
+kind: ReplicationDestination
+metadata:
+  name: actual-dest
+  namespace: finance
+spec:
+  trigger:
+    manual: restore-once
+  restic:
+    repository: actual-restic-secret
+    copyMethod: Direct
+    destinationPVC: actual-data
+    storageClassName: local-hostpath
