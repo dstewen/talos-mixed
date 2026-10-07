@@ -21,7 +21,7 @@ resources:
   #  - ./netdata/ks.yaml
   #  - ./node-problem-detector/ks.yaml
   - ./nut-exporter/ks.yaml
-  - ./otel-collector/ks.yaml
+  #  - ./otel-collector/ks.yaml
   - ./opnsense-exporter/ks.yaml
   #  - ./patchmon/ks.yaml
   #  - ./pihole-exporter/ks.yaml
