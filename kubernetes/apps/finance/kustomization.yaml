@@ -6,6 +6,7 @@ namespace: finance
 components:
   - ../../components/sops
 resources:
+  - ./namespace.yaml
   # Flux-Kustomizations
-  - ./actual/ks.yaml
-#  - ./firefly-iii/ks.yaml
+  #  - ./actual/ks.yaml
+  #  - ./firefly-iii/ks.yaml
