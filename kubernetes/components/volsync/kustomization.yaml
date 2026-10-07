@@ -5,4 +5,4 @@ kind: Component
 resources:
   #  - ./backblaze-b2
   - ./minio
-  - ./pvc.yaml
+#  - ./pvc.yaml
