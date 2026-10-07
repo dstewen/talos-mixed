@@ -1,0 +1,44 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app llmkube
+spec:
+  targetNamespace: ai
+  interval: 1h
+  path: ./kubernetes/apps/ai/llmkube/app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  wait: true
+  postBuild:
+    substitute:
+      APP: *app
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app llmkube-models
+spec:
+  components:
+    # Add an extra ../ as we are building in the models subdirectory, and the components are in the parent directory of the app directory.
+    - ../../../../../components/gpu
+  targetNamespace: ai
+  dependsOn:
+    - name: llmkube
+      namespace: ai
+  interval: 1h
+  path: ./kubernetes/apps/ai/llmkube/app/models
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  wait: false
+  postBuild:
+    substitute:
+      APP: *app

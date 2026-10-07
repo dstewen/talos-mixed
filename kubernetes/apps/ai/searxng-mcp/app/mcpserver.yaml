@@ -1,0 +1,14 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/toolhive.stacklok.dev/mcpserver_v1beta1.json
+apiVersion: toolhive.stacklok.dev/v1beta1
+kind: MCPServer
+metadata:
+  name: searxng-mcp
+spec:
+  image: docker.io/isokoliuk/mcp-searxng:2.5.0@sha256:13939bb5076f2e93f7dbef41e6623592e4c70f3f8efac8951599ad1e80b4606e
+  groupRef:
+    name: mcp-tools
+  env:
+    - name: SEARXNG_URL
+      value: https://search.davidstewen.com
+  transport: stdio

@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: model-preloader
+  namespace: ai
+spec:
+  containers:
+    - name: downloader
+      # Use a much more capable image that has Python and pip
+      image: python:3.14-slim
+      command: ["/bin/bash", "-c"]
+      args:
+        - |
+          pip install huggingface_hub;
+          mkdir -p /models/gemma4;
+          huggingface-cli download unsloth/gemma-4-E4B-it-GGUF --local-dir /models/gemma4;
+          chown -R 1000:1000 /models/gemma4;
+          chmod -R 755 /models/gemma4;
+          echo "Download complete!";
+          sleep infinity;
+      volumeMounts:
+        - name: model-cache
+          mountPath: /models
+  volumes:
+    - name: model-cache
+      persistentVolumeClaim:
+        claimName: llmkube-model-cache
+  restartPolicy: Never
