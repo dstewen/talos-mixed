@@ -113,7 +113,7 @@ spec:
         controller: ollama
         type: LoadBalancer
         annotations:
-          lbipam.cilium.io/ips: ${SVC_OLLAMA_ADDR}
+          lbipam.cilium.io/ips: $${SVC_OLLAMA_ADDR}
         ports:
           http:
             port: &port 11434
