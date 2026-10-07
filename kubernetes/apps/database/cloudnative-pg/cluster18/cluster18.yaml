@@ -49,7 +49,7 @@ spec:
       isWALArchiver: true
       parameters:
         barmanObjectName: minio-pg18
-        serverName: postgres18-v8
+        serverName: postgres18-v9
 
   #  backup:
   #    retentionPolicy: 30d
@@ -76,7 +76,7 @@ spec:
         name: barman-cloud.cloudnative-pg.io
         parameters:
           barmanObjectName: minio-pg18
-          serverName: postgres18-v7
+          serverName: postgres18-v8
 #    - name: *previousCluster
 #      barmanObjectStore:
 #        wal:
