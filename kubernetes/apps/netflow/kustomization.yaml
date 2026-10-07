@@ -9,5 +9,5 @@ resources:
   - ./namespace.yaml
   # Flux-Kustomizations
   #  - ./akvorado/ks.yaml
-  - ./clickhouse/ks.yaml
-  - ./kafka/ks.yaml
+  #  - ./clickhouse/ks.yaml
+  #  - ./kafka/ks.yaml
