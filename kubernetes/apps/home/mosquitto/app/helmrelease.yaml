@@ -83,7 +83,7 @@ spec:
         #        controller: mosquitto
         type: LoadBalancer
         annotations:
-          lbipam.cilium.io/ips: "${SVC_MQTT_ADDR}"
+          lbipam.cilium.io/ips: "$${SVC_MQTT_ADDR}"
         ports:
           http:
             port: 1883
