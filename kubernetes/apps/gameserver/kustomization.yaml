@@ -6,6 +6,7 @@ namespace: gameserver
 components:
   - ../../components/sops
 resources:
+  - ./namespace.yaml
   # Flux-Kustomizations
-  - ./ftb-2/ks.yaml
-  - ./minecraft/ks.yaml
+  #  - ./ftb-2/ks.yaml
+  #  - ./minecraft/ks.yaml
