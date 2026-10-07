@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &name talos-homelab-amd64-runner
+  name: &name talos-mixed-amd64-runner
 spec:
   interval: 30m
   chartRef:
@@ -17,8 +17,8 @@ spec:
     - name: openebs
       namespace: openebs-system
   values:
-    runnerScaleSetName: talos-homelab-amd64-runner
-    githubConfigUrl: https://github.com/dstewen/talos-homelab
+    runnerScaleSetName: talos-mixed-amd64-runner
+    githubConfigUrl: https://github.com/dstewen/talos-mixed
     githubConfigSecret: pre-defined-secret
     minRunners: 1
     maxRunners: 2
@@ -301,7 +301,7 @@ spec:
 apiVersion: monitoring.coreos.com/v1
 kind: PodMonitor
 metadata:
-  name: &app talos-homelab-amd64-runner
+  name: &app talos-mixed-amd64-runner
 spec:
   selector:
     matchLabels:
