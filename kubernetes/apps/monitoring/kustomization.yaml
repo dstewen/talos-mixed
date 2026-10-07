@@ -16,7 +16,7 @@ resources:
   #  - ./k8s-ephemeral-storage-metrics/ks.yaml
   - ./keda/ks.yaml
   - ./kromgo/ks.yaml
-  - ./kube-prometheus-stack/ks.yaml
+  #  - ./kube-prometheus-stack/ks.yaml
   - ./loki/ks.yaml
   #  - ./netdata/ks.yaml
   #  - ./node-problem-detector/ks.yaml
