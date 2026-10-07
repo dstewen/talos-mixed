@@ -30,7 +30,7 @@ spec:
       # -- and operator-wide. Anonymous read still applies, so a public read-only dashboard is
       # -- unaffected. Has no effect when no authentication provider is configured, since every
       # -- request is an admin in that case.
-      enabled: true
+      enabled: false
       # -- default access rules. Each field applies to RenovateJobs that leave the matching field in
       # -- spec.access unset. A field the job does set replaces the default for that field instead of
       # -- adding to it, so a per-job spec.access can narrow access as well as widen it.
