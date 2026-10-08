@@ -2,6 +2,8 @@ machine:
   certSANs:
     - "127.0.0.1"
     - "10.200.15.254"
+  features:
+    diskQuotaSupport: true
 ---
 apiVersion: v1alpha1
 kind: KubeNetworkConfig
