@@ -1,0 +1,8 @@
+apiVersion: v1alpha1
+kind: UserVolumeConfig
+name: local-hostpath-2tb
+provisioning:
+  diskSelector:
+    match: "disk.model.startsWith('WD_BLACK')"
+  minSize: 1TB
+  maxSize: 1TB

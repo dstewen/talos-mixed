@@ -1,0 +1,8 @@
+apiVersion: v1alpha1
+kind: UserVolumeConfig
+name: local-hostpath-500gb
+provisioning:
+  diskSelector:
+    match: "disk.model.startsWith('Samsung SSD 860')"
+  minSize: 500GB
+  maxSize: 500GB
