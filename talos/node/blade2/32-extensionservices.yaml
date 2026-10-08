@@ -17,4 +17,4 @@ configFiles:
       configure lldp portidsubtype ifname
       unconfigure lldp management-addresses-advertisements
       unconfigure lldp capabilities-advertisements
-      configure system description "Talos Controller Node NUC1"
+      configure system description "Talos Controller Node blade2"
