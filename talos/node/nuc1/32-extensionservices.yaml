@@ -13,4 +13,4 @@ machine:
             configure lldp portidsubtype ifname
             unconfigure lldp management-addresses-advertisements
             unconfigure lldp capabilities-advertisements
-            configure system description "Talos Controller Node {{ .Node.Host }}"
+            configure system description "Talos Controller Node NUC1"
