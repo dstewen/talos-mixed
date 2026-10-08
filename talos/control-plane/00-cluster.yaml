@@ -25,6 +25,8 @@ certExtraSANs:
 extraArgs:
   # https://kubernetes.io/docs/tasks/extend-kubernetes/configure-aggregation-layer/
   enable-aggregator-routing: "true"
+  feature-gates: ImageVolume=true,MutatingAdmissionPolicy=true
+  runtime-config: admissionregistration.k8s.io/v1beta1=true
 ---
 apiVersion: v1alpha1
 kind: KubeControllerManagerConfig
