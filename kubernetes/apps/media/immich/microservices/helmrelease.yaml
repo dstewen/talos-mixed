@@ -27,7 +27,7 @@ spec:
           enableServiceLinks: false
 
           nodeSelector:
-            intel.feature.node.kubernetes.io/gpu: "true"
+            node.kubernetes.io/gpu: "true"
 
           topologySpreadConstraints:
             - maxSkew: 1

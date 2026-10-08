@@ -69,7 +69,6 @@ spec:
           - 44 # video
           - 568
     #      nodeSelector:
-    #        intel.feature.node.kubernetes.io/gpu: "true"
     #        kubernetes.io/hostname: k3sworker1
     #      annotations:
     #        k8s.v1.cni.cncf.io/networks: |

@@ -31,7 +31,7 @@ spec:
           - 105 # render
           - 568
       nodeSelector:
-        intel.feature.node.kubernetes.io/gpu: "true"
+        node.kubernetes.io/gpu: "true"
 
     controllers:
       tdarr:

@@ -79,7 +79,6 @@ spec:
       #                - k3sworker1
       nodeSelector:
         google.feature.node.kubernetes.io/coral: "true"
-    #        intel.feature.node.kubernetes.io/gpu: "true"
     service:
       app:
         #        controller: frigate
