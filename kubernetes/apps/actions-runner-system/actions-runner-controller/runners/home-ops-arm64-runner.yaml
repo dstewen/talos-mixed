@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &name talos-homelab-arm64-runner
+  name: &name talos-mixed-arm64-runner
 spec:
   interval: 30m
   chartRef:
@@ -64,7 +64,7 @@ spec:
                       - key: actions.github.com/scale-set-name
                         operator: In
                         values:
-                          - talos-homelab-arm64-runner
+                          - talos-mixed-arm64-runner
                   topologyKey: kubernetes.io/hostname
         containers:
           - name: runner
