@@ -7,5 +7,5 @@ components:
   - ../../components/sops
 resources:
   # Flux-Kustomizations
-  - ./authentik/ks.yaml
+  #  - ./authentik/ks.yaml
   - ./lldap/ks.yaml
