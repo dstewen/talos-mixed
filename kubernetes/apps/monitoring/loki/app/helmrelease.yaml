@@ -53,7 +53,7 @@ spec:
       replicas: 1
       persistence:
         enabled: true
-        storageClass: openebs-hostpath
+        storageClass: openebs-hostpath-1tb
         size: 30Gi
 
     #      affinity:
