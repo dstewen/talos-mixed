@@ -17,7 +17,7 @@ resources:
   - ./keda/ks.yaml
   - ./kromgo/ks.yaml
   #  - ./kube-prometheus-stack/ks.yaml
-  - ./loki/ks.yaml
+  #  - ./loki/ks.yaml
   #  - ./netdata/ks.yaml
   #  - ./node-problem-detector/ks.yaml
   - ./nut-exporter/ks.yaml
