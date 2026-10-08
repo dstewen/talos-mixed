@@ -3,11 +3,11 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: &app smartctl-exporter-amd64
+  name: &app smartctl-exporter-cp-nodes
 spec:
   chartRef:
     kind: OCIRepository
-    name: smartctl-exporter-amd64
+    name: smartctl-exporter-cp-nodes
   interval: 1h
   dependsOn:
     - name: kube-prometheus-stack
@@ -22,8 +22,13 @@ spec:
         - /dev/nvme0n1
         - /dev/nvme1n1
         - /dev/nvme2n1
-    nodeSelector:
-      kubernetes.io/arch: amd64
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: node-role.kubernetes.io/control-plane
+                  operator: Exists
     serviceMonitor:
       enabled: true
     prometheusRules:
