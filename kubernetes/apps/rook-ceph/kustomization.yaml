@@ -5,7 +5,7 @@ kind: Kustomization
 namespace: rook-ceph
 components:
   - ../../components/sops
-resources: []
+resources:
   # Flux-Kustomizations
-#  - ./ceph-csi-drivers/ks.yaml
-#  - ./rook-ceph/ks.yaml
+  - ./ceph-csi-drivers/ks.yaml
+  - ./rook-ceph/ks.yaml
