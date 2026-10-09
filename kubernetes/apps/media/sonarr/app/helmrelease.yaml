@@ -132,12 +132,12 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: sonarr
+        existingClaim: ${VOLSYNC_CLAIM}
 
       media:
         enabled: true
         type: nfs
-        server: "$${NAS_IP}"
+        server: ${NAS_IP}
         path: /volume2/piNFS01/flux-cluster/media_new
         globalMounts:
           - path: /media
