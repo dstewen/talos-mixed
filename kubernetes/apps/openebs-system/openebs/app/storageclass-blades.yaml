@@ -1,3 +1,4 @@
+# Carves out a 100GB hostpath storageclass for blades. This is used for cnpg arm64 cluster pvc's
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
