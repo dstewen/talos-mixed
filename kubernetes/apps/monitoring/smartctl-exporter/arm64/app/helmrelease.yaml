@@ -20,8 +20,17 @@ spec:
     config:
       devices:
         - /dev/nvme0n1
-    nodeSelector:
-      kubernetes.io/arch: arm64
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+                - key: kubernetes.io/arch
+                  operator: In
+                  values:
+                    - arm64
+                - key: node-role.kubernetes.io/worker
+                  operator: Exists
     serviceMonitor:
       enabled: true
     prometheusRules:
