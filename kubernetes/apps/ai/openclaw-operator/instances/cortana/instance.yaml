@@ -165,13 +165,22 @@ spec:
       secret:
         secretName: openclaw-cortana-secret
         items:
-          - key: TALOS_CONFIG
+          - key: TALOSCONFIG
+            path: config
+    - name: kube-config
+      secret:
+        secretName: openclaw-cortana-secret
+        items:
+          - key: KUBECONFIG
             path: config
   extraVolumeMounts:
     - name: tools
       mountPath: /tools
     - name: talos-config
       mountPath: /home/openclaw/.openclaw/talos/config
+      subPath: config
+    - name: kube-config
+      mountPath: /home/openclaw/.openclaw/kube/config
       subPath: config
   observability:
     metrics:
