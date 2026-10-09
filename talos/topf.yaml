@@ -15,8 +15,8 @@ nodes:
     role: control-plane
     schematicId: "1dd2cbb33be2acbba7cdabb8a08d6b890592afca55e9456ef15b1e22e7003a2e"
     data:
-      installDisk: "/dev/nvme0n1"
-      installDiskSerial: ""
+      installDisk: ""
+      installDiskSerial: "24193M803271"
       macAddr: "58:47:ca:77:cf:36"
       mtu: 1500
       encryptDisk: false
@@ -26,8 +26,8 @@ nodes:
     role: control-plane
     schematicId: "1dd2cbb33be2acbba7cdabb8a08d6b890592afca55e9456ef15b1e22e7003a2e"
     data:
-      installDisk: "/dev/nvme0n1"
-      installDiskSerial: ""
+      installDisk: ""
+      installDiskSerial: "S64GNE0R401626"
       macAddr: "58:47:ca:78:f1:32"
       mtu: 1500
       encryptDisk: false
@@ -37,8 +37,8 @@ nodes:
     role: control-plane
     schematicId: "1dd2cbb33be2acbba7cdabb8a08d6b890592afca55e9456ef15b1e22e7003a2e"
     data:
-      installDisk: "/dev/nvme0n1"
-      installDiskSerial: ""
+      installDisk: ""
+      installDiskSerial: "S68LNE0RC10493"
       macAddr: "58:47:ca:78:f8:4a"
       mtu: 1500
       encryptDisk: false
@@ -48,8 +48,8 @@ nodes:
     role: worker
     schematicId: "de1619e16531ddff67ccb4ce636a5e3ba5197eb4fc0e8421f095ec50ce9d26a6"
     data:
-      installDisk: "/dev/disk/by-id/nvme-WD_Blue_SN570_500GB_22061X806385"
-      installDiskSerial: ""
+      installDisk: ""
+      installDiskSerial: "22061X806385"
       macAddr: "e4:5f:01:50:27:2d"
       mtu: 1500
       encryptDisk: false
@@ -59,8 +59,8 @@ nodes:
     role: worker
     schematicId: "de1619e16531ddff67ccb4ce636a5e3ba5197eb4fc0e8421f095ec50ce9d26a6"
     data:
-      installDisk: "/dev/disk/by-id/nvme-WD_Blue_SN570_500GB_220628800784"
-      installDiskSerial: ""
+      installDisk: ""
+      installDiskSerial: "220628800784"
       macAddr: "e4:5f:01:ec:16:54"
       mtu: 1500
       encryptDisk: false
@@ -70,8 +70,8 @@ nodes:
     role: worker
     schematicId: "de1619e16531ddff67ccb4ce636a5e3ba5197eb4fc0e8421f095ec50ce9d26a6"
     data:
-      installDisk: "/dev/disk/by-id/nvme-WD_Blue_SN570_500GB_22061X805700"
-      installDiskSerial: ""
+      installDisk: ""
+      installDiskSerial: "22061X805700"
       macAddr: "e4:5f:01:ec:16:a2"
       mtu: 1500
       encryptDisk: false
@@ -81,8 +81,8 @@ nodes:
     role: worker
     schematicId: "de1619e16531ddff67ccb4ce636a5e3ba5197eb4fc0e8421f095ec50ce9d26a6"
     data:
-      installDisk: "/dev/disk/by-id/nvme-WD_Blue_SN570_500GB_22061X806791"
-      installDiskSerial: ""
+      installDisk: ""
+      installDiskSerial: "22061X806791"
       macAddr: "e4:5f:01:ec:16:66"
       mtu: 1500
       encryptDisk: false
@@ -92,8 +92,8 @@ nodes:
     role: worker
     schematicId: "de1619e16531ddff67ccb4ce636a5e3ba5197eb4fc0e8421f095ec50ce9d26a6"
     data:
-      installDisk: "/dev/disk/by-id/nvme-WD_Blue_SN570_500GB_220628800811"
-      installDiskSerial: ""
+      installDisk: ""
+      installDiskSerial: "220628800811"
       macAddr: "e4:5f:01:ec:16:b4"
       mtu: 1500
       encryptDisk: false
@@ -103,8 +103,8 @@ nodes:
     role: worker
     schematicId: "de1619e16531ddff67ccb4ce636a5e3ba5197eb4fc0e8421f095ec50ce9d26a6"
     data:
-      installDisk: "/dev/disk/by-id/nvme-WD_Blue_SN570_500GB_220628800731"
-      installDiskSerial: ""
+      installDisk: ""
+      installDiskSerial: "220628800731"
       macAddr: "e4:5f:01:ec:16:a5"
       mtu: 1500
       encryptDisk: false
@@ -114,8 +114,8 @@ nodes:
     role: worker
     schematicId: "de1619e16531ddff67ccb4ce636a5e3ba5197eb4fc0e8421f095ec50ce9d26a6"
     data:
-      installDisk: "/dev/disk/by-id/nvme-WD_Blue_SN570_500GB_220628800801"
-      installDiskSerial: ""
+      installDisk: ""
+      installDiskSerial: "220628800801"
       macAddr: "e4:5f:01:ec:16:9c"
       mtu: 1500
       encryptDisk: false
@@ -125,8 +125,8 @@ nodes:
     role: worker
     schematicId: "de1619e16531ddff67ccb4ce636a5e3ba5197eb4fc0e8421f095ec50ce9d26a6"
     data:
-      installDisk: "/dev/disk/by-id/nvme-WD_Blue_SN570_500GB_220628800737"
-      installDiskSerial: ""
+      installDisk: ""
+      installDiskSerial: "220628800737"
       macAddr: "e4:5f:01:ec:16:5a"
       mtu: 1500
       encryptDisk: false
@@ -136,8 +136,8 @@ nodes:
     role: worker
     schematicId: "a2645a18c249a86ac47646445709014f6e6f5086ee674f77277f79869fee2e7b"
     data:
-      installDisk: "/dev/disk/by-id/nvme-INTEL_SSDPEKKW512G8_BTHH811211KF512D"
-      installDiskSerial: ""
+      installDisk: ""
+      installDiskSerial: "BTHH811211KF512D"
       macAddr: "d4:5d:df:1a:27:fe"
       mtu: 1500
       encryptDisk: false
@@ -147,8 +147,8 @@ nodes:
     role: worker
     schematicId: "a2645a18c249a86ac47646445709014f6e6f5086ee674f77277f79869fee2e7b"
     data:
-      installDisk: "/dev/disk/by-id/nvme-INTEL_SSDPEKKW512G8_BTHH81000E09512D"
-      installDiskSerial: ""
+      installDisk: ""
+      installDiskSerial: "BTHH81000E09512D"
       macAddr: "d4:5d:df:1a:28:c4"
       mtu: 1500
       encryptDisk: false
