@@ -132,7 +132,7 @@ spec:
     persistence:
       config:
         enabled: true
-        existingClaim: "$${VOLSYNC_CLAIM}"
+        existingClaim: sonarr
 
       media:
         enabled: true
