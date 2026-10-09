@@ -38,7 +38,7 @@ spec:
     pruneIntervalDays: 7
     repository: minecraft-ftb-restic-secret
     cacheCapacity: 2Gi
-    cacheStorageClassName: openebs-hostpath
+    cacheStorageClassName: openebs-hostpath-1tb
     cacheAccessModes: ["ReadWriteOnce"]
     volumeSnapshotClassName: csi-ceph-blockpool
     storageClassName: ceph-block

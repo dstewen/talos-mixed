@@ -12,18 +12,18 @@ resources:
   - ./blackbox-exporter/ks.yaml
   #  - ./cloudflare-exporter/ks.yaml
   #  - ./frigate-exporter/ks.yaml
-  #  - ./grafana/ks.yaml
+  - ./grafana-operator/ks.yaml
   #  - ./k8s-ephemeral-storage-metrics/ks.yaml
   - ./keda/ks.yaml
   - ./kromgo/ks.yaml
-  #  - ./kube-prometheus-stack/ks.yaml
-  #  - ./loki/ks.yaml
+  - ./kube-prometheus-stack/ks.yaml
+  - ./loki/ks.yaml
   #  - ./netdata/ks.yaml
   #  - ./node-problem-detector/ks.yaml
   - ./nut-exporter/ks.yaml
   #  - ./otel-collector/ks.yaml
   - ./opnsense-exporter/ks.yaml
-  #  - ./patchmon/ks.yaml
+  - ./patchmon/ks.yaml
   #  - ./pihole-exporter/ks.yaml
   #  - ./promtail/ks.yaml
   #  - ./qbittorrent-exporter/ks.yaml

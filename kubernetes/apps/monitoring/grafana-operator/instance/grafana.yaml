@@ -103,5 +103,5 @@ spec:
       resources:
         requests:
           storage: 10Gi
-      storageClassName: openebs-hostpath
+      storageClassName: openebs-hostpath-1tb
   disableDefaultSecurityContext: All

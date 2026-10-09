@@ -29,7 +29,22 @@ releases:
     inherit:
       - template: default
 
-  - name: prometheus-operator-crds
+  - name: grafana-operator
+    namespace: monitoring
+    inherit:
+      - template: default
+
+  - name: keda
     namespace: observability
+    chart: oci://ghcr.io/home-operations/charts-mirror/keda
+    version: 2.21.0
+
+  - name: prometheus-operator-crds
+    namespace: monitoring
     chart: oci://ghcr.io/prometheus-community/charts/prometheus-operator-crds
     version: 29.0.0
+
+  - name: snapshot-controller
+    namespace: storage
+    inherit:
+      - template: default

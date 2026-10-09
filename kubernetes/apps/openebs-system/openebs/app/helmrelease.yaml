@@ -17,10 +17,10 @@ spec:
       localpv:
         image:
           registry: quay.io/
-        basePath: &hostPath /var/mnt/local-hostpath-2tb
+        basePath: &hostPath /var/mnt/local-hostpath-1tb
       hostpathClass:
         enabled: true
-        name: openebs-hostpath
+        name: openebs-hostpath-1tb
         isDefaultClass: false
         basePath: *hostPath
       helperPod:

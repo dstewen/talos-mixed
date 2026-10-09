@@ -9,6 +9,7 @@ resources:
   # Flux-Kustomizations
   #  - ./democratic-csi-iscsi-synology/ks.yaml
   - ./garage/ks.yaml
+  #  - ./kopiur/ks.yaml
   #  - ./local-path-provisioner/ks.yaml
   #  - ./minio/ks.yaml
   #  - ./synology-csi/ks.yaml
