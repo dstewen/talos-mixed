@@ -24,7 +24,7 @@ metadata:
   namespace: &namespace monitoring
 spec:
   dependsOn:
-    - name: grafana
+    - name: grafana-operator
     - name: rook-ceph-cluster
       namespace: rook-ceph
   interval: 1h
