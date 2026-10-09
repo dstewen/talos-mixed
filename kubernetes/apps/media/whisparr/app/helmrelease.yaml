@@ -45,7 +45,7 @@ spec:
               WHISPARR__LOG__LEVEL: info
               WHISPARR__PORT: &port 6969
               WHISPARR__UPDATE__BRANCH: develop
-              TZ: ${TIMEZONE}
+              TZ: "$${TIMEZONE}"
             envFrom: *envFrom
             probes:
               liveness: &probes

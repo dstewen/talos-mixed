@@ -30,7 +30,7 @@ spec:
               repository: ghcr.io/requarks/wiki
               tag: 2.5.315@sha256:af71a17dc27ccc4c768591b1c504631ed820d9d13d4e8c325be4232c0035638c
             env:
-              TZ: ${TIMEZONE}
+              TZ: "$${TIMEZONE}"
               DB_TYPE: postgres
             envFrom: *envFrom
             securityContext:

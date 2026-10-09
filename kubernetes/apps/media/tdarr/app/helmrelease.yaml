@@ -41,7 +41,7 @@ spec:
               repository: ghcr.io/haveagitgat/tdarr
               tag: 2.94.03
             env:
-              TZ: ${TIMEZONE}
+              TZ: "$${TIMEZONE}"
               auth: true
             envFrom:
               - secretRef:

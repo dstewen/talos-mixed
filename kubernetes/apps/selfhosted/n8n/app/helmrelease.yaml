@@ -43,7 +43,7 @@ spec:
               EXECUTIONS_DATA_PRUNE: true
               EXECUTIONS_DATA_MAX_AGE: "168" # hours - 7 days
               EXECUTIONS_DATA_PRUNE_MAX_COUNT: 50000
-              GENERIC_TIMEZONE: ${TIMEZONE}
+              GENERIC_TIMEZONE: "$${TIMEZONE}"
               N8N_BLOCK_ENV_ACCESS_IN_NODE: true
               N8N_DIAGNOSTICS_ENABLED: false # Opt out of diagnostic telemetry
               N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS: true

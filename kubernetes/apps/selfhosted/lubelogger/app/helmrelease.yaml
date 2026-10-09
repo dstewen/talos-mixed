@@ -29,7 +29,7 @@ spec:
               repository: ghcr.io/hargata/lubelogger
               tag: v1.7.3@sha256:c9d2bbb48c7f84d90e54496e2cd60422e56a5f2345c8a539ebe09f77e629d321
             env:
-              TZ: ${TIMEZONE}
+              TZ: "$${TIMEZONE}"
               LC_ALL: en_US.UTF-8
               POSTGRES_CONNECTION:
                 valueFrom:
