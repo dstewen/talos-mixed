@@ -26,18 +26,12 @@ spec:
         requiredDuringSchedulingIgnoredDuringExecution:
           nodeSelectorTerms:
             - matchExpressions:
-                - key: node-role.kubernetes.io/worker
-                  operator: In
-                  values:
-                    - worker
-        preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 1
-            preference:
-              matchExpressions:
                 - key: kubernetes.io/arch
                   operator: In
                   values:
                     - amd64
+                - key: node-role.kubernetes.io/worker
+                  operator: Exists
     serviceMonitor:
       enabled: true
     prometheusRules:
