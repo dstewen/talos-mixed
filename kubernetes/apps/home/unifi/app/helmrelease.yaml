@@ -88,14 +88,6 @@ spec:
               startup:
                 enabled: true
                 port: 8080
-    #        statefulset:
-    #          volumeClaimTemplates:
-    #            - name: config
-    #              accessMode: ReadWriteOnce
-    #              size: 10Gi
-    #              storageClass: local-hostpath
-    #              globalMounts:
-    #                - path: /unifi
     service:
       app:
         #        controller: *app

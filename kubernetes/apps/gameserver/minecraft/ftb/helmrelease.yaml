@@ -149,7 +149,6 @@ spec:
             enabled: false
 
     persistence:
-      #      storageClass: local-hostpath
       dataDir:
         enabled: true
         existingClaim: minecraft-ftb-data
