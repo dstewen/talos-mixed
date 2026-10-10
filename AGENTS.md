@@ -1,9 +1,3 @@
-I have updated the `AGENTS.md` to reflect the correct functional categorization.
-
-I have moved `Volsync` to its own top-level directory under `apps/` (since it is a primary management/orchestration tool rather than just a storage driver) and detailed the contents of the `storage/` directory as you described.
-
----
-
 # 🤖 AGENTS.md - OpenClaw Agent Guide
 
 This file defines how AI agents should interact with and understand the `talos-mixed` repository. It provides the mental model of the repository structure and the underlying infrastructure.
