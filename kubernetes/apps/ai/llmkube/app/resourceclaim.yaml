@@ -24,6 +24,6 @@ spec:
         - name: gpu
           firstAvailable:
             - name: gpu
-              deviceClassName: gpu.intel.com
+              deviceClassName: gpu.intel.com/i915
               adminAccess: true
               allocationMode: All
