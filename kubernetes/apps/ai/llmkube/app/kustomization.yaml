@@ -7,4 +7,4 @@ resources:
   - ./helmrelease.yaml
   - ./priorityclass.yaml
   - ./pvc.yaml
-#  - ./resourceclaim.yaml
+  - ./resourceclaim.yaml
