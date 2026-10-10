@@ -63,6 +63,18 @@ spec:
           instanceSelector:
             matchLabels:
               dashboards: grafana
+
+    policy:
+      allowedHosts:
+        - api.github.com
+        - github.com
+        - gitlab.com
+        - api.bitbucket.org
+        - bitbucket.org
+        - gitea.com
+        - codeberg.org
+        - quay.io
+
     route:
       enabled: true
       annotations:
