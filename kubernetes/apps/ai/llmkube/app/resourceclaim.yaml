@@ -22,8 +22,7 @@ spec:
     devices:
       requests:
         - name: gpu
-          firstAvailable:
-            - name: gpu
-              deviceClassName: gpu.intel.com
-              adminAccess: false
-              allocationMode: All
+          exactly:
+            deviceClassName: gpu.intel.com
+            adminAccess: false
+            allocationMode: All
