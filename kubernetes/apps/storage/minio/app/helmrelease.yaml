@@ -24,8 +24,8 @@ spec:
         containers:
           app:
             image:
-              repository: quay.io/minio/minio
-              tag: RELEASE.2024-09-22T00-33-43Z@sha256:7d80fd232a2f7108aa6f133fcfe5fade3f1626d92d31ae1318076e7aa61928a2
+              repository: quay.io/minio/aistor/minio
+              tag: RELEASE.2024-09-19T12-57-43Z@sha256:acc4662cc1390617fec94230a15f95d46c5cf9812aecf112907840fb4d7ea01c
             env:
               MINIO_API_CORS_ALLOW_ORIGIN: https://minio.davidstewen.com,https://s3.davidstewen.com
               MINIO_BROWSER_REDIRECT_URL: https://minio.davidstewen.com
