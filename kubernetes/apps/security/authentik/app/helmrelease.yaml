@@ -6,6 +6,8 @@ metadata:
   name: authentik
 spec:
   interval: 1h
+  upgrade:
+    timeout: 15m
   chartRef:
     kind: OCIRepository
     name: authentik
