@@ -11,7 +11,7 @@ spec:
     s3:
       auth:
         secretRef:
-          name: kopiur-repository-secret
+          name: kopiur-synology-repository-auth-secret
           namespace: storage
       bucket: volsync-backups-kopia
       endpoint: 192.168.10.198:9000
@@ -20,7 +20,7 @@ spec:
         disableTls: true
   encryption:
     passwordSecretRef:
-      name: kopiur-repository-secret
+      name: kopiur-synology-repository-encryption-secret
       namespace: storage
       key: KOPIA_PASSWORD
   maintenance:
