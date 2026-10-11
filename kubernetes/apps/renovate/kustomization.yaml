@@ -5,6 +5,6 @@ kind: Kustomization
 namespace: renovate
 components:
   - ../../components/sops
-resources: []
+resources:
   # Flux-Kustomizations
-#  - ./renovate-operator/ks.yaml
+  - ./renovate-operator/ks.yaml
