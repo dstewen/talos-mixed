@@ -97,9 +97,13 @@ data:
               "elevated": { "enabled": true },
               "alsoAllow": [
                 "bundle-mcp",
+                "group:memory",
                 "group:openclaw",
                 "group:plugins",
+                "group:runtime",
                 "group:sessions",
+                "group:ui",
+                "group:web",
                 "read",
                 "write",
                 "edit",
