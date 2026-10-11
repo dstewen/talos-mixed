@@ -10,6 +10,7 @@ metadata:
         value: hostpath
       - name: BasePath
         value: /var/mnt/local-hostpath-100gb
+    volumeMode: Filesystem
 provisioner: openebs.io/local
 reclaimPolicy: Delete
 volumeBindingMode: WaitForFirstConsumer
