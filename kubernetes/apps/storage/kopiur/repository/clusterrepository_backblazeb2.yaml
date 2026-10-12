@@ -8,6 +8,11 @@ spec:
   allowedNamespaces:
     all: true
   backend:
+    # Use the S3 backend for Backblaze B2, as it is compatible with the S3 API.
+    # With onsite and offsite repositories, the S3 backend is preferred for the offsite repository,
+    # as there is ther tooling using S3 protocol. Custom components in kubernetes/components/ are reliant
+    # on using the S3 backend for the offsite repository. The documentation recommends using the S3 backend
+    # if using outside tooling. see https://github.com/home-operations/kopiur/blob/main/docs/backends/b2.md
     s3:
       auth:
         secretRef:
@@ -16,8 +21,6 @@ spec:
       bucket: volsync-backups-kopia
       endpoint: s3.us-west-002.backblazeb2.com
       region: us-west-002
-      tls:
-        disableTls: true
   encryption:
     passwordSecretRef:
       name: kopiur-offsite-repository-encryption-secret
