@@ -437,7 +437,7 @@ data:
       ],
       "memory": {
         "search": {
-          "provider": "ollama-rig",
+          "provider": "ollama",
         },
       },
       "models": {
