@@ -435,6 +435,11 @@ data:
           }
         }
       ],
+      "memory": {
+        "search": {
+          "provider": "ollama-rig",
+        },
+      },
       "models": {
         "providers": {
           "litellm": {
