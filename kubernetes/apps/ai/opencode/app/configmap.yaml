@@ -19,8 +19,8 @@ data:
     umask 022
 
     mkdir -p "$${HOME}/projects"
-    if [[ ! -d "$${HOME}/projects/talos-homelab/.git" ]]; then
-      git clone --filter=blob:none https://github.com/dstewen/talos-homelab.git "$${HOME}/projects/talos-homelab" \
+    if [[ ! -d "$${HOME}/projects/talos-mixed/.git" ]]; then
+      git clone --filter=blob:none https://github.com/dstewen/talos-mixed.git "$${HOME}/projects/talos-mixed" \
         || echo "WARN: talos-homelab clone failed; clone it from a session instead"
     fi
 
