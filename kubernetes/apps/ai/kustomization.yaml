@@ -38,3 +38,4 @@ resources:
   - ./sidero-mcp/ks.yaml
   #  - ./stable-diffusion/ks.yaml
   - ./toolhive/ks.yaml
+  - ./turnstone/ks.yaml
