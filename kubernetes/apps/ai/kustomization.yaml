@@ -20,6 +20,7 @@ resources:
   #  - ./k8sgpt/ks.yaml
   - ./kubectl-mcp/ks.yaml
   #  - ./mem0/ks.yaml
+  #  - ./memini/ks.yaml
   #  - ./memory-mcp/ks.yaml
   - ./n8n-mcp/ks.yaml
   - ./ollama/ks.yaml
