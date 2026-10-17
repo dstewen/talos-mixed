@@ -10,3 +10,4 @@ resources:
   - ./rbac.yaml
   #  - ./secret.sops.yaml
   - ./talos-mixed-amd64-runner.yaml
+  - ./talos-mixed-arm64-runner.yaml
