@@ -28,7 +28,7 @@ spec:
           app:
             image:
               repository: clickhouse/clickhouse-server
-              tag: 26.9@sha256:6f0f479e7dae498c2c37bafb17385b117ff0f80b4110af42f73d07bfb3f0779a
+              tag: 26.9@sha256:13d2cbc782a98a2dcce39c0d81af054d80fd6982ebded46a65ff813bd580cf2c
             env:
               # Akvorado's orchestrator connects as the stock `default` user
               # with no password, so skip the entrypoint's user provisioning
