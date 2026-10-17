@@ -12,12 +12,14 @@
   mise: {
     managerFilePatterns: ["/^\\.mise/conf\\.d/[^/]+\\.toml$/"],
   },
-  packageRules: [
+  hostRules: [
     {
-      description: "Limit tag pagination rate on Codeberg OCI registry",
-      matchRegistryUrls: ["https://codeberg.org", "codeberg.org"],
-      maxPages: 3,
+      matchHost: "codeberg.org",
+      hostType: "docker",
+      dockerTagPageLimit: 100, // Forces Renovate to request 100 tags at a time instead of 10,000, preventing network timeouts
     },
+  ],
+  packageRules: [
     {
       description: "GitHub Actions Group",
       matchManagers: ["github-actions"],
