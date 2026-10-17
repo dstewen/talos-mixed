@@ -12,14 +12,12 @@
   mise: {
     managerFilePatterns: ["/^\\.mise/conf\\.d/[^/]+\\.toml$/"],
   },
-  hostRules: [
+  packageRules: [
     {
-      matchHost: "codeberg.org",
-      hostType: "docker",
+      description: "Limit tag pagination rate on Codeberg OCI registry",
+      matchRegistryUrls: ["https://codeberg.org", "codeberg.org"],
       maxPages: 3,
     },
-  ],
-  packageRules: [
     {
       description: "GitHub Actions Group",
       matchManagers: ["github-actions"],
