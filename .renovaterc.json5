@@ -12,6 +12,13 @@
   mise: {
     managerFilePatterns: ["/^\\.mise/conf\\.d/[^/]+\\.toml$/"],
   },
+  hostRules: [
+    {
+      matchHost: "codeberg.org",
+      hostType: "docker",
+      maxPages: 3,
+    },
+  ],
   packageRules: [
     {
       description: "GitHub Actions Group",
