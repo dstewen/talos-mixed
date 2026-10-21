@@ -10,13 +10,10 @@ spec:
   hardware:
     accelerator: intel
     gpu:
-      enabled: false
-      #      count: 1
-      #      vendor: intel
-      #      layers: -1
-      resourceClaims:
-        - name: gpu
-          resourceClaimTemplateName: llmkube-models-gpu
+      enabled: true
+      count: 1
+      vendor: intel
+      layers: -1
   resources:
     cpu: "500m"
     memory: 20Gi
