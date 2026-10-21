@@ -20,7 +20,7 @@ spec:
           resourceClaimTemplateName: llmkube-models-gpu
   resources:
     cpu: "2"
-    memory: "4Gi"
+    memory: "8Gi"
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/inference.llmkube.dev/inferenceservice_v1alpha1.json
 apiVersion: inference.llmkube.dev/v1alpha1
@@ -34,7 +34,7 @@ spec:
   image: ghcr.io/ggml-org/llama.cpp:server-intel@sha256:8c734fdd8594dddf00572488baf920e8244cf83329a36103519cbbc55370c29e
   resources:
     cpu: "2"
-    memory: "4Gi"
+    memory: "8Gi"
   securityContext:
     runAsUser: 1000
     runAsGroup: 1000
