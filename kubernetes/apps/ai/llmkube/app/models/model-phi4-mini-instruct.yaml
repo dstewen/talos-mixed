@@ -33,6 +33,7 @@ spec:
   replicas: 1
   image: ghcr.io/ggml-org/llama.cpp:server-intel@sha256:8c734fdd8594dddf00572488baf920e8244cf83329a36103519cbbc55370c29e
   resources:
+    gpu: 1
     cpu: "2"
     memory: "8Gi"
   securityContext:
