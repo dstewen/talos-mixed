@@ -15,6 +15,9 @@ spec:
       count: 1
       vendor: intel
       layers: -1
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: llmkube-models-gpu
   resources:
     cpu: "2"
     memory: "4Gi"
