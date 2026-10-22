@@ -21,7 +21,7 @@ spec:
           app:
             image:
               repository: ghcr.io/philippmundhenk/brotherscannerdocker
-              tag: latest@sha256:a09f3865e89ead2bacf195ab530debe7b9d64754f8df5654a427219d502472e9
+              tag: latest@sha256:21363614d769cabe0229a0057a526e7f676e361da8acd9b82855ec6dbb0d0a48
             env:
               UID: 1000
               GID: 1000
