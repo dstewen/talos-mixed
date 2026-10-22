@@ -14,8 +14,8 @@ spec:
   dependsOn:
     - name: external-secrets
       namespace: external-secrets
-    - name: cloudnative-pg-cluster18
-      namespace: database
+    #    - name: cloudnative-pg-cluster18
+    #      namespace: database
     - name: dragonfly-operator
       namespace: database
     - name: litellm-operator
