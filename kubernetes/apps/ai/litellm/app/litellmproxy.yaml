@@ -140,5 +140,5 @@ spec:
     hostnames:
       - litellm.davidstewen.com
     parentRefs:
-      - name: envoy-external
+      - name: envoy-internal
         namespace: network
