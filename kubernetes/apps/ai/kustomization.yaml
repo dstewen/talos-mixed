@@ -8,21 +8,21 @@ components:
 resources:
   - ./namespace.yaml
   # Flux-Kustomizations
-  - ./arr-mcp/ks.yaml
+  #  - ./arr-mcp/ks.yaml
   #  - ./boinc-amd64/ks.yaml
   #  - ./boinc-arm64/ks.yaml
-  - ./github-mcp/ks.yaml
-  - ./ha-mcp/ks.yaml
+  #  - ./github-mcp/ks.yaml
+  #  - ./ha-mcp/ks.yaml
   #  - ./litellm/ks.yaml
   #  - ./litellm-operator/ks.yaml
   - ./llmkube/ks.yaml
   #  - ./local-ai/ks.yaml
   #  - ./k8sgpt/ks.yaml
-  - ./kubectl-mcp/ks.yaml
+  #  - ./kubectl-mcp/ks.yaml
   #  - ./mem0/ks.yaml
   #  - ./memini/ks.yaml
   #  - ./memory-mcp/ks.yaml
-  - ./n8n-mcp/ks.yaml
+  #  - ./n8n-mcp/ks.yaml
   - ./ollama/ks.yaml
   #  - ./opencode/ks.yaml
   #  - ./open-webui/ks.yaml
@@ -31,12 +31,12 @@ resources:
   - ./openclaw-test/ks.yaml
   #  - ./openclaw-xunholy/ks.yaml
   #  - ./paperless-ai/ks.yaml
-  - ./plex-mcp/ks.yaml
-  - ./prometheus-mcp/ks.yaml
+  #  - ./plex-mcp/ks.yaml
+  #  - ./prometheus-mcp/ks.yaml
   - ./qdrant/ks.yaml
-  - ./searxng-mcp/ks.yaml
-  - ./seerr-mcp/ks.yaml
-  - ./sidero-mcp/ks.yaml
+  #  - ./searxng-mcp/ks.yaml
+  #  - ./seerr-mcp/ks.yaml
+  #  - ./sidero-mcp/ks.yaml
   #  - ./stable-diffusion/ks.yaml
-  - ./toolhive/ks.yaml
+  #  - ./toolhive/ks.yaml
   # ./turnstone/ks.yaml
