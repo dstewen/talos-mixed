@@ -6,9 +6,9 @@ resources:
   - ./externalsecret.yaml
   - ./helmrelease.yaml
   - ./ocirepository.yaml
-#configMapGenerator:
-#  - name: servers-json
-#    files:
-#      - config/servers.json
+configMapGenerator:
+  - name: servers-json
+    files:
+      - config/servers.json
 generatorOptions:
   disableNameSuffixHash: true
