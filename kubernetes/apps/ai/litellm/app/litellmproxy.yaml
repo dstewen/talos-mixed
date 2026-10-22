@@ -20,12 +20,19 @@ spec:
   litellmSettings:
     success_callback:
       - prometheus
+    failure_callback:
+      - prometheus
     prometheus_adapter: true
+    require_auth_for_metrics_endpoint: false
     cache: true
     cache_params:
       type: redis
       host: os.environ/REDIS_HOST
       port: os.environ/REDIS_PORT
+      ttl: 300
+      supported_call_types:
+        - embedding
+        - aembedding
     drop_params: true
     merge_reasoning_content_in_choices: true
     set_verbose: true
