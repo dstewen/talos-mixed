@@ -118,7 +118,7 @@ spec:
     # first. Master-key browser login moves to /fallback/login once this is on;
     # API callers using the master key are unaffected.
     - name: AUTO_REDIRECT_UI_LOGIN_TO_SSO
-      value: "true"
+      value: "false"
     # Pair with auto-redirect: LiteLLM logout only clears the local UI session,
     # so without an end-session hop the next /ui hit immediately re-authenticates
     # against the still-live Authentik SSO cookie. Slug matches
