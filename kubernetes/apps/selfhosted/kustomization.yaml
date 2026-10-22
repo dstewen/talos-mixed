@@ -8,11 +8,11 @@ components:
 resources:
   - ./namespace.yaml
   # Flux-Kustomizations
-  #  - ./atuin/ks.yaml
+  - ./atuin/ks.yaml
   - ./changedetection/ks.yaml
   - ./it-tools/ks.yaml
   - ./lubelogger/ks.yaml
   - ./n8n/ks.yaml
   - ./searxng/ks.yaml
   - ./webhook/ks.yaml
-  #  - ./wiki/ks.yaml
+  - ./wiki/ks.yaml
