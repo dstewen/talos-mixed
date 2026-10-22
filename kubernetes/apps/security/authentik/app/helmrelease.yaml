@@ -102,7 +102,7 @@ spec:
       image:
         repository: ghcr.io/goauthentik/server
         digest: sha256:3ddf09bbf69ded6a9634ecd753a01608d477f811e99bb5ffe9fc2ef7ad1c6581
-        tag: 2026.8.4
+        tag: 2026.8.5
       pdb:
         enabled: true
         minAvailable: 1
