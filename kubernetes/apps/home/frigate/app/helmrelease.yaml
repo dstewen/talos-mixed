@@ -81,7 +81,7 @@ spec:
         google.feature.node.kubernetes.io/coral: "true"
     service:
       app:
-        #        controller: frigate
+        controller: frigate
         annotations:
           lbipam.cilium.io/ips: ${SVC_FRIGATE_ADDR}
         type: LoadBalancer
