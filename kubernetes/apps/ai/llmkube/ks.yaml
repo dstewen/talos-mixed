@@ -5,6 +5,11 @@ kind: Kustomization
 metadata:
   name: &app llmkube
 spec:
+  components:
+    # Add an extra ../ as we are building in the models subdirectory, and the components are in the parent directory of the app directory.
+    #  - ../../../../../components/gpu
+    # Enable volsync backup of cache
+    - ../../../../components/volsync
   targetNamespace: ai
   interval: 1h
   path: ./kubernetes/apps/ai/llmkube/app
@@ -17,6 +22,11 @@ spec:
   postBuild:
     substitute:
       APP: *app
+      VOLSYNC_CLAIM: llmkube-models-cache
+      VOLSYNC_CAPACITY: 500Gi
+      VOLSYNC_ACCESSMODES: ReadWriteMany
+      VOLSYNC_SNAPSHOTCLASS: csi-ceph-filesystem
+      VOLSYNC_STORAGECLASS: ceph-filesystem
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -24,11 +34,6 @@ kind: Kustomization
 metadata:
   name: &app llmkube-models
 spec:
-  components:
-    # Add an extra ../ as we are building in the models subdirectory, and the components are in the parent directory of the app directory.
-    #  - ../../../../../components/gpu
-    # Enable volsync backup of cache
-    - ../../../../../components/volsync
   targetNamespace: ai
   dependsOn:
     - name: llmkube
@@ -44,8 +49,3 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CLAIM: llmkube-models-cache
-      VOLSYNC_CAPACITY: 500Gi
-      VOLSYNC_ACCESSMODES: ReadWriteMany
-      VOLSYNC_SNAPSHOTCLASS: csi-ceph-filesystem
-      VOLSYNC_STORAGECLASS: ceph-filesystem
