@@ -145,7 +145,7 @@ spec:
           gethomepage.dev/widget.type: paperlessngx
           gethomepage.dev/widget.url: http://paperless.media.svc.cluster.local:8000
           gethomepage.dev/widget.key: "{{`{{HOMEPAGE_VAR_PAPERLESS_TOKEN}}`}}"
-        hostnames: ["{{ .Release.Name }}.${SECRET_DOMAIN}"]
+        hostnames: ["{{ .Release.Name }}.davidstewen.com"]
         parentRefs:
           - name: envoy-internal
             namespace: network
