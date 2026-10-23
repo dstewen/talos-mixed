@@ -27,7 +27,7 @@ spec:
   postBuild:
     substitute:
       APP: *app
-      VOLSYNC_CLAIM: llmkube-models-cache
+      VOLSYNC_CLAIM: llmkube-models
       VOLSYNC_CAPACITY: 500Gi
       VOLSYNC_ACCESSMODES: ReadWriteMany
       VOLSYNC_SNAPSHOTCLASS: csi-ceph-filesystem
