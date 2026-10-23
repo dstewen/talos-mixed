@@ -7,6 +7,7 @@
     "github>home-operations/renovate-presets//apps/llamacpp.json5#10.0.1",
     "github>home-operations/renovate-presets//apps/searxng.json5#10.0.1",
     "github>home-operations/renovate-presets//apps/talosFactory.json5#10.0.1",
+    "github>dstewen/talos-mixed//.renovate/changelogs.json5",
   ],
   schedule: ["every weekend"],
   mise: {
