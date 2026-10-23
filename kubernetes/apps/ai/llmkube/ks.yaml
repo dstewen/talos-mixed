@@ -28,7 +28,7 @@ spec:
     # Add an extra ../ as we are building in the models subdirectory, and the components are in the parent directory of the app directory.
     #  - ../../../../../components/gpu
     # Enable volsync backup of cache
-    - ../../../../components/volsync
+    - ../../../../../components/volsync
   targetNamespace: ai
   dependsOn:
     - name: llmkube
