@@ -4,7 +4,7 @@
     {
       description: "Changelog URL for Blackbox-Exporter",
       matchPackageNames: ["/blackbox-exporter/"],
-      changelogUrl: "https://github.com/prometheus/blackbox_exporter/blob/master/CHANGELOG.md",
+      changelogUrl: "https://prometheus-community.github.io/helm-charts/changelog/?owner=prometheus-community&repo=helm-charts&chart=prometheus-blackbox-exporter",
     },
     {
       description: "Changelog URL for Cloudflared",
