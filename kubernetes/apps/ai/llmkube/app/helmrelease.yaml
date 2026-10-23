@@ -21,7 +21,7 @@ spec:
       enabled: true
       mode: shared
       #      accessMode: ReadWriteMany
-      existingClaim: llmkube-models-cache
+    #      existingClaim: llmkube-models-cache
     #      storageClass: ceph-filesystem
     #      size: 200Gi
     prometheus:
