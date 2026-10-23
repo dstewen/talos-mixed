@@ -10,6 +10,11 @@ spec:
     #  - ../../../../../components/gpu
     # Enable volsync backup of cache
     - ../../../../components/volsync
+  dependsOn:
+    - name: intel-gpu-resource-driver
+      namespace: kube-system
+    - name: rook-ceph-cluster
+      namespace: rook-ceph
   targetNamespace: ai
   interval: 1h
   path: ./kubernetes/apps/ai/llmkube/app
