@@ -14,7 +14,7 @@ resources:
   #  - ./immich/ks.yaml
   - ./lidarr/ks.yaml
   #  - ./maintainerr/ks.yaml
-  #  - ./paperless/ks.yaml
+  - ./paperless/ks.yaml
   #  - ./paperless-scan/ks.yaml
   - ./plex/ks.yaml
   #  - ./prowlarr/ks.yaml
