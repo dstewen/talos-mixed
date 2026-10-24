@@ -17,6 +17,14 @@ spec:
     remediation:
       retries: 3
   values:
+    controllerManager:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node-role.kubernetes.io/control-plane
+                    operator: Exists
     modelCache:
       enabled: true
       mode: shared
