@@ -24,5 +24,5 @@ spec:
   volumes:
     - name: model-cache
       persistentVolumeClaim:
-        claimName: llmkube-models-cache
+        claimName: llmkube-models
   restartPolicy: Never
