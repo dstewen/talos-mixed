@@ -4,6 +4,13 @@ metadata:
   name: model-preloader
   namespace: ai
 spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: node-role.kubernetes.io/control-plane
+                operator: Exists
   containers:
     - name: downloader
       # Use a much more capable image that has Python and pip
