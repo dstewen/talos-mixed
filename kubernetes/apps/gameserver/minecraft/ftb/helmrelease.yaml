@@ -103,8 +103,8 @@ spec:
       worldSaveName: TurtleTest
       viewDistance: 12
       overrideServerProperties: true
-      modUrls:
-        - https://github.com/cpburnz/minecraft-prometheus-exporter/releases/download/1.20.1-forge-1.0.0/Prometheus-Exporter-1.20.1-forge-1.0.0.jar
+      modUrls: []
+      #        - https://github.com/cpburnz/minecraft-prometheus-exporter/releases/download/1.20.1-forge-1.0.0/Prometheus-Exporter-1.20.1-forge-1.0.0.jar
       extraPorts:
         #      extraPorts:
         #      - name: metrics
