@@ -11,7 +11,7 @@ resources:
   - ./esphome/ks.yaml
   #  - ./frigate/ks.yaml
   - ./home-assistant/ks.yaml
-  - ./mosquitto/ks.yaml
+  #  - ./mosquitto/ks.yaml
   - ./node-red/ks.yaml
   - ./smtp-relay/ks.yaml
   #  - ./unifi/ks.yaml
