@@ -6,7 +6,7 @@ metadata:
   name: phi4-mini-instruct
   namespace: ai
 spec:
-  source: pvc://llmkube-model-cache/unsloth/Phi-4-mini-instruct-GGUF/Phi-4-mini-instruct-Q4_K_M.gguf
+  source: pvc://llmkube/unsloth/Phi-4-mini-instruct-GGUF/Phi-4-mini-instruct-Q4_K_M.gguf
   format: gguf
   hardware:
     accelerator: intel
