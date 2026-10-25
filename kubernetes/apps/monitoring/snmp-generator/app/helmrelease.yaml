@@ -41,7 +41,7 @@ spec:
           init-generator:
             image:
               repository: quay.io/prometheus/snmp-generator
-              tag: v0.30.1@sha256:50de46bbb83c517e928ed845aa2b67b804d3eec8b645e69cf04f9c558df5efec
+              tag: v0.31.0@sha256:ec211a5db1e830e0bf281035c73b5542f14126274c66b97b94a05a615875b9c0
         containers:
           app:
             image:
