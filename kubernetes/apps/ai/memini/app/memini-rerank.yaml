@@ -19,7 +19,7 @@ metadata:
 spec:
   modelRef: memini-rerank
   runtime: llamacpp
-  image: ghcr.io/ggml-org/llama.cpp:server-intel@sha256:83b4b1730015f5839b3d2c6fda7bd8ee1570c2fd678814edcdeeed21651a151d
+  image: ghcr.io/ggml-org/llama.cpp:server-intel@sha256:883b4c955c50ad169f52cb0a6ab22f290d87c9ccd8f7d951b4c1964f2dcf4b7e
   rolloutPolicy:
     waitForIdle: true
     idleTimeoutSeconds: 86400
