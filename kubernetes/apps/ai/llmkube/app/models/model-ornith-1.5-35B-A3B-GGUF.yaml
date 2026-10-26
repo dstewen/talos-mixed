@@ -6,6 +6,7 @@ metadata:
 spec:
   source: pvc://llmkube/bartowski/Ornith-1.5-35B-A3B-GGUF/Ornith-1.5-35B-A3B-GGUF
   format: gguf
+  mmproj: mmproj-Ornith-1.5-35B-A3B-f16.gguf
   quantization: Q4_K_M
   hardware:
     accelerator: intel
