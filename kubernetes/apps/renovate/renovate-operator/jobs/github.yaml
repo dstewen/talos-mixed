@@ -78,7 +78,7 @@ spec:
             "password": "$(DOCKERHUB_TOKEN)"
           }
         ]
-  image: ghcr.io/renovatebot/renovate:44.182.2
+  image: ghcr.io/renovatebot/renovate:44.186.2
   parallelism: 5
   metadata:
     labels:
