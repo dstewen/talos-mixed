@@ -32,25 +32,25 @@ spec:
       VOLSYNC_ACCESSMODES: ReadWriteMany
       VOLSYNC_SNAPSHOTCLASS: csi-ceph-filesystem
       VOLSYNC_STORAGECLASS: ceph-filesystem
-#---
+---
 ## yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
-#apiVersion: kustomize.toolkit.fluxcd.io/v1
-#kind: Kustomization
-#metadata:
-#  name: &app llmkube-models
-#spec:
-#  targetNamespace: ai
-#  dependsOn:
-#    - name: llmkube
-#      namespace: ai
-#  interval: 1h
-#  path: ./kubernetes/apps/ai/llmkube/app/models
-#  prune: false
-#  sourceRef:
-#    kind: GitRepository
-#    name: flux-system
-#    namespace: flux-system
-#  wait: false
-#  postBuild:
-#    substitute:
-#      APP: *app
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: &app llmkube-models
+spec:
+  targetNamespace: ai
+  dependsOn:
+    - name: llmkube
+      namespace: ai
+  interval: 1h
+  path: ./kubernetes/apps/ai/llmkube/app/models
+  prune: false
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  wait: false
+  postBuild:
+    substitute:
+      APP: *app
