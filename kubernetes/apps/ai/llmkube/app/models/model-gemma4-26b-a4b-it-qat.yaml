@@ -4,7 +4,7 @@ kind: Model
 metadata:
   name: gemma-4-26b-a4b-it-qat
 spec:
-  source: pvc://llmkube-model-cache/unsloth/gemma-4-26B-A4B-it-qat-GGUF/gemma-4-26B-A4B-it-qat-UD-Q4_K_XL.gguf
+  source: pvc://llmkube/unsloth/gemma-4-26B-A4B-it-qat-GGUF/gemma-4-26B-A4B-it-qat-UD-Q4_K_XL.gguf
   format: gguf
   quantization: Q4_K_M
   hardware:
