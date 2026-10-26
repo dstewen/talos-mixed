@@ -2,11 +2,11 @@
 apiVersion: inference.llmkube.dev/v1alpha1
 kind: Model
 metadata:
-  name: ornith-1.5-35B-A3B-GGUF
+  name: ornith-35b
 spec:
-  source: pvc://llmkube/unsloth/Ornith-1.5-35B-A3B-GGUF/Ornith-1.5-35B-A3B-GGUF
+  source: pvc://llmkube/bartowski/Ornith-1.5-35B-A3B-GGUF/Ornith-1.5-35B-A3B-GGUF
   format: gguf
-  quantization: UD-Q4_K_XL
+  quantization: Q4_K_M
   hardware:
     accelerator: intel
     gpu:
@@ -24,11 +24,11 @@ spec:
 apiVersion: inference.llmkube.dev/v1alpha1
 kind: InferenceService
 metadata:
-  name: gpt-oss-20b
+  name: ornith-35b
   labels:
     krr/ignore: "true"
 spec:
-  modelRef: gpt-oss-20b
+  modelRef: ornith-35b
   replicas: 1
   image: ghcr.io/ggml-org/llama.cpp:server-intel@sha256:83b4b1730015f5839b3d2c6fda7bd8ee1570c2fd678814edcdeeed21651a151d
   contextSize: 131072
