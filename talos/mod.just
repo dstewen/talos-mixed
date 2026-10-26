@@ -8,10 +8,12 @@ set default-script
 CLUSTER := "main"
 CLUSTERS := "main utility test"
 ROOT_DIR := "."
-TALOS_DIR := "talos"
+# Handles path naming differences for Talos assets
+TALOS_DIR := ROOT_DIR + "/talos/" + CLUSTER
 BOOTSTRAP_DIR := "bootstrap"
-CLUSTER_DIR := "clusters"
-CLUSTER_APPS := "apps"
+# Direct context maps inside the kubernetes structure
+CLUSTER_DIR := ROOT_DIR + "/kubernetes/clusters/" + CLUSTER
+CLUSTER_APPS := ROOT_DIR + "/kubernetes/apps/" + CLUSTER
 
 # ==============================================================================
 # Native topf Operational Recipes
