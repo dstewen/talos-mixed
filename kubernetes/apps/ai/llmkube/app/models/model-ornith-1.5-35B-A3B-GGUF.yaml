@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/inference.llmkube.dev/model_v1alpha1.json
 apiVersion: inference.llmkube.dev/v1alpha1
 kind: Model
 metadata:
@@ -22,6 +23,7 @@ spec:
     cpu: "500m"
     memory: 8Gi
 ---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/inference.llmkube.dev/inferenceservice_v1alpha1.json
 apiVersion: inference.llmkube.dev/v1alpha1
 kind: InferenceService
 metadata:
@@ -32,14 +34,13 @@ spec:
   modelRef: ornith-35b
   replicas: 1
   image: ghcr.io/ggml-org/llama.cpp:server-intel@sha256:883b4c955c50ad169f52cb0a6ab22f290d87c9ccd8f7d951b4c1964f2dcf4b7e
-  contextSize: 131072
+  contextSize: 262144
   parallelSlots: 2
-  flashAttention: true
   batchSize: 1024
   uBatchSize: 512
   extraArgs:
     - --alias
-    - gpt-oss-20b
+    - ornith-35b
     - --fit
     - "off"
     - --cont-batching
