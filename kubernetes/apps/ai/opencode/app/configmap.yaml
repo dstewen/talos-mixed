@@ -21,7 +21,7 @@ data:
     mkdir -p "$${HOME}/projects"
     if [[ ! -d "$${HOME}/projects/talos-mixed/.git" ]]; then
       git clone --filter=blob:none https://github.com/dstewen/talos-mixed.git "$${HOME}/projects/talos-mixed" \
-        || echo "WARN: talos-homelab clone failed; clone it from a session instead"
+        || echo "WARN: talos-mixed clone failed; clone it from a session instead"
     fi
 
     cd "$${HOME}/projects"
