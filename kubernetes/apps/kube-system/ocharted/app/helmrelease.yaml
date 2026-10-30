@@ -25,7 +25,7 @@ spec:
     auth:
       existingSecret: ocharted-secret
       bypassNetworks:
-        - 10.43.0.0/16
+        - 10.42.0.0/16
         - 10.205.15.0/24
     deploymentAnnotations:
       reloader.stakater.com/auto: "true"
