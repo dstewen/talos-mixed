@@ -900,7 +900,7 @@ data:
             ]
           },
           "ollama": {
-            "baseUrl": "http://ollama.davidstewen.com:11434",
+            "baseUrl": "http://10.200.15.246:11434",
             "apiKey": "not-needed",
             "api": "ollama",
             "timeoutSeconds": 600,
