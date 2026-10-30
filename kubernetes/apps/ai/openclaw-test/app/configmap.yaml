@@ -502,18 +502,6 @@ data:
                 }
               },
               {
-                "id": "deepseek-ocr:3b",
-                "name": "DeepSeek-OCR 3B (Ollama Rig)",
-                "reasoning": true,
-                "input": ["text", "image"],
-                "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
-                "contextWindow": 8192,
-                "maxTokens": 8192,
-                "params": {
-                  "num_ctx": 8192
-                }
-              },
-              {
                 "id": "deepseek-r1:8b",
                 "name": "DeepSeek R1 8B (Ollama Rig)",
                 "reasoning": true,
@@ -900,7 +888,7 @@ data:
             ]
           },
           "ollama": {
-            "baseUrl": "http://10.200.15.246:11434",
+            "baseUrl": "http://ollama.ai.svc.cluster.local:11434",
             "apiKey": "not-needed",
             "api": "ollama",
             "timeoutSeconds": 600,
@@ -951,18 +939,6 @@ data:
                 "maxTokens": 8192,
                 "params": {
                   "num_ctx": 163840
-                }
-              },
-              {
-                "id": "deepseek-ocr:3b",
-                "name": "DeepSeek-OCR 3B (Ollama Talos Server)",
-                "reasoning": true,
-                "input": ["text", "image"],
-                "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
-                "contextWindow": 8192,
-                "maxTokens": 8192,
-                "params": {
-                  "num_ctx": 8192
                 }
               },
               {
