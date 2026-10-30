@@ -46,7 +46,7 @@ spec:
         - ocharted.davidstewen.com
       parentRefs:
         - name: envoy-internal
-          namespace: networking
+          namespace: network
     monitoring:
       serviceMonitor:
         enabled: true
