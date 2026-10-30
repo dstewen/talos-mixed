@@ -33,6 +33,7 @@ spec:
       # Keep this proxy an explicit SSRF boundary: only known chart hosts are reachable.
       upstreamAllowlist:
         - aquasecurity.github.io
+        - ceph.github.io
         - kedacore.github.io
         - kubernetes-sigs.github.io
         - pkgs.tailscale.com
