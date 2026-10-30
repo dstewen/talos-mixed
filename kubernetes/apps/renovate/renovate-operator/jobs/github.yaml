@@ -72,6 +72,10 @@ spec:
       value: >-
         [
           {
+            "matchHost": "https://ocharted.davidstewen.com/",
+            "allowInternal": true
+          },
+          {
             "hostType": "docker",
             "matchHost": "docker.io",
             "username": "$(DOCKERHUB_USERNAME)",
