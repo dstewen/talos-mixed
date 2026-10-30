@@ -900,7 +900,7 @@ data:
             ]
           },
           "ollama": {
-            "baseUrl": "http://ollama.ai.svc.cluster.local:11434",
+            "baseUrl": "http://ollama.davidstewen.com:11434",
             "apiKey": "not-needed",
             "api": "ollama",
             "timeoutSeconds": 600,
