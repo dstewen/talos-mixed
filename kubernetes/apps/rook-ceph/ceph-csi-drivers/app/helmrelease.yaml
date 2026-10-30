@@ -14,9 +14,12 @@ spec:
       cephfs:
         enabled: true
         name: rook-ceph.cephfs.csi.ceph.com
+        grpcTimeout: 150
         snapshotPolicy: volumeSnapshot
         kernelMountOptions:
           ms_mode: prefer-crc
+        controllerPlugin:
+          replicas: 2
       nfs:
         enabled: false
       nvmeof:
@@ -24,4 +27,7 @@ spec:
       rbd:
         enabled: true
         name: rook-ceph.rbd.csi.ceph.com
+        grpcTimeout: 150
         snapshotPolicy: volumeSnapshot
+        controllerPlugin:
+          replicas: 2

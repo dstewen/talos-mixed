@@ -8,6 +8,7 @@
     "github>home-operations/renovate-presets//apps/searxng.json5#10.0.1",
     "github>home-operations/renovate-presets//apps/talosFactory.json5#10.0.1",
     "github>dstewen/talos-mixed//.renovate/changelogs.json5",
+    "github>dstewen/talos-mixed//.renovate/packageRules.json5",
   ],
   schedule: ["every weekend"],
   mise: {
