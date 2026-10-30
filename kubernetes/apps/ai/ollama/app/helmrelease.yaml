@@ -113,6 +113,8 @@ spec:
         controller: ollama
         type: LoadBalancer
         annotations:
+          external-dns.alpha.kubernetes.io/hostname: "{{ .Release.Name }}.davidstewen.com"
+          external-dns.kubernetes.io/hostname: "{{ .Release.Name }}.davidstewen.com"
           lbipam.cilium.io/ips: 10.200.15.246 # SVC_OLLAMA_ADDR
         ports:
           http:
