@@ -5,31 +5,16 @@ kind: HelmRelease
 metadata:
   name: node-problem-detector
 spec:
-  interval: 30m
-  chart:
-    spec:
-      chart: node-problem-detector
-      version: 2.3.14
-      sourceRef:
-        kind: HelmRepository
-        name: deliveryhero-charts
-        namespace: flux-system
-      interval: 15m
-  maxHistory: 2
-  install:
-    createNamespace: true
-    remediation:
-      retries: 3
-  upgrade:
-    cleanupOnFail: true
-    remediation:
-      retries: 3
-  uninstall:
-    keepHistory: false
-  dependsOn:
-    - name: kube-prometheus-stack
-      namespace: monitoring
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: node-problem-detector
   values:
+    fullnameOverride: *app
+    settings:
+      log_monitors:
+        - /config/kernel-monitor.json
+        - /config/readonly-monitor.json
     metrics:
       enabled: true
       serviceMonitor:
@@ -42,6 +27,3 @@ spec:
         memory: 100M
       limits:
         memory: 100M
-    settings:
-      extraArgs:
-        - --event-namespace monitoring
