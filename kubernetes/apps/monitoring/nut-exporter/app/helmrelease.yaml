@@ -48,8 +48,9 @@ spec:
             env:
               TZ: Australia/Melbourne
               NUT_EXPORTER_SERVER: 192.168.10.23
-            #              NUT_EXPORTER_USERNAME: ${NUT_EXPORTER_USERNAME}
-            #              NUT_EXPORTER_PASSWORD: ${NUT_EXPORTER_PASSWORD}
+            envFrom:
+              - secretRef:
+                  name: nut-exporter-secret
             args:
               # the first time I set this, the first and last entries were ignored, so I have doubled them.
               - --nut.vars_enable="battery.charge,battery.charge,battery.runtime,battery.voltage,battery.voltage.nominal,input.voltage,input.voltage.nominal,ups.load,ups.status,ups.status"
@@ -69,3 +70,11 @@ spec:
         annotations:
           external-dns.alpha.kubernetes.io/hostname: exporters.${SECRET_DOMAIN}
           external-dns.kubernetes.io/hostname: exporters.${SECRET_DOMAIN}
+    serviceMonitor:
+      app:
+        endpoints:
+          - port: http
+            scheme: http
+            path: /ups_metrics
+            interval: 1m
+            scrapeTimeout: 10s
