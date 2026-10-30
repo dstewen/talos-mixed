@@ -19,7 +19,7 @@ resources:
   - ./kube-prometheus-stack/ks.yaml
   - ./loki/ks.yaml
   #  - ./netdata/ks.yaml
-  #  - ./node-problem-detector/ks.yaml
+  - ./node-problem-detector/ks.yaml
   - ./nut-exporter/ks.yaml
   #  - ./otel-collector/ks.yaml
   - ./opnsense-exporter/ks.yaml
