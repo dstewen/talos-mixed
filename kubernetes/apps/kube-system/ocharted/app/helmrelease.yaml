@@ -27,6 +27,7 @@ spec:
       bypassNetworks:
         - 10.42.0.0/16
         - 10.200.15.0/24
+        - 144.6.208.187/32
     deploymentAnnotations:
       reloader.stakater.com/auto: "true"
     config:
