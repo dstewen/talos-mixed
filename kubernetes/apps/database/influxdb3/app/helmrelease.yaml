@@ -43,7 +43,7 @@ spec:
               # activates via verification email to the wired
               # INFLUXDB3_ENTERPRISE_LICENSE_EMAIL, then persists the
               # license into object storage.
-              INFLUXDB3_LICENSE_TYPE: "trial"
+              INFLUXDB3_LICENSE_TYPE: "home"
             envFrom:
               # OBC-generated creds: AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY
               - secretRef:
