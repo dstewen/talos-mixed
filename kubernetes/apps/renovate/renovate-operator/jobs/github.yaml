@@ -78,7 +78,7 @@ spec:
         [
           {
             "hostType": "docker",
-            "matchHost": "https://ocharted.davidstewen.com/",
+            "matchHost": "ocharted.davidstewen.com/",
             "username": "renovate",
             "password": "$(OCHARTED_PASSWORD_ENV)",
             "allowInternal": true
