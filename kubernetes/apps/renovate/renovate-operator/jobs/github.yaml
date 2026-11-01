@@ -68,7 +68,7 @@ spec:
         secretKeyRef:
           name: docker-hub-token
           key: DOCKERHUB_TOKEN
-    - name: OCHARTED_PASSWORD
+    - name: RENOVATE_SECRETS_OCHARTED_PASSWORD
       valueFrom:
         secretKeyRef:
           name: renovate-ocharted-password
