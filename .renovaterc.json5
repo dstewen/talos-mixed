@@ -86,11 +86,4 @@
       addLabels: ["renovate/github-release"],
     },
   ],
-  hostRules: [
-    {
-      matchHost: "ocharted.davidstewen.com",
-      username: "renovate",
-      password: "{{ secrets.OCHARTED_PASSWORD }}",
-    },
-  ],
 }
