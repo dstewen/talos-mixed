@@ -68,6 +68,11 @@ spec:
         secretKeyRef:
           name: docker-hub-token
           key: DOCKERHUB_TOKEN
+    - name: OCHARTED_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: renovate-ocharted-password
+          key: OCHARTED_PASSWORD
     - name: RENOVATE_HOST_RULES
       value: >-
         [
