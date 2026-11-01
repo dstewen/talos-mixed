@@ -21,7 +21,7 @@ spec:
     replicaCount: 1
     image:
       repository: ghcr.io/turnstonelabs/turnstone
-      tag: 1.9.1
+      tag: 1.9.2
     # Local Ollama configuration
     llm:
       provider: ollama
