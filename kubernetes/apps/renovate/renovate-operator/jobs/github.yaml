@@ -68,7 +68,7 @@ spec:
         secretKeyRef:
           name: docker-hub-token
           key: DOCKERHUB_TOKEN
-    - name: RENOVATE_SECRETS_OCHARTED_PASSWORD
+    - name: OCHARTED_PASSWORD_ENV
       valueFrom:
         secretKeyRef:
           name: renovate-ocharted-password
@@ -79,6 +79,8 @@ spec:
           {
             "hostType": "docker",
             "matchHost": "https://ocharted.davidstewen.com/",
+            "username": "renovate",
+            "password": "$(OCHARTED_PASSWORD_ENV)",
             "allowInternal": true
           },
           {
