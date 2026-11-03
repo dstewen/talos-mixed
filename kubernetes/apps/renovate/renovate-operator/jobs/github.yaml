@@ -51,12 +51,15 @@ spec:
     - name: LOG_LEVEL
       value: debug
     - name: RENOVATE_ALLOWED_COMMANDS
-      value: '["pnpm run bundle"]'
+      value: ["pnpm run bundle", "^mise install$", "^mise lock$"]
+    - name: RENOVATE_ALLOWED_UNSAFE_EXECUTIONS
+      value: |-
+        ["mise"]
     #    - name: RENOVATE_ENDPOINT
     #      value: https://api.github.com/
     #    - name: RENOVATE_PLATFORM
     #      value: github
-    - name: RENOVATE_PLATFORM_COMMIT
+    - name: RENOVATE_PLATFORM_COMMIT_ENABLED
       value: "true"
     - name: DOCKERHUB_USERNAME
       valueFrom:
@@ -78,16 +81,14 @@ spec:
         [
           {
             "hostType": "docker",
-            "matchHost": "ocharted.davidstewen.com/",
-            "username": "renovate",
-            "password": "$(OCHARTED_PASSWORD_ENV)",
-            "allowInternal": true
-          },
-          {
-            "hostType": "docker",
             "matchHost": "docker.io",
             "username": "$(DOCKERHUB_USERNAME)",
             "password": "$(DOCKERHUB_TOKEN)"
+          },
+          {
+            "hostType": "docker",
+            "matchHost": "ocharted.davidstewen.com/",
+            "allowInternal": true
           }
         ]
   image: ghcr.io/renovatebot/renovate:44.199.2
