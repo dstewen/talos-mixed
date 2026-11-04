@@ -31,7 +31,7 @@ metadata:
 spec:
   modelRef: phi4-mini-instruct
   replicas: 1
-  image: ghcr.io/ggml-org/llama.cpp:server-intel@sha256:5cd6fd7b03590654b972db0d2d38098dd5b63c2a2e9529a117b4da4983b80312
+  image: ghcr.io/ggml-org/llama.cpp:server-intel@sha256:a794541cb7f3a037274c79fa59c9aafa981492a7ad5a6c8297cce7fc01db8a2b
   resources:
     gpu: 1
     cpu: "2"
