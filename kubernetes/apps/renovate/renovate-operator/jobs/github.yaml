@@ -91,7 +91,7 @@ spec:
             "allowInternal": true
           }
         ]
-  image: ghcr.io/renovatebot/renovate:44.211.0
+  image: ghcr.io/renovatebot/renovate:44.216.3
   parallelism: 5
   metadata:
     labels:
