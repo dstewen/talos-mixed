@@ -32,7 +32,7 @@ metadata:
 spec:
   modelRef: gemma-4-26b-a4b-it-qat
   replicas: 1
-  image: ghcr.io/ggml-org/llama.cpp:server-intel@sha256:a794541cb7f3a037274c79fa59c9aafa981492a7ad5a6c8297cce7fc01db8a2b
+  image: ghcr.io/ggml-org/llama.cpp:server-intel@sha256:738f507eef7069c31fcd643852a8e1a58d2425fa745424248c55bdc523165e8f
   #  podLabels:
   #    igpu-workload: "true"
   topologySpreadConstraints:
