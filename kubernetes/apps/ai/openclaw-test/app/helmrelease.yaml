@@ -179,6 +179,8 @@ spec:
                 value: "$${TIMEZONE}"
               - name: LITELLM_API_KEY
                 value: "sk-dVujhw0SK5rF1FAyQG-dmQ"
+              - name: VLLM_API_KEY
+                value: "$${VLLM_API_KEY}"
             envFrom:
               - secretRef:
                   name: openclaw-test-secret
