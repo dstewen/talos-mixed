@@ -1,0 +1,33 @@
+metadata:
+  name: sparkdash
+  annotations:
+    external-dns.alpha.kubernetes.io/filter: "include"
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+spec:
+  ingressClassName: envoy
+  tls:
+    - hosts:
+        - sparkdash.davidstewen.com
+        - sparkdash-internal.davidstewen.com
+      secretName: sparkdash-tls
+  rules:
+    - host: sparkdash.davidstewen.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: sparkdash
+                port:
+                  number: 5555
+    - host: sparkdash-internal.davidstewen.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: sparkdash
+                port:
+                  number: 5555
