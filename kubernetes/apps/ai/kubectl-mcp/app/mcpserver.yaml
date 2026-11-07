@@ -12,3 +12,13 @@ spec:
   podTemplateSpec:
     spec:
       serviceAccountName: kubectl-mcp-sa
+      containers:
+        - name: mcp
+          securityContext:
+            readOnlyRootFilesystem: false
+          env:
+            - name: HOME
+              value: /tmp
+      volumes:
+        - name: tmp
+          emptyDir: {}
