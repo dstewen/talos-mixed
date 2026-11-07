@@ -13,5 +13,4 @@ spec:
   rules:
     - backendRefs:
         - name: sparkdash
-          namespace: flux-system
           port: 5555
