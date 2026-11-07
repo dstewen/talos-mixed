@@ -6,7 +6,7 @@ namespace: monitoring
 resources:
   #  - ./arc-controller-scrape.yaml
   #  - ./arc-listener-scrape.yaml
-  - ./dgx-spark-exporter-scrape.yaml
+  #  - ./dgx-spark-exporter-scrape.yaml
   #  - ./rook-ceph-scrape.yaml
   - ./minecraft-prometheus-exporter-scrape.yaml
   - ./opnsense.yaml
