@@ -8,4 +8,4 @@ spec:
   interval: 15m
   ref:
     tag: v2.32.0
-  url: oci://ghcr.io/dstewen/containers/sparkdash
+  url: oci://ghcr.io/dstewen/sparkdash

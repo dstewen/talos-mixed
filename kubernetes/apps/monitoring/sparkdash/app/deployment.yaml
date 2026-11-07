@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: sparkdash
-          image: ghcr.io/dstewen/containers/sparkdash:v2.32.0
+          image: ghcr.io/dstewen/sparkdash:v2.32.0
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 5555
