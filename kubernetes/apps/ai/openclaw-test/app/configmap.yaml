@@ -447,6 +447,271 @@ data:
             "apiKey": "sk-dVujhw0SK5rF1FAyQG-dmQ",
             "timeoutSeconds": 600,
           },
+
+
+          "dgx-cluster": {
+            "baseUrl": "http://192.168.10.96:8000/v1",
+            "apiKey": "not-needed",
+            "api": "openai-completions",
+            "timeoutSeconds": 600,
+            "models": [
+              {
+                "id": "DeepSeek-V4-Flash-Vision-Exp",
+                "name": "DeepSeek v4 Flash Vision Exp (dgx-cluster)",
+                "reasoning": true,
+                "input": ["text"],
+                "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+                "contextWindow": 128000,
+                "maxTokens": 8192,
+                "params": {
+                  "num_ctx": 128000
+                }
+              },
+              {
+                "id": "Qwen/Qwen3.6-35B-A3B-FP8",
+                "name": "Qwen 3.6 35B A3B FP8 (dgx-cluster)",
+                "reasoning": true,
+                "input": ["text"],
+                "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+                "contextWindow": 262144,
+                "maxTokens": 4096,
+                "params": {
+                  "num_ctx": 262144
+                }
+              },
+              {
+                "id": "Qwen/Qwen3-Coder-Next-FP8",
+                "name": "Qwen 3 Coder Next FP8 (dgx-cluster)",
+                "reasoning": true,
+                "input": ["text"],
+                "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+                "contextWindow": 163840,
+                "maxTokens": 8192,
+                "params": {
+                  "num_ctx": 163840
+                }
+              },
+              {
+                "id": "gemma3:27b",
+                "name": "Gemma 3 27B (Ollama Rig)",
+                "reasoning": false,
+                "input": ["text", "image"],
+                "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+                "contextWindow": 128000,
+                "maxTokens": 8192,
+                "params": {
+                  "num_ctx": 128000
+                }
+              },
+              {
+                "id": "gemma4:12b-it-qat",
+                "name": "Gemma 4 12B IT QAT (Ollama Rig)",
+                "reasoning": false,
+                "input": ["text", "image"],
+                "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+                "contextWindow": 262144,
+                "maxTokens": 8192,
+                "params": {
+                  "num_ctx": 262144
+                }
+              },
+              {
+                "id": "gemma4:26b-a4b-it-qat",
+                "name": "Gemma 4 26B A4B IT QAT (Ollama Rig)",
+                "reasoning": false,
+                "input": ["text", "image"],
+                "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+                "contextWindow": 262144,
+                "maxTokens": 8192,
+                "params": {
+                  "num_ctx": 262144
+                }
+              },
+              {
+                "id": "gemma4:31b",
+                "name": "Gemma 4 31B (Ollama Rig)",
+                "reasoning": false,
+                "input": ["text", "image"],
+                "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+                "contextWindow": 262144,
+                "maxTokens": 8192,
+                "params": {
+                  "num_ctx": 262144
+                }
+              },
+              {
+                "id": "gemma4:e4b",
+                "name": "Gemma 4 E4B (Ollama Rig)",
+                "reasoning": false,
+                "input": ["text", "image"],
+                "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+                "contextWindow": 262144,
+                "maxTokens": 8192,
+                "params": {
+                  "num_ctx": 262144
+                }
+              },
+              {
+                "id": "glm-4.7-flash:q4_K_M",
+                "name": "GLM-4.7 Flash q4_K_M (Ollama Rig)",
+                "reasoning": false,
+                "input": ["text"],
+                "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+                "contextWindow": 202752,
+                "maxTokens": 8192,
+                "params": {
+                  "num_ctx": 202752
+                }
+              },
+              {
+                "id": "granite4.1:8b-q4_K_M",
+                "name": "Granite 4.1 8B q4_K_M (Ollama Rig)",
+                "reasoning": false,
+                "input": ["text"],
+                "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+                "contextWindow": 128000,
+                "maxTokens": 8192,
+                "params": {
+                  "num_ctx": 128000
+                }
+              },
+              {
+                "id": "granite4.1:30b-q4_K_M",
+                "name": "Granite 4.1 30B q4_K_M (Ollama Rig)",
+                "reasoning": false,
+                "input": ["text"],
+                "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+                "contextWindow": 128000,
+                "maxTokens": 8192,
+                "params": {
+                  "num_ctx": 128000
+                }
+              },
+              {
+                "id": "ministral-3:14b",
+                "name": "Ministral 3 14B (Ollama Rig)",
+                "reasoning": false,
+                "input": ["text", "image"],
+                "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+                "contextWindow": 262144,
+                "maxTokens": 8192,
+                "params": {
+                  "num_ctx": 262144
+                }
+              },
+              {
+                "id": "mistral-nemo:12b",
+                "name": "Mistral Nemo 12B (Ollama Rig)",
+                "reasoning": false,
+                "input": ["text"],
+                "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+                "contextWindow": 128000,
+                "maxTokens": 8192,
+                "params": {
+                  "num_ctx": 128000
+                }
+              },
+              {
+                "id": "mistral-small3.2:24b",
+                "name": "Mistral Small 3.2 24B (Ollama Rig)",
+                "reasoning": false,
+                "input": ["text", "image"],
+                "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+                "contextWindow": 128000,
+                "maxTokens": 8192,
+                "params": {
+                  "num_ctx": 128000
+                }
+              },
+              {
+                "id": "nemotron-3.5-lightning:30b",
+                "name": "Nemotron 3.5 Lightning 30B (Ollama Rig)",
+                "reasoning": false,
+                "input": ["text"],
+                "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+                "contextWindow": 262144,
+                "maxTokens": 8192,
+                "params": {
+                  "num_ctx": 262144
+                }
+              },
+              {
+                "id": "ornith:9b",
+                "name": "Ornith 9B (Ollama Rig)",
+                "reasoning": false,
+                "input": ["text", "image"],
+                "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+                "contextWindow": 256000,
+                "maxTokens": 8192,
+                "params": {
+                  "num_ctx": 256000
+                }
+              },
+              {
+                "id": "ornith:35b",
+                "name": "Ornith 35B (Ollama Rig)",
+                "reasoning": false,
+                "input": ["text", "image"],
+                "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+                "contextWindow": 256000,
+                "maxTokens": 8192,
+                "params": {
+                  "num_ctx": 256000
+                }
+              },
+              {
+                "id": "qwen3-embedding:0.6b",
+                "name": "Qwen3-Embedding 0.6B (Ollama Rig)",
+                "reasoning": false,
+                "input": ["text"],
+                "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+                "contextWindow": 32768,
+                "maxTokens": 8192,
+                "params": {
+                  "num_ctx": 32768
+                }
+              },
+              {
+                "id": "qwen3-embedding:4b",
+                "name": "Qwen3-Embedding 4B (Ollama Rig)",
+                "reasoning": false,
+                "input": ["text"],
+                "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+                "contextWindow": 40960,
+                "maxTokens": 8192,
+                "params": {
+                  "num_ctx": 40960
+                }
+              },
+              {
+                "id": "qwen3-embedding:8b",
+                "name": "Qwen3-Embedding 8B (Ollama Rig)",
+                "reasoning": false,
+                "input": ["text"],
+                "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+                "contextWindow": 40960,
+                "maxTokens": 8192,
+                "params": {
+                  "num_ctx": 40960
+                }
+              },
+              {
+                "id": "qwen3-vl:8b",
+                "name": "Qwen3-VL 8B (Ollama Rig)",
+                "reasoning": false,
+                "input": ["text", "image"],
+                "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+                "contextWindow": 262144,
+                "maxTokens": 16384,
+                "params": {
+                  "num_ctx": 262144
+                }
+              }
+            ]
+          },
+
+
+
           "ollama-rig": {
             "baseUrl": "http://192.168.10.87:11434",
             "apiKey": "not-needed",
@@ -1650,6 +1915,7 @@ data:
           "searxng",
           "slack",
           "telegram",
+          "vllm",
           "workboard"
         ],
         "entries": {
