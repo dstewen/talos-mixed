@@ -9,3 +9,6 @@ spec:
   transport: stdio
   groupRef:
     name: mcp-tools
+  podTemplateSpec:
+    spec:
+      serviceAccountName: kubectl-mcp-sa

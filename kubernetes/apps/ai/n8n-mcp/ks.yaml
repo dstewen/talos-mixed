@@ -15,6 +15,9 @@ spec:
       namespace: external-secrets
     - name: toolhive-operator-crds
       namespace: *namespace
+  postBuild:
+    substitute:
+      SECRET_DOMAIN: "davidstewen.com"
   path: ./kubernetes/apps/ai/n8n-mcp/app
   prune: true
   sourceRef:
