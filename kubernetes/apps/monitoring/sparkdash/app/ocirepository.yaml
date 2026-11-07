@@ -1,0 +1,11 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/source.toolkit.fluxcd.io/ocirepository_v1.json
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: OCIRepository
+metadata:
+  name: sparkdash
+spec:
+  interval: 15m
+  ref:
+    tag: v2.32.0
+  url: oci://ghcr.io/dstewen/containers/sparkdash
