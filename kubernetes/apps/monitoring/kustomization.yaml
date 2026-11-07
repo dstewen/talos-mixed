@@ -31,7 +31,7 @@ resources:
   - ./smartctl-exporter/ks.yaml
   - ./snmp-exporter/ks.yaml
   #  - ./snmp-generator/ks.yaml
-  #  - ./sparkdash/ks.yaml
+  - ./sparkdash/ks.yaml
   - ./speedtest-exporter/ks.yaml
   - ./tempo/ks.yaml
   - ./unpoller/ks.yaml
