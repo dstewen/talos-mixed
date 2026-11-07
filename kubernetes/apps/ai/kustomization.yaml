@@ -18,7 +18,7 @@ resources:
   - ./llmkube/ks.yaml
   #  - ./local-ai/ks.yaml
   #  - ./k8sgpt/ks.yaml
-  - ./kubectl-mcp/ks.yaml
+  #  - ./kubectl-mcp/ks.yaml
   #  - ./mem0/ks.yaml
   #  - ./memini/ks.yaml
   - ./memory-mcp/ks.yaml
