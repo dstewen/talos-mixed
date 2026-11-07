@@ -9,16 +9,23 @@ spec:
   transport: stdio
   groupRef:
     name: mcp-tools
-  podTemplateSpec:
-    spec:
-      serviceAccountName: kubectl-mcp-sa
-      containers:
-        - name: mcp
-          securityContext:
-            readOnlyRootFilesystem: false
-          env:
-            - name: HOME
-              value: /tmp
-      volumes:
+  serviceAccountName: kubectl-mcp-sa
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      memory: 256Mi
+  env:
+    - name: HOME
+      value: /tmp
+  containers:
+    - name: mcp
+      securityContext:
+        readOnlyRootFilesystem: false
+      volumeMounts:
         - name: tmp
-          emptyDir: {}
+          mountPath: /tmp
+  volumes:
+    - name: tmp
+      emptyDir: {}
