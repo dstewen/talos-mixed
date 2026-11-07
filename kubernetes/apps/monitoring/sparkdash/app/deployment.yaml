@@ -75,7 +75,3 @@ spec:
                     operator: In
                     values:
                       - arm64
-                  - key: node-role.kubernetes.io/worker
-                    operator: In
-                    values:
-                      - "true"
