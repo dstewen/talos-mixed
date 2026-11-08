@@ -38,13 +38,12 @@ spec:
               value: "8888"
             - name: NODE_ENV
               value: "production"
-            - name: BIND_ADDRESS
+            - name: BIND_HOST
               value: "0.0.0.0"
           command:
-            - sparkdash
+            - node
           args:
-            - --bind
-            - 0.0.0.0
+            - server/index.js
           resources:
             requests:
               cpu: 50m
