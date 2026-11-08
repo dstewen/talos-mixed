@@ -22,6 +22,8 @@ spec:
     spec:
       containers:
         - name: mcp
+          securityContext:
+            readOnlyRootFilesystem: false
           args:
             - --transport
             - streamable-http
