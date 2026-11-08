@@ -40,5 +40,11 @@ spec:
               value: "1"
             - name: ENV_FILE_PATH
               value: /dev/null
+          volumeMounts:
+            - name: mcp-home
+              mountPath: /home/mcp
+      volumes:
+        - name: mcp-home
+          emptyDir: {}
   groupRef:
     name: mcp-tools
