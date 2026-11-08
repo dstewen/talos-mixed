@@ -11,6 +11,7 @@ resources:
   - ./arr-mcp/ks.yaml
   #  - ./boinc-amd64/ks.yaml
   #  - ./boinc-arm64/ks.yaml
+  - ./flux-mcp/ks.yaml
   - ./github-mcp/ks.yaml
   - ./grafana-mcp/ks.yaml
   - ./ha-mcp/ks.yaml
@@ -19,7 +20,7 @@ resources:
   - ./llmkube/ks.yaml
   #  - ./local-ai/ks.yaml
   #  - ./k8sgpt/ks.yaml
-  #  - ./kubectl-mcp/ks.yaml
+  - ./kubectl-mcp/ks.yaml
   #  - ./mem0/ks.yaml
   #  - ./memini/ks.yaml
   - ./memory-mcp/ks.yaml
