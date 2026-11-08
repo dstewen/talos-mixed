@@ -34,12 +34,17 @@ spec:
           env:
             - name: PORT
               value: "5555"
-            - name: HOST
-              value: "0.0.0.0"
             - name: LLM_PORT
               value: "8888"
             - name: NODE_ENV
               value: "production"
+            - name: BIND_ADDRESS
+              value: "0.0.0.0"
+          command:
+            - sparkdash
+          args:
+            - --bind
+            - 0.0.0.0
           resources:
             requests:
               cpu: 50m
