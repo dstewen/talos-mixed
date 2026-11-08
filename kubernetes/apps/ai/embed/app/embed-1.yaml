@@ -29,7 +29,7 @@ spec:
   # No spec.command here, deliberately: llmkube >= 0.9.28 drops its generated
   # args when command is set (why the chart is held at 0.9.27). The stock
   # image's entrypoint is llama-server already.
-  image: ghcr.io/ggml-org/llama.cpp:server-intel@sha256:276c422f2992683c1a123145ba5293f869990d9c2e8416cb146bb2a8a0f61453
+  image: ghcr.io/ggml-org/llama.cpp:server-intel@sha256:ac6bc845f0960e8868b626bb1c2a238bea8a5fe9be63cb0d9d8769f1dde51887
   rolloutPolicy:
     waitForIdle: true
     idleTimeoutSeconds: 600
