@@ -2012,7 +2012,7 @@ data:
       "mcp": {
         "servers": {
           "toolhive": {
-            "url": "http://vmcp-mcp-gateway-internal.ai:4483/mcp",
+            "url": "http://vmcp-mcp-gateway-internal.ai.svc.cluster.local:4483/mcp",
             "transport": "streamable-http",
             "enabled": true
           },
