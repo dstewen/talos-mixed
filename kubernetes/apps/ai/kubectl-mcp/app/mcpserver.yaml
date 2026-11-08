@@ -32,10 +32,13 @@ spec:
             - --port
             - "8000"
             - --read-only
+          workingDir: /data
           env:
             - name: MCP_K8S_PROVIDER
               value: in-cluster
             - name: PYTHONUNBUFFERED
               value: "1"
+            - name: ENV_FILE_PATH
+              value: /dev/null
   groupRef:
     name: mcp-tools
