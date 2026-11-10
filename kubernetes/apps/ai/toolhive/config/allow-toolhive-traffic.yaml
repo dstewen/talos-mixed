@@ -1,0 +1,19 @@
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-mcpserver-to-kubectl
+  namespace: ai
+spec:
+  endpointSelector:
+    matchLabels:
+      app: kubectl
+      toolhive: "true"
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            app: mcpserver
+            toolhive: "true"
+      toPorts:
+        - ports:
+            - port: "8000"
+              protocol: TCP
