@@ -14,3 +14,4 @@ resources:
   - ./allow-openclaw-to-mcp-gateway.yaml
   - ./allow-dragonfly-management.yaml
   - ./allow-openclaw-to-mcp-gateway-failsafe.yaml
+  - ./openclaw-test-allow-vmcp.yaml

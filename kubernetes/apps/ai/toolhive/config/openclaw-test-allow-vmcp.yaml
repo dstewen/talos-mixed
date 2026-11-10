@@ -1,0 +1,19 @@
+---
+# Allow egress from openclaw-test to VirtualMCPServer pods for MCP tool access.
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: openclaw-test-allow-vmcp
+  namespace: ai
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/instance: openclaw-test
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            app.kubernetes.io/name: virtualmcpserver
+      toPorts:
+        - ports:
+            - port: "4483"
+              protocol: TCP
