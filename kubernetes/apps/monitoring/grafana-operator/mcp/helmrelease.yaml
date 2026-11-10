@@ -38,6 +38,8 @@ spec:
               - "sse"
               - "--allowed-hosts"
               - "mcp-grafana.monitoring:8000"
+              - "localhost"
+              - "127.0.0.1"
               - "--allowed-origins"
               - "*"
             env:
