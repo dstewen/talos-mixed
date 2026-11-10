@@ -23,6 +23,7 @@ data:
         "controlUi": {
           "allowedOrigins": ["https://miso-test.davidstewen.com", "https://miso-chat-test.davidstewen.com", "https://mission-control-test.davidstewen.com"]
         },
+        "publicOrigin": "https://miso-test.davidstewen.com",
         "trustedProxies": ["10.42.0.0/16", "192.168.0.0/16", "10.200.15.0/16"]
       },
       "agents": {
