@@ -7,4 +7,3 @@ resources:
   - ./dashboard
   - ./ocirepository.yaml
   - ./prometheusrule.yaml
-  #  - ./secret.sops.yaml
