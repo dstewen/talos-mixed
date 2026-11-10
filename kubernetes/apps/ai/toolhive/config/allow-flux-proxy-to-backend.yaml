@@ -1,0 +1,19 @@
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-flux-proxy-to-backend
+  namespace: ai
+spec:
+  endpointSelector:
+    matchLabels:
+      app: flux
+      toolhive: "true"
+  ingress:
+    - fromEndpoints:
+        - matchLabels:
+            app: mcpserver
+            toolhive-name: flux
+      toPorts:
+        - ports:
+            - port: "8000"
+              protocol: TCP
