@@ -8,3 +8,4 @@ resources:
   - ./embeddingserver.yaml
   - ./virtualmcpserver.yaml
   - ./allow-toolhive-traffic.yaml
+  - ./allow-flux-proxy-to-backend.yaml
