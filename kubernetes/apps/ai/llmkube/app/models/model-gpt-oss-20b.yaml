@@ -32,7 +32,7 @@ metadata:
 spec:
   modelRef: gpt-oss-20b
   replicas: 1
-  image: ghcr.io/ggml-org/llama.cpp:server-intel@sha256:ac6bc845f0960e8868b626bb1c2a238bea8a5fe9be63cb0d9d8769f1dde51887
+  image: ghcr.io/ggml-org/llama.cpp:server-intel@sha256:5f81d305afe5dbb4f2d4e9e96d2f3b81f449b2d3c83239c758da8628e1ead01c
   contextSize: 131072
   parallelSlots: 2
   flashAttention: true
