@@ -9,3 +9,4 @@ resources:
   - ./virtualmcpserver.yaml
   - ./allow-toolhive-traffic.yaml
   - ./allow-flux-proxy-to-backend.yaml
+  - ./allow-openclaw-to-virtualmcpserver.yaml
