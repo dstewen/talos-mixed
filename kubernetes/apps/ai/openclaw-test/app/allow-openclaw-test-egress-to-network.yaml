@@ -1,0 +1,15 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-openclaw-test-egress-to-network
+  namespace: ai # Placed inside the destination namespace
+spec:
+  endpointSelector:
+    matchLabels:
+      instance: openclaw-test
+  egress:
+    - toCIDR:
+        - 192.168.10.0/24
+        - 10.42.0.0/16
