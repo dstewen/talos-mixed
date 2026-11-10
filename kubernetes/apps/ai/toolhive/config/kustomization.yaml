@@ -16,3 +16,4 @@ resources:
   - ./allow-openclaw-to-mcp-gateway-failsafe.yaml
   #  - ./openclaw-test-allow-vmcp.yaml
   - ./allow-envoy-to-vmcp.yaml
+  - ./allow-openclaw-test-to-vmcp.yaml
