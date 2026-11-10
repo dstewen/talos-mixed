@@ -1,0 +1,23 @@
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-openclaw-to-mcp-gateway-failsafe
+  namespace: ai
+spec:
+  endpointSelector:
+    matchExpressions:
+      - key: app
+        operator: In
+        values:
+          - virtualmcpserver
+  ingress:
+    - fromEndpoints:
+        - matchExpressions:
+            - key: instance
+              operator: In
+              values:
+                - openclaw-test
+      toPorts:
+        - ports:
+            - port: "4483"
+              protocol: TCP
