@@ -23,7 +23,9 @@ spec:
     extraArgs:
       - --pihole-server=http://192.168.10.195
       - --gateway-name=envoy-internal
-    policy: sync
+      - --annotation-prefix=external-dns.kubernetes.io/
+      - --pihole-tls-skip-verify
+    policy: upsert-only
     sources:
       - gateway-httproute
       - gateway-grpcroute
