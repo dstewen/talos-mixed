@@ -6,7 +6,6 @@ metadata:
   name: otel-collector
   annotations:
     external-dns.kubernetes.io/target: external.${SECRET_DOMAIN}
-    external-dns.kubernetes.io/target: external.${SECRET_DOMAIN}
 spec:
   parentRefs:
     - name: envoy-external
