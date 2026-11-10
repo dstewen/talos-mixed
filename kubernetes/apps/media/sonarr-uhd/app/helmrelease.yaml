@@ -120,7 +120,6 @@ spec:
           gethomepage.dev/widget.url: http://sonarr-uhd.media
           gethomepage.dev/widget.key: "{{`{{HOMEPAGE_VAR_SONARR_UHD_TOKEN}}`}}"
           external-dns.kubernetes.io/target: internal.${SECRET_DOMAIN}
-          external-dns.kubernetes.io/target: internal.${SECRET_DOMAIN}
         hostnames: ["{{ .Release.Name }}.${SECRET_DOMAIN}"]
         parentRefs:
           - name: envoy-internal

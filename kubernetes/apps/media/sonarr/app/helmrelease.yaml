@@ -119,6 +119,7 @@ spec:
           gethomepage.dev/widget.type: sonarr
           gethomepage.dev/widget.url: http://sonarr.media
           gethomepage.dev/widget.key: "{{`{{HOMEPAGE_VAR_SONARR_TOKEN}}`}}"
+          external-dns.kubernetes.io/target: internal.${SECRET_DOMAIN}
         hostnames: ["{{ .Release.Name }}.${SECRET_DOMAIN}"]
         parentRefs:
           - name: envoy-internal
