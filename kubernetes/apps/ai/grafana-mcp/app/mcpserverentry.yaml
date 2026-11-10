@@ -7,5 +7,5 @@ metadata:
 spec:
   remoteUrl: http://mcp-grafana.monitoring:8000/sse
   transport: sse
-  groupRef:
-    name: mcp-tools
+#  groupRef:
+#    name: mcp-tools
