@@ -143,7 +143,6 @@ spec:
           hajimari.io/appName: "Rook"
           hajimari.io/icon: mdi:chess-rook
           external-dns.kubernetes.io/target: internal.${SECRET_DOMAIN}
-          external-dns.kubernetes.io/target: internal.${SECRET_DOMAIN}
         host:
           name: rook.davidstewen.com
           path: /
