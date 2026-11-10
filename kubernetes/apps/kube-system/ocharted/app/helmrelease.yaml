@@ -49,7 +49,6 @@ spec:
       enabled: true
       annotations:
         external-dns.kubernetes.io/target: external.davidstewen.com
-        external-dns.kubernetes.io/target: external.davidstewen.com
       hostnames:
         - ocharted.davidstewen.com
       parentRefs:
