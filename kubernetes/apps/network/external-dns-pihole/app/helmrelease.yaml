@@ -23,7 +23,6 @@ spec:
     extraArgs:
       - --pihole-server=http://192.168.10.195
       - --gateway-name=envoy-internal
-      - --pihole-api-version=v6
     policy: sync
     sources:
       - gateway-httproute
