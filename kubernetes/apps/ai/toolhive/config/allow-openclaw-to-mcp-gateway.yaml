@@ -7,11 +7,14 @@ spec:
   endpointSelector:
     matchLabels:
       app: virtualmcpserver
+      toolhive: "true"
   ingress:
     - fromEndpoints:
-        - matchLabels:
-            instance: openclaw-test
-            name: openclaw-test
+        - matchExpressions:
+            - key: name
+              operator: In
+              values:
+                - openclaw-test
       toPorts:
         - ports:
             - port: "4483"
