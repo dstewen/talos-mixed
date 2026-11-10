@@ -75,7 +75,7 @@ spec:
           hajimari.io/appName: "Netboot.xyz"
           hajimari.io/info: "Network boot system"
           hajimari.io/icon: "refresh-auto"
-          external-dns.alpha.kubernetes.io/target: "netboot.davidstewen.com"
+          external-dns.kubernetes.io/target: "netboot.davidstewen.com"
           external-dns.kubernetes.io/target: "netboot.davidstewen.com"
         hostnames: ["netboot.davidstewen.com"]
         parentRefs:

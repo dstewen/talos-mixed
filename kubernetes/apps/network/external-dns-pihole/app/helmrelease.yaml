@@ -21,7 +21,6 @@ spec:
     podAnnotations:
       secret.reloader.stakater.com/reload: *secret
     extraArgs:
-      - --annotation-prefix=external-dns.alpha.kubernetes.io/
       - --pihole-server=http://192.168.10.195
       - --gateway-name=envoy-internal
     policy: sync
