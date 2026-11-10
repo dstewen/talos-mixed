@@ -12,3 +12,4 @@ resources:
   - ./allow-openclaw-to-virtualmcpserver.yaml
   - ./allow-dragonfly-operator-control.yaml
   - ./allow-openclaw-to-mcp-gateway.yaml
+  - ./allow-dragonfly-management.yaml
