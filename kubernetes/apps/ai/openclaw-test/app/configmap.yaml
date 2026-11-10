@@ -39,7 +39,7 @@ data:
             }
           },
           "model": {
-            "primary": "google/gemini-3.1-flash-lite",
+            "primary": "dgx-cluster/Qwen/Qwen3.6-35B-A3B-FP8",
             "fallbacks": [
               "ollama-rig/gemma4:26b-a4b-it-qat",
               "ollama-rig/gemma4:12b-it-qat",
@@ -86,7 +86,7 @@ data:
             "workspace": "/home/node/.openclaw/workspace",
             "agentDir": "/home/node/.openclaw/agents/main/agent",
             "model": {
-              "primary": "ollama-rig/gemma4:26b-a4b-it-qat",
+              "primary": "dgx-cluster/Qwen/Qwen3.6-35B-A3B-FP8",
               "fallbacks": [
                 "ollama/gemma4:12b-it-qat"
               ]
@@ -120,7 +120,7 @@ data:
             "workspace": "/home/node/.openclaw/workspace-planner",
             "agentDir": "/home/node/.openclaw/agents/planner/agent",
             "model": {
-              "primary": "ollama-rig/gemma4:26b-a4b-it-qat",
+              "primary": "dgx-cluster/Qwen/Qwen3.6-35B-A3B-FP8",
               "fallbacks": [
                 "ollama/gemma4:12b-it-qat"
               ]
@@ -151,7 +151,7 @@ data:
             "workspace": "/home/node/.openclaw/workspace-ideator",
             "agentDir": "/home/node/.openclaw/agents/ideator/agent",
             "model": {
-              "primary": "ollama-rig/gemma4:26b-a4b-it-qat",
+              "primary": "dgx-cluster/Qwen/Qwen3.6-35B-A3B-FP8",
               "fallbacks": [
                 "ollama-rig/gemma4:e4b"
               ]
@@ -176,7 +176,7 @@ data:
             "workspace": "/home/node/.openclaw/workspace-critic",
             "agentDir": "/home/node/.openclaw/agents/critic/agent",
             "model": {
-              "primary": "ollama-rig/gemma4:26b-a4b-it-qat",
+              "primary": "dgx-cluster/Qwen/Qwen3.6-35B-A3B-FP8",
               "fallbacks": [
                 "ollama-rig/gemma4:e4b"
               ]
@@ -201,7 +201,7 @@ data:
             "workspace": "/home/node/.openclaw/workspace-surveyor",
             "agentDir": "/home/node/.openclaw/agents/surveyor/agent",
             "model": {
-              "primary": "ollama-rig/gemma4:26b-a4b-it-qat",
+              "primary": "dgx-cluster/Qwen/Qwen3.6-35B-A3B-FP8",
               "fallbacks": [
                 "ollama-rig/gemma4:e4b"
               ]
@@ -226,7 +226,7 @@ data:
             "workspace": "/home/node/.openclaw/workspace-coder",
             "agentDir": "/home/node/.openclaw/agents/coder/agent",
             "model": {
-              "primary": "ollama-rig/qwen3-coder:30b",
+              "primary": "dgx-cluster/Qwen/Qwen3.6-35B-A3B-FP8",
               "fallbacks": [
                 "ollama-rig/gemma4:12b-it-qat",
                 "ollama-rig/gpt-oss:20b",
@@ -270,7 +270,7 @@ data:
             "workspace": "/home/node/.openclaw/workspace-writer",
             "agentDir": "/home/node/.openclaw/agents/writer/agent",
             "model": {
-              "primary": "ollama-rig/gemma4:26b-a4b-it-qat",
+              "primary": "dgx-cluster/Qwen/Qwen3.6-35B-A3B-FP8",
               "fallbacks": [
                 "ollama-rig/gemma4:e4b"
               ]
@@ -295,7 +295,7 @@ data:
             "workspace": "/home/node/.openclaw/workspace-reviewer",
             "agentDir": "/home/node/.openclaw/agents/reviewer/agent",
             "model": {
-              "primary": "ollama-rig/gemma4:26b-a4b-it-qat",
+              "primary": "dgx-cluster/Qwen/Qwen3.6-35B-A3B-FP8",
               "fallbacks": [
                 "ollama-rig/gemma4:e4b"
               ]
@@ -320,7 +320,7 @@ data:
             "workspace": "/home/node/.openclaw/workspace-scout",
             "agentDir": "/home/node/.openclaw/agents/scout/agent",
             "model": {
-              "primary": "ollama-rig/gemma4:26b-a4b-it-qat",
+              "primary": "dgx-cluster/Qwen/Qwen3.6-35B-A3B-FP8",
               "fallbacks": [
                 "ollama-rig/gemma4:e4b"
               ]
