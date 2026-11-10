@@ -269,7 +269,7 @@ spec:
           gethomepage.dev/href: https://miso-test.davidstewen.com
           gethomepage.dev/icon: sh-openclaw.png
           gethomepage.dev/pod-selector: app.kubernetes.io/name=openclaw-test
-          internal-dns.alpha.kubernetes.io/target: internal.davidstewen.com
+          external-dns.kubernetes.io/target: internal.davidstewen.com
         hostnames: ["miso-test.davidstewen.com"]
         parentRefs:
           - name: envoy-internal
