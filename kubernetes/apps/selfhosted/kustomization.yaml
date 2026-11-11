@@ -15,4 +15,4 @@ resources:
   - ./n8n/ks.yaml
   - ./searxng/ks.yaml
   - ./webhook/ks.yaml
-  - ./wiki/ks.yaml
+  #  - ./wiki/ks.yaml
