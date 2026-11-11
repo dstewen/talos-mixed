@@ -146,12 +146,6 @@ spec:
               #              DOCKER_HOST: "tcp://localhost:2376"
               #              DOCKER_CERT_PATH: /certs/client
               #              DOCKER_TLS_VERIFY: "1"
-              - name: GITHUB_APP_ID
-                value: "${{ .GITHUB_APP_ID }}"
-              - name: GITHUB_APP_INSTALLATION_ID
-                value: "${{ .GITHUB_APP_INSTALLATION_ID }}"
-              - name: GITHUB_APP_PRIVATE_KEY
-                value: "${{ .github_app_private_key }}"
               - name: GOPATH
                 value: /home/node/go
               - name: HOME
