@@ -84,6 +84,8 @@ spec:
 
                 echo "Tool installation complete"
 
+                # Prevents OpenClaw's gateway from trying to self-fetch via the Envoy VIP and hitting the private IP block.
+                echo "127.0.0.1 miso-test.davidstewen.com" >> /etc/hosts
                 # Ensure config directory exists
                 mkdir -p /home/node/.openclaw
                 mkdir -p /home/node/.openclaw/agents/main/sessions
@@ -279,14 +281,13 @@ spec:
               - type: RequestHeaderModifier
                 requestHeaderModifier:
                   set:
-                    - name: X-Forwarded-For
-                      value: "10.200.15.27"
-                    - name: X-Real-IP
-                      value: "10.200.15.27"
                     - name: X-Forwarded-Proto
                       value: "https"
                     - name: X-Forwarded-Host
                       value: "miso-test.davidstewen.com"
+                  remove:
+                    - X-Forwarded-For
+                    - X-Real-IP
             backendRefs:
               - name: "{{ .Release.Name }}"
                 port: 18789
