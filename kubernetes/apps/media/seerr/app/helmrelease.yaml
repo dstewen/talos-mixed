@@ -86,7 +86,7 @@ spec:
           hajimari.io/appName: "Seerr"
           hajimari.io/enable: "true"
           hajimari.io/group: "Downloads"
-          internal-dns.alpha.kubernetes.io/target: internal.davidstewen.com
+          external-dns.kubernetes.io/target: internal.davidstewen.com
         hostnames: ["seerr.davidstewen.com"]
         parentRefs:
           - name: envoy-internal
