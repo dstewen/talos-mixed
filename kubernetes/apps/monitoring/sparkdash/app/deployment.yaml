@@ -40,6 +40,14 @@ spec:
               value: "production"
             - name: BIND_HOST
               value: "0.0.0.0"
+            # Power meters — uncomment when hardware is ready:
+            # - name: POWER_METERS_CONFIG_PATH
+            #   value: "/app/config/power-meters.json"
+            # - name: SPARKDASH_HA_TOKEN
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: sparkdash-ha-token
+            #       key: token
           command:
             - node
           args:
@@ -72,6 +80,9 @@ spec:
       volumes:
         - name: config
           emptyDir: {}
+          # Replace emptyDir with ConfigMap when power meters are ready:
+          # configMap:
+          #   name: sparkdash-power-meters
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:

@@ -1,0 +1,34 @@
+---
+# Power meters config — disabled until hardware is ready
+# To enable: uncomment the resource reference in kustomization.yaml
+# and update the sensor entity IDs and HA URL below
+# See: docs/POWER-METERS.md in MiaAI-Lab/sparkDash
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: sparkdash-power-meters
+  namespace: monitoring
+data:
+  # Uncomment when power meters are installed:
+  # power-meters.json: |
+  #   {
+  #     "meters": {
+  #       "ha": {
+  #         "type": "homeassistant",
+  #         "url": "https://homeassistant.local:8123"
+  #       }
+  #     },
+  #     "units": {
+  #       "spark-a": {
+  #         "meter": "ha",
+  #         "channel": "sensor.power_strip_outlet_3_power",
+  #         "since": "2026-11-01T00:00:00Z"
+  #       },
+  #       "spark-b": {
+  #         "meter": "ha",
+  #         "channel": "sensor.power_strip_outlet_4_power",
+  #         "since": "2026-11-01T00:00:00Z"
+  #       }
+  #     },
+  #     "pollIntervalMs": 10000
+  #   }
