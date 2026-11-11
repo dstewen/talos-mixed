@@ -254,14 +254,6 @@ spec:
                 matchExpressions:
                   - key: node-role.kubernetes.io/control-plane
                     operator: Exists
-      dnsConfig:
-        searches:
-          - miso-test.davidstewen.com
-          - .svc.cluster.local
-          - .pod.cluster.local
-        options:
-          - name: ndots
-            value: "5"
       shareProcessNamespace: true
       securityContext:
         runAsUser: 1000
