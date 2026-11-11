@@ -275,9 +275,21 @@ spec:
           - name: envoy-internal
             namespace: network
         rules:
-          - backendRefs:
+          - filters:
+              - type: RequestHeaderModifier
+                requestHeaderModifier:
+                  set:
+                    - name: X-Forwarded-For
+                      value: "10.200.15.27"
+                    - name: X-Real-IP
+                      value: "10.200.15.27"
+                    - name: X-Forwarded-Proto
+                      value: "https"
+                    - name: X-Forwarded-Host
+                      value: "miso-test.davidstewen.com"
+            backendRefs:
               - name: "{{ .Release.Name }}"
-                port: *port
+                port: 18789
 
       code-server:
         annotations:
@@ -297,6 +309,7 @@ spec:
           - backendRefs:
               - name: "{{ .Release.Name }}"
                 port: *codeserverPort
+
     rbac:
       roles:
         openclaw-test-read-all:
