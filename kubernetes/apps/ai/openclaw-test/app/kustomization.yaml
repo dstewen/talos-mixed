@@ -8,5 +8,5 @@ resources:
   - ./configmap.yaml
   - ./helmrelease.yaml
   - ./externalsecret.yaml
-  - ./pvc.yaml
+  #  - ./pvc.yaml
   - ./ocirepository.yaml

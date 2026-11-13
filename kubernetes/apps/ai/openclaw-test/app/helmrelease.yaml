@@ -427,7 +427,7 @@ spec:
       configmap:
         type: configMap
         name: "{{ .Release.Name }}-config"
-        defaultMode: 0644
+        defaultMode: 0755
         globalMounts:
           - path: /tmp/openclaw.json
             subPath: openclaw.json
@@ -441,43 +441,3 @@ spec:
           - path: /tmp
       #      certs:
       #        type: emptyDir
-      # Map workspaces - seperate PVC for each agent
-      ws-planner:
-        existingClaim: "openclaw-test-ws-planner"
-        globalMounts:
-          - path: /home/node/.openclaw/workspace-planner
-
-      ws-ideator:
-        existingClaim: "openclaw-test-ws-ideator"
-        globalMounts:
-          - path: /home/node/.openclaw/workspace-ideator
-
-      ws-critic:
-        existingClaim: "openclaw-test-ws-critic"
-        globalMounts:
-          - path: /home/node/.openclaw/workspace-critic
-
-      ws-surveyor:
-        existingClaim: "openclaw-test-ws-surveyor"
-        globalMounts:
-          - path: /home/node/.openclaw/workspace-surveyor
-
-      ws-coder:
-        existingClaim: "openclaw-test-ws-coder"
-        globalMounts:
-          - path: /home/node/.openclaw/workspace-coder
-
-      ws-writer:
-        existingClaim: "openclaw-test-ws-writer"
-        globalMounts:
-          - path: /home/node/.openclaw/workspace-writer
-
-      ws-reviewer:
-        existingClaim: "openclaw-test-ws-reviewer"
-        globalMounts:
-          - path: /home/node/.openclaw/workspace-reviewer
-
-      ws-scout:
-        existingClaim: "openclaw-test-ws-scout"
-        globalMounts:
-          - path: /home/node/.openclaw/workspace-scout
