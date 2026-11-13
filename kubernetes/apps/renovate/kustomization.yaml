@@ -8,4 +8,4 @@ components:
 resources:
   - ./namespace.yaml
   # Flux-Kustomizations
-  #  - ./renovate-operator/ks.yaml
+  - ./renovate-operator/ks.yaml
