@@ -28,7 +28,9 @@ spec:
     metrics:
       enabled: false
     networkPolicy:
-      ingress:
+      enabled: true
+      allowExternal: false
+      extraIngress:
         - from:
             - podSelector:
                 matchLabels:
