@@ -19,7 +19,10 @@ spec:
           passwordKey: VALKEY_PASSWORD
           permissions: "~* &* +@all"
     persistence:
-      enabled: false
+      enabled: true
+      size: 5Gi
+      storageClass: "ceph-block"
+      accessMode: ReadWriteOnce
     deploymentStrategy: Recreate
     fullnameOverride: ${APP}-valkey
     metrics:
