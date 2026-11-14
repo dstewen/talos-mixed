@@ -49,6 +49,6 @@ spec:
       limits:
         cpu: ${VALKEY_CPU_LIMIT:=500m}
         memory: ${VALKEY_MEMORY_LIMIT:=256Mi}
-    valkeyConfig: |-
+    extraConfig: |-
       maxmemory ${VALKEY_MAXMEMORY:=192mb}
       maxmemory-policy ${VALKEY_MAXMEMORY_POLICY:=allkeys-lru}
