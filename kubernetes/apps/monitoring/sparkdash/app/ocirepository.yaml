@@ -6,5 +6,5 @@ metadata:
 spec:
   interval: 15m
   ref:
-    tag: v2.32.0
-  url: oci://ghcr.io/dstewen/sparkdash
+    tag: 2.32.0
+  url: oci://ghcr.io/dstewen/containers/sparkdash
