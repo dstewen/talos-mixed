@@ -3,7 +3,7 @@ kind: VolumeConfig
 name: EPHEMERAL
 provisioning:
   diskSelector:
-    match: system_disk
+    match: disk.transport == "nvme"
   grow: false
   minSize: 500GiB
   maxSize: 500GiB
