@@ -1,0 +1,8 @@
+apiVersion: v1alpha1
+kind: UnattendedInstallConfig
+installer:
+  image: factory.talos.dev/metal-installer/5760cc6ac2e0fff294c0504bc4caa7b62f9bc76449541a899d5ac9373e4c60cd:v1.14.6
+provisioning:
+  diskSelector:
+    match: disk.transport == "nvme"
+  wipe: true

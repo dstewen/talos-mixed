@@ -168,3 +168,14 @@ nodes:
       mtu: 1500
       encryptDisk: false
       kernelModules: []
+  - host: "spark2"
+    ip: "10.200.15.72"
+    role: worker
+    schematicId: "@schematics/dgx.yaml"
+    data:
+      installDisk: "nvme0n1"
+      #      installDiskSerial: "S8C2NE0L208716"
+      macAddr: "4c:bb:47:ec:9c:99"
+      mtu: 1500
+      encryptDisk: false
+      kernelModules: []
