@@ -1,0 +1,248 @@
+version: v1alpha1
+debug: false
+persist: true
+machine:
+  type: worker
+  token: r67341.zdrq2j0sx63ody2r
+  ca:
+    crt: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJQakNCOGFBREFnRUNBaEJOQU1rbzZnVTl3MHY3ZFlQL0dQaENNQVVHQXl0bGNEQVFNUTR3REFZRFZRUUsKRXdWMFlXeHZjekFlRncweU5qRXdNRFl3TmpVek1USmFGdzB6TmpFd01ETXdOalV6TVRKYU1CQXhEakFNQmdOVgpCQW9UQlhSaGJHOXpNQ293QlFZREsyVndBeUVBaGNUbytwcFp5dGNTRWtZUW5pWWlqeDhpK1JXMzFuNTJGamZaCjBQU201K09qWVRCZk1BNEdBMVVkRHdFQi93UUVBd0lDaERBZEJnTlZIU1VFRmpBVUJnZ3JCZ0VGQlFjREFRWUkKS3dZQkJRVUhBd0l3RHdZRFZSMFRBUUgvQkFVd0F3RUIvekFkQmdOVkhRNEVGZ1FVc1puYmFMNWxFOXFHYlh0SQozRHUrcHFDRnFwOHdCUVlESzJWd0EwRUFTQkVSQjlMNHYyNy9TMVN1cE8vSXA1ZEZGNFJFZXNId2hxbTlhQy95CjkxSStWL3ZtZHBXVnVWd1ZjQllNTDh5bjVNM3hpemRkVWN5L2U0TW5ST1NDQmc9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    key: ""
+  certSANs:
+    - 127.0.0.1
+    - 10.200.15.254
+  features:
+    diskQuotaSupport: true
+cluster:
+  token: zmj34f.11jq7p6ziq5rlqhb
+---
+apiVersion: v1alpha1
+kind: DiscoveryServiceConfig
+name: default
+endpoint: https://discovery.talos.dev/
+---
+apiVersion: v1alpha1
+kind: DiscoveryIdentityConfig
+clusterID: Vto1gWTzASJqFRrEoAbhNHqGv70us8GoEysZoGtUR5I=
+clusterSecret: 9/fg/of3HOQpaWR6y0goJb1YYa4mdP334jxhi728I+4=
+---
+apiVersion: v1alpha1
+kind: ResolverConfig
+nameservers:
+  - address: 192.168.10.195
+  - address: 1.1.1.1
+searchDomains:
+  disableDefault: true
+hostDNS:
+  enabled: true
+  forwardKubeDNSToHost: true
+---
+apiVersion: v1alpha1
+kind: VolumeConfig
+name: EPHEMERAL
+provisioning:
+  diskSelector:
+    match: disk.transport == "nvme"
+  grow: false
+  minSize: 500GiB
+  maxSize: 500GiB
+mount:
+  secure: true
+---
+apiVersion: v1alpha1
+kind: FilesystemTrimConfig
+interval: 168h0m0s
+---
+apiVersion: v1alpha1
+kind: SecurityProfileConfig
+workloadIsolation: false
+---
+apiVersion: v1alpha1
+kind: HostnameConfig
+auto: "off"
+hostname: spark2
+---
+apiVersion: v1alpha1
+kind: KubeClusterConfig
+clusterName: kubernetes
+endpoint: https://10.200.15.254:6443
+---
+apiVersion: v1alpha1
+kind: KubeNodeConfig
+nodeIP:
+  validSubnets:
+    - 10.200.15.0/24
+---
+apiVersion: v1alpha1
+kind: KubeletConfig
+image: ghcr.io/siderolabs/kubelet:v1.37.2
+config:
+  crashLoopBackOff:
+    maxContainerRestartPeriod: 60s
+  imageMaximumGCAge: 168h
+  maxParallelImagePulls: 3
+  serializeImagePulls: false
+  shutdownGracePeriod: 90s
+  shutdownGracePeriodCriticalPods: 60s
+defaultRuntimeSeccompProfileEnabled: true
+---
+apiVersion: v1alpha1
+kind: KubeNetworkConfig
+dnsDomain: cluster.local
+podSubnets:
+  - 10.42.0.0/16
+serviceSubnets:
+  - 10.43.0.0/16
+---
+apiVersion: v1alpha1
+kind: KubeAPIServerCAConfig
+acceptedCAs:
+  - |
+    -----BEGIN CERTIFICATE-----
+    MIIBiDCCAS+gAwIBAgIQTE+NnWrfvqY7i7ZzOKzi2zAKBggqhkjOPQQDAjAVMRMw
+    EQYDVQQKEwprdWJlcm5ldGVzMB4XDTI2MTAwNjA2NTMxMloXDTM2MTAwMzA2NTMx
+    MlowFTETMBEGA1UEChMKa3ViZXJuZXRlczBZMBMGByqGSM49AgEGCCqGSM49AwEH
+    A0IABMHkofU8z9/tWzV11/N39Z/WHW8JAAtdzTRiybvRT1fUkxBULFb0hDEcH44N
+    1ro3wNrsZ3ROtIYmUL7kK1KkR6yjYTBfMA4GA1UdDwEB/wQEAwIChDAdBgNVHSUE
+    FjAUBggrBgEFBQcDAQYIKwYBBQUHAwIwDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4E
+    FgQU1esQMYD/B3R2czh6mUJO1JgKcgUwCgYIKoZIzj0EAwIDRwAwRAIgV8v45x6G
+    1ZAD84vbhyBtNw7a6oIJzIkUk4oQF6ue3g8CIFE5A4h9FC+iuQ+I8JLyEwruvSCS
+    v6IAO4mn/BIElN6N
+    -----END CERTIFICATE-----
+---
+apiVersion: v1alpha1
+kind: KubePrismConfig
+port: 7445
+---
+apiVersion: v1alpha1
+kind: UnattendedInstallConfig
+installer:
+  image: factory.talos.dev/metal-installer/5760cc6ac2e0fff294c0504bc4caa7b62f9bc76449541a899d5ac9373e4c60cd:v1.14.6
+provisioning:
+  diskSelector:
+    match: disk.transport == "nvme"
+  wipe: true
+---
+apiVersion: v1alpha1
+kind: LinkAliasConfig
+name: ethSel0
+selector:
+  match: glob("4c:bb:47:ec:9c:99", mac(link.hardware_addr))
+---
+apiVersion: v1alpha1
+kind: BondConfig
+name: bond0
+links:
+  - ethSel0
+bondMode: active-backup
+mtu: 1500
+addresses:
+  - address: 10.200.15.72/24
+routes:
+  - gateway: 10.200.15.1
+---
+apiVersion: v1alpha1
+kind: VLANConfig
+name: bond0.20
+vlanID: 20
+parent: bond0
+mtu: 1500
+---
+apiVersion: v1alpha1
+kind: VLANConfig
+name: bond0.30
+vlanID: 30
+parent: bond0
+mtu: 1500
+---
+apiVersion: v1alpha1
+kind: VLANConfig
+name: bond0.100
+vlanID: 100
+parent: bond0
+mtu: 1500
+---
+apiVersion: v1alpha1
+kind: VLANConfig
+name: bond0.110
+vlanID: 110
+parent: bond0
+mtu: 1500
+---
+apiVersion: v1alpha1
+kind: TimeSyncConfig
+ntp:
+  servers:
+    - 162.159.200.1
+    - 162.159.200.123
+---
+apiVersion: v1alpha1
+kind: SysctlConfig
+params:
+  fs.inotify.max_user_instances: "8192"
+  fs.inotify.max_user_watches: "1048576"
+  net.core.rmem_max: "7500000"
+  net.core.wmem_max: "7500000"
+  net.ipv4.neigh.default.gc_thresh1: "4096"
+  net.ipv4.neigh.default.gc_thresh2: "8192"
+  net.ipv4.neigh.default.gc_thresh3: "16384"
+  net.ipv4.tcp_slow_start_after_idle: "0"
+  user.max_user_namespaces: "11255"
+---
+apiVersion: v1alpha1
+kind: CRICustomizationConfig
+name: containerd
+content: |
+  [plugins."io.containerd.cri.v1.images"]
+    discard_unpacked_layers = false
+  [plugins."io.containerd.cri.v1.runtime"]
+    device_ownership_from_security_context = true
+---
+apiVersion: v1alpha1
+kind: FilesystemScrubConfig
+interval: 168h0m0s
+---
+apiVersion: v1alpha1
+kind: ExtensionServiceConfig
+name: nut-client
+configFiles:
+  - content: |-
+      MONITOR ups@192.168.10.23 1 upsmon_local mypassword secondary
+      SHUTDOWNCMD "/sbin/poweroff"
+    mountPath: /usr/local/etc/nut/upsmon.conf
+---
+apiVersion: v1alpha1
+kind: ExtensionServiceConfig
+name: lldpd
+configFiles:
+  - content: |-
+      configure lldp portidsubtype ifname
+      unconfigure lldp management-addresses-advertisements
+      unconfigure lldp capabilities-advertisements
+      configure system description "Talos Controller Node spark2"
+    mountPath: /usr/local/etc/lldpd/lldpd.conf
+---
+apiVersion: v1alpha1
+kind: UserVolumeConfig
+name: local-hostpath-3tb
+volumeType: partition
+provisioning:
+  diskSelector:
+    match: disk.model == "SAMSUNG MZALC4T0HBL1-00B07"
+  minSize: 3TB
+  maxSize: 3TB
+---
+apiVersion: v1alpha1
+kind: KernelModuleConfig
+name: nvidia
+---
+apiVersion: v1alpha1
+kind: KernelModuleConfig
+name: nvidia_uvm
+---
+apiVersion: v1alpha1
+kind: KernelModuleConfig
+name: nvidia_drm
+---
+apiVersion: v1alpha1
+kind: KernelModuleConfig
+name: nvidia_modeset

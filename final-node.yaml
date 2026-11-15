@@ -59,7 +59,7 @@ workloadIsolation: false
 apiVersion: v1alpha1
 kind: HostnameConfig
 auto: "off"
-hostname: spark1
+hostname: spark2
 ---
 apiVersion: v1alpha1
 kind: KubeClusterConfig
@@ -126,7 +126,7 @@ apiVersion: v1alpha1
 kind: LinkAliasConfig
 name: ethSel0
 selector:
-  match: glob("4c:bb:47:ec:9d:9e", mac(link.hardware_addr))
+  match: glob("4c:bb:47:ec:9c:99", mac(link.hardware_addr))
 ---
 apiVersion: v1alpha1
 kind: BondConfig
@@ -136,7 +136,7 @@ links:
 bondMode: active-backup
 mtu: 1500
 addresses:
-  - address: 10.200.15.71/24
+  - address: 10.200.15.72/24
 routes:
   - gateway: 10.200.15.1
 ---
@@ -218,7 +218,7 @@ configFiles:
       configure lldp portidsubtype ifname
       unconfigure lldp management-addresses-advertisements
       unconfigure lldp capabilities-advertisements
-      configure system description "Talos Controller Node spark1"
+      configure system description "Talos Controller Node spark2"
     mountPath: /usr/local/etc/lldpd/lldpd.conf
 ---
 apiVersion: v1alpha1
