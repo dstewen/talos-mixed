@@ -163,17 +163,8 @@ nodes:
     schematicId: "@schematics/dgx.yaml"
     data:
       installDisk: ""
+      installDiskSerial: "BTHH81000E09512D"
       macAddr: "4c:bb:47:ec:9d:9e"
-      mtu: 1500
-      encryptDisk: false
-      kernelModules: []
-  - host: "spark2"
-    ip: "10.200.15.72"
-    role: worker
-    schematicId: "@schematics/dgx.yaml"
-    data:
-      installDisk: ""
-      macAddr: "4c:bb:47:ec:9c:99"
       mtu: 1500
       encryptDisk: false
       kernelModules: []
