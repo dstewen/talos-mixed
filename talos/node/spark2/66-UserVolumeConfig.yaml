@@ -1,0 +1,9 @@
+apiVersion: v1alpha1
+kind: UserVolumeConfig
+name: local-hostpath-3tb
+volumeType: partition
+provisioning:
+  diskSelector:
+    match: disk.model == "SAMSUNG MZALC4T0HBL1-00B07"
+  minSize: 3TB
+  maxSize: 3TB
