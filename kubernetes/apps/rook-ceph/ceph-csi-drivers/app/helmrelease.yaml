@@ -10,6 +10,60 @@ spec:
     name: ceph-csi-drivers
   interval: 15m
   values:
+    operatorConfig:
+      driverSpecDefaults:
+        controllerPlugin:
+          resources:
+            attacher:
+              requests:
+                cpu: 100m
+                memory: 128Mi
+              limits:
+                memory: 256Mi
+            omapGenerator:
+              requests:
+                cpu: 250m
+                memory: 512Mi
+              limits:
+                memory: 1Gi
+            plugin:
+              requests:
+                cpu: 100m
+                memory: 512Mi
+              limits:
+                memory: 1Gi
+            provisioner:
+              requests:
+                cpu: 100m
+                memory: 128Mi
+              limits:
+                memory: 256Mi
+            resizer:
+              requests:
+                cpu: 100m
+                memory: 128Mi
+              limits:
+                memory: 256Mi
+            snapshotter:
+              requests:
+                cpu: 100m
+                memory: 128Mi
+              limits:
+                memory: 256Mi
+        nodePlugin:
+          resources:
+            plugin:
+              requests:
+                cpu: 250m
+                memory: 512Mi
+              limits:
+                memory: 1Gi
+            registrar:
+              requests:
+                cpu: 50m
+                memory: 128Mi
+              limits:
+                memory: 256Mi
     drivers:
       cephfs:
         enabled: true
@@ -20,6 +74,11 @@ spec:
           ms_mode: prefer-crc
         controllerPlugin:
           replicas: 2
+        nodePlugin:
+          tolerations: &pluginTolerations
+            - key: llm-workload
+              operator: Exists
+              effect: NoSchedule
       nfs:
         enabled: false
       nvmeof:
@@ -31,3 +90,5 @@ spec:
         snapshotPolicy: volumeSnapshot
         controllerPlugin:
           replicas: 2
+        nodePlugin:
+          tolerations: *pluginTolerations
