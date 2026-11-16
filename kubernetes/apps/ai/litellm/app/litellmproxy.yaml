@@ -1,22 +1,119 @@
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/litellm.home-operations.com/litellmproxy_v1alpha1.json
+---
+---
 apiVersion: litellm.home-operations.com/v1alpha1
 kind: LiteLLMProxy
 metadata:
   name: litellm
 spec:
-  # renovate: datasource=docker depName=ghcr.io/berriai/litellm
-  image: ghcr.io/berriai/litellm:v1.109.1@sha256:11175975a3093e05e92faee2fe2fe3412a3ae2fcaa849eb0fe25d5f0d8bcb2e9
-  replicas: 1
   applyMode: file
-  generalSettings:
-    health_check_endpoint: /v1/health
+  image: ghcr.io/berriai/litellm-database:v1.109.1@sha256:932c54440654f8f8466a85887612d95dcfb04ae2fc01257844332f4bf3b96986
+  replicas: 3
+  service:
+    port: 4000
+    type: ClusterIP
+  route:
+    hostnames:
+      - litellm.davidstewen.com
+    parentRefs:
+      - name: envoy-external
+        namespace: network
+        sectionName: https
+    filters:
+      - type: RequestHeaderModifier
+        requestHeaderModifier:
+          set:
+            - name: x-litellm-session-id
+              value: "%REQ(x-session-id)%"
+  env:
+    - name: AUTO_REDIRECT_UI_LOGIN_TO_SSO
+      value: "true"
+    - name: CHATGPT_TOKEN_DIR
+      value: /app/chatgpt_tokens
+    - name: DATABASE_URL
+      valueFrom:
+        secretKeyRef:
+          key: uri
+          name: litellm-app
+    - name: GENERIC_AUTHORIZATION_ENDPOINT
+      value: https://id.davidstewen.com/application/o/authorize/
+    - name: GENERIC_SCOPE
+      value: openid email profile litellm_role
+    - name: GENERIC_TOKEN_ENDPOINT
+      value: https://id.davidstewen.com/application/o/token/
+    - name: GENERIC_USERINFO_ENDPOINT
+      value: https://id.davidstewen.com/application/o/userinfo/
+    - name: GENERIC_USER_ROLE_ATTRIBUTE
+      value: litellm_role
+    - name: LITELLM_LOG
+      value: INFO
+    - name: LITELLM_MODE
+      value: PRODUCTION
+    - name: PROXY_BASE_URL
+      value: https://litellm.davidstewen.com
+    - name: PROXY_LOGOUT_URL
+      value: https://id.davidstewen.com/application/o/litellm/end-session/
+    - name: REDIS_HOST
+      value: litellm-dragonfly
+    - name: REDIS_PORT
+      value: "6379"
+  envFrom:
+    - secretRef:
+        name: litellm
+  resources:
+    requests:
+      cpu: 100m
+      memory: 1Gi
+    limits:
+      memory: 3Gi
+  livenessProbe:
+    httpGet:
+      path: /
+      port: 4000
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    failureThreshold: 30
+  readinessProbe:
+    httpGet:
+      path: /
+      port: 4000
+    initialDelaySeconds: 5
+    periodSeconds: 10
+    failureThreshold: 3
+  volumes:
+    - name: cache
+      emptyDir: {}
+    - name: ui
+      persistentVolumeClaim:
+        claimName: litellm
+  volumeMounts:
+    - name: cache
+      mountPath: /app/cache
+    - name: ui
+      mountPath: /app/chatgpt_tokens
   routerSettings:
-    routing_strategy: simple-shuffle
     redis_host: os.environ/REDIS_HOST
     redis_port: os.environ/REDIS_PORT
-    num_retries: 3
-    timeout: 600
+    routing_strategy: simple-shuffle
+    routing_groups:
+      - group_name: fn-least-busy
+        models:
+          - qwen36-35b-a3b-fp8
+        routing_strategy: least-busy
+    cooldown_time: 30
+    enable_pre_call_checks: true
+    # Gufo rejects a cache fork from a live session when the fork boundary
+    # misses an in-pass checkpoint position (400 "unsupported Flash-Next
+    # in-pass boundary"). The condition is transient — a single same-group
+    # retry lands after the live session's frontier moves. Scoped retries are
+    # not configurable per exception today, so accept one extra attempt on
+    # genuinely invalid requests.
+    retry_policy:
+      BadRequestErrorRetries: 1
+    fallbacks:
+      - auto:
+          - gemma4-26b-a4b-nvfp4
   litellmSettings:
     success_callback:
       - prometheus
@@ -33,112 +130,18 @@ spec:
       supported_call_types:
         - embedding
         - aembedding
-    drop_params: true
-    merge_reasoning_content_in_choices: true
-    set_verbose: true
-  #    # OIDC and Model List configuration
-  #    # Note: We use the 'model_list' to define the cloud models
-  #    model_list:
-  #      - model_name: gemini-1.5-pro
-  #        litellm_params:
-  #          model: gemini/gemini-1.5-pro
-  #          api_key: os.environ/GEMINI_API_KEY
-  #      - model_name: gemini-3.5-flash-lite
-  #        litellm_params:
-  #          model: gemini/gemini-3.5-flash-lite
-  #          api_key: os.environ/GEMINI_API_KEY
-  env:
-    - name: LITELLM_LOG
-      value: INFO
-    - name: LITELLM_MODE
-      value: PRODUCTION
-    - name: REDIS_HOST
-      value: litellm-dragonfly.ai.svc.cluster.local
-    - name: REDIS_PORT
-      value: "6379"
-    - name: LITELLM_MASTER_KEY
-      valueFrom:
-        secretKeyRef:
-          name: litellm-secret
-          key: LITELLM_MASTER_KEY
-    - name: GEMINI_API_KEY
-      valueFrom:
-        secretKeyRef:
-          name: litellm-secret
-          key: GEMINI_API_KEY
-    - name: GENERIC_CLIENT_ID
-      valueFrom:
-        secretKeyRef:
-          name: litellm-secret
-          key: GENERIC_CLIENT_ID
-    - name: GENERIC_CLIENT_SECRET
-      valueFrom:
-        secretKeyRef:
-          name: litellm-secret
-          key: GENERIC_CLIENT_SECRET
-    - name: GENERIC_AUTHORIZATION_ENDPOINT
-      valueFrom:
-        secretKeyRef:
-          name: litellm-secret
-          key: GENERIC_AUTHORIZATION_ENDPOINT
-    - name: GENERIC_TOKEN_ENDPOINT
-      valueFrom:
-        secretKeyRef:
-          name: litellm-secret
-          key: GENERIC_TOKEN_ENDPOINT
-    - name: GENERIC_USERINFO_ENDPOINT
-      valueFrom:
-        secretKeyRef:
-          name: litellm-secret
-          key: GENERIC_USERINFO_ENDPOINT
-    - name: GROQ_API_KEY
-      valueFrom:
-        secretKeyRef:
-          name: litellm-secret
-          key: GROQ_API_KEY
-    # Swagger is served at / by default, and litellm only registers the root
-    # redirect when DOCS_URL is off "/" — so moving the docs is what makes
-    # ROOT_REDIRECT_URL take effect, not just an aesthetic choice.
-    - name: DOCS_URL
-      value: /docs
-    - name: ROOT_REDIRECT_URL
-      value: /ui
-    # Must match the provider's property_mappings in
-    # terraform/authentik/litellm.tofu (openid/email/profile + litellm_role).
-    # LiteLLM defaults GENERIC_SCOPE to "openid email profile", so without this
-    # the custom litellm_role scope is never requested and Authentik never emits
-    # the claim - first login then lands as INTERNAL_USER_VIEW_ONLY.
-    - name: GENERIC_SCOPE
-      value: openid email profile litellm_role
-    # Claim name Authentik puts on the token/userinfo payload. LiteLLM defaults
-    # this to "role"; the image reads it via get_nested_value (ui_sso.py).
-    - name: GENERIC_USER_ROLE_ATTRIBUTE
-      value: litellm_role
-    # Send the UI straight to Authentik instead of showing the master-key form
-    # first. Master-key browser login moves to /fallback/login once this is on;
-    # API callers using the master key are unaffected.
-    - name: AUTO_REDIRECT_UI_LOGIN_TO_SSO
-      value: "false"
-    # Pair with auto-redirect: LiteLLM logout only clears the local UI session,
-    # so without an end-session hop the next /ui hit immediately re-authenticates
-    # against the still-live Authentik SSO cookie. Slug matches
-    # authentik_application.litellm.
-    - name: PROXY_LOGOUT_URL
-      value: https://id.davidstewen.com/application/o/litellm/end-session/
-    - name: PROXY_BASE_URL
-      value: https://litellm.davidstewen.com
-  resources:
-    requests:
-      cpu: 100m
-      memory: 256Mi
-    limits:
-      memory: 2Gi
-  service:
-    type: ClusterIP
-    port: 4000
-  route:
-    hostnames:
-      - litellm.davidstewen.com
-    parentRefs:
-      - name: envoy-internal
-        namespace: network
+    request_timeout: 900
+    num_retries: 2
+    retry_after: 5
+    set_verbose: false
+  generalSettings:
+    health_check_endpoint: /v1/health
+    store_model_in_db: false
+  extraConfig:
+    environment:
+      - REDIS_HOST
+      - REDIS_PORT
+  apiAccess:
+    masterKeyRef:
+      name: litellm
+      key: LITELLM_MASTER_KEY

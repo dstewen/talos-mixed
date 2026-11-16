@@ -11,6 +11,7 @@ spec:
       app.kubernetes.io/name: *app
   components:
     - ../../../../components/dragonfly
+    - ../../../../components/postgres
   dependsOn:
     - name: external-secrets
       namespace: external-secrets
@@ -19,6 +20,8 @@ spec:
     - name: dragonfly-operator
       namespace: database
     - name: litellm-operator
+      namespace: ai
+    - name: llmkube
       namespace: ai
   #  decryption:
   #    provider: sops
