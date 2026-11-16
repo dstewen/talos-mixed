@@ -28,11 +28,9 @@ spec:
     modelCache:
       enabled: true
       mode: shared
-      #      accessMode: ReadWriteMany
-      #      existingClaim: llmkube-models-cache
-      #      storageClass: ceph-filesystem
-      #      size: 200Gi
-      existingClaim: ${VOLSYNC_CLAIM}
+      accessMode: ReadWriteMany
+      storageClass: ceph-filesystem
+      size: 300Gi
     prometheus:
       inferencePodMonitor:
         enabled: true
