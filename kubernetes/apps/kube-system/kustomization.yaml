@@ -16,7 +16,7 @@ resources:
   - ./irqbalance/ks.yaml
   - ./metrics-server/ks.yaml
   - ./node-feature-discovery/ks.yaml
-  - ./nvidia-gpu-operator/ks.yaml
+  #  - ./nvidia-gpu-operator/ks.yaml
   - ./ocharted/ks.yaml
   - ./reloader/ks.yaml
   - ./spegel/ks.yaml
