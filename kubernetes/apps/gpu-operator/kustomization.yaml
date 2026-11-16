@@ -7,4 +7,4 @@ components:
 
 resources:
   - ./namespace.yaml
-  #  - ./nvidia-gpu-operator/ks.yaml
+  - ./nvidia-gpu-operator/ks.yaml
