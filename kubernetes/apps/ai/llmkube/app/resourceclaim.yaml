@@ -23,6 +23,6 @@ spec:
       requests:
         - name: gpu
           exactly:
-            deviceClassName: gpu.intel.com
+            deviceClassName: gpu.nvidia.com
             adminAccess: false
             allocationMode: All
