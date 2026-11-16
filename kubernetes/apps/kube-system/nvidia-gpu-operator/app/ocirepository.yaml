@@ -10,6 +10,6 @@ spec:
   url: oci://nvcr.io/nvidia/charts/gpu-operator
   ref:
     tag: v26.7.2 # Pin to specific version, update with Renovate
-#  provider: generic
-#  secretRef:
-#    name: nvcr-credentials  # Optional: if you need auth for nvcr.io
+  provider: generic
+  secretRef:
+    name: nvcr-secret # Optional: if you need auth for nvcr.io
