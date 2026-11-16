@@ -4,6 +4,8 @@ kind: Kustomization
 metadata:
   name: &app litellm
   namespace: &namespace ai
+  labels:
+    components.postgres/cnpg: init
 spec:
   targetNamespace: *namespace
   commonMetadata:
@@ -27,19 +29,22 @@ spec:
   #    provider: sops
   #    secretRef:
   #      name: sops-age
-  path: ./kubernetes/apps/ai/litellm/app
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-    namespace: flux-system
-  prune: true
-  wait: true
+  healthCheckExprs:
+    - apiVersion: postgresql.cnpg.io/v1
+      kind: Cluster
+      failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
+      current: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'True')
   interval: 1h
-  retryInterval: 2m
-  timeout: 5m
+  path: ./kubernetes/apps/ai/litellm/app
   postBuild:
     substituteFrom:
       - name: cluster-secrets
         kind: Secret
     substitute:
       APP: *app
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+    namespace: flux-system
+  wait: false
