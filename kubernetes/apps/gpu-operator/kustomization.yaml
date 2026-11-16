@@ -7,4 +7,5 @@ components:
 
 resources:
   - ./namespace.yaml
+  - ./dra-driver-nvidia-gpu/ks.yaml
   - ./nvidia-gpu-operator/ks.yaml
