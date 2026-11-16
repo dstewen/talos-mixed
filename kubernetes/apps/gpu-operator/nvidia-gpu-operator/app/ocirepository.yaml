@@ -6,7 +6,7 @@ metadata:
   namespace: gpu-operator
 spec:
   interval: 1h
-  url: oci://nvcr.io/nvidia/cloud-native-charts
+  url: oci://nvcr.io/nvidia/cloud-native-charts/gpu-operator
   ref:
     tag: v26.7.2 # Pin to specific version, update with Renovate
   provider: generic
