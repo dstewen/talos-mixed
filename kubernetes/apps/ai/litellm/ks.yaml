@@ -42,6 +42,10 @@ spec:
         kind: Secret
     substitute:
       APP: *app
+      VOLSYNC_CAPACITY: 500Gi
+      VOLSYNC_ACCESSMODES: ReadWriteMany
+      VOLSYNC_SNAPSHOTCLASS: csi-ceph-filesystem
+      VOLSYNC_STORAGECLASS: ceph-filesystem
   prune: true
   sourceRef:
     kind: GitRepository
