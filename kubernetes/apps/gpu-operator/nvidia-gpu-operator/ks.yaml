@@ -5,11 +5,11 @@ metadata:
   name: nvidia-gpu-operator
 spec:
   interval: 1h
-  path: ./kubernetes/apps/kube-system/nvidia-gpu-operator/app
+  path: ./kubernetes/apps/gpu-operator/nvidia-gpu-operator/app
   wait: true
   prune: true
   sourceRef:
     kind: GitRepository
     name: flux-system
     namespace: flux-system
-  targetNamespace: kube-system
+  targetNamespace: gpu-operator
