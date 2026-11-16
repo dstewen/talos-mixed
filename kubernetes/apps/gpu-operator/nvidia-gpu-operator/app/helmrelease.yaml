@@ -49,6 +49,12 @@ spec:
       enabled: false
 
     # ---------------------------------------------------------
+    # Use nvcr-secret for pulling images from NGC
+    operator:
+      imagePullSecrets:
+        - name: nvcr-secret
+
+    # ---------------------------------------------------------
     # DCGM Exporter for monitoring (kept enabled)
     # ---------------------------------------------------------
     dcgmExporter:
