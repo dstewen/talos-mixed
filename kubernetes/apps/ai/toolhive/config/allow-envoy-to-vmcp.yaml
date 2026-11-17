@@ -12,8 +12,6 @@ spec:
   ingress:
     - fromEndpoints:
         - matchLabels:
-            k8s:io.kubernetes.pod.namespace: network
-        - matchLabels:
             io.kubernetes.pod.namespace: network
       toPorts:
         - ports:
