@@ -30,10 +30,10 @@ metadata:
     krr/ignore: "true"
 spec:
   modelRef: gemma4-26b-a4b-nvfp4
-  modelCache:
-    claimName: llmkube-ganyu-cache
+  #  modelCache:
+  #    claimName: llmkube-ganyu-cache
   runtime: vllm
-  image: ghcr.io/eugr/spark-vllm:latest
+  image: eugr/spark-vllm-b12x@sha256:19ab778dd57f019c44caf5df91a671cf688923d1ca9fa8ce92be0c9acb46d215
   rolloutPolicy:
     waitForIdle: true
     idleTimeoutSeconds: 86400
