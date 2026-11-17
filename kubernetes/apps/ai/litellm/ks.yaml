@@ -30,6 +30,10 @@ spec:
   #    secretRef:
   #      name: sops-age
   healthCheckExprs:
+    - apiVersion: dragonflydb.io/v1alpha1
+      kind: Dragonfly
+      failed: status.phase != 'ready'
+      current: status.phase == 'ready'
     - apiVersion: postgresql.cnpg.io/v1
       kind: Cluster
       failed: status.conditions.filter(e, e.type == 'Ready').all(e, e.status == 'False')
@@ -42,7 +46,7 @@ spec:
         kind: Secret
     substitute:
       APP: *app
-      VOLSYNC_CAPACITY: 500Gi
+      VOLSYNC_CAPACITY: 1Gi
       VOLSYNC_ACCESSMODES: ReadWriteMany
       VOLSYNC_SNAPSHOTCLASS: csi-ceph-filesystem
       VOLSYNC_STORAGECLASS: ceph-filesystem
