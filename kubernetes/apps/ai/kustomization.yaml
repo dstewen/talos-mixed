@@ -15,8 +15,8 @@ resources:
   - ./github-mcp/ks.yaml
   #  - ./grafana-mcp/ks.yaml
   - ./ha-mcp/ks.yaml
-  - ./litellm/ks.yaml
-  - ./litellm-operator/ks.yaml
+  #  - ./litellm/ks.yaml
+  #  - ./litellm-operator/ks.yaml
   - ./llmkube/ks.yaml
   #  - ./local-ai/ks.yaml
   #  - ./k8sgpt/ks.yaml
