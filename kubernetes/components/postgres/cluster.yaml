@@ -46,9 +46,9 @@ spec:
   externalClusters:
     - name: *archive
       barmanObjectStore: &barman
-        destinationPath: s3://postgresql/${APP}
+        destinationPath: s3://cnpg18-per-app-backups/${APP}
         serverName: ${APP}
-        endpointURL: https://s3.jory.dev
+        endpointURL: http://192.168.10.198:9000
         s3Credentials:
           accessKeyId:
             name: ${APP}-postgres
