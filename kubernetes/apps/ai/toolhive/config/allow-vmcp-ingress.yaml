@@ -1,0 +1,27 @@
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: allow-vmcp-ingress
+  namespace: ai
+spec:
+  endpointSelector:
+    matchLabels:
+      app.kubernetes.io/name: virtualmcpserver
+      toolhive: "true"
+  ingress:
+    - fromEndpoints:
+        # Allow Envoy / Gateway ingress from the 'network' namespace
+        - matchLabels:
+            io.kubernetes.pod.namespace: network
+        # Allow openclaw-test in 'ai'
+        - matchLabels:
+            app.kubernetes.io/instance: openclaw-test
+            io.kubernetes.pod.namespace: ai
+        # Allow toolhive-operator in 'ai'
+        - matchLabels:
+            app.kubernetes.io/name: toolhive-operator
+            io.kubernetes.pod.namespace: ai
+      toPorts:
+        - ports:
+            - port: "4483"
+              protocol: TCP

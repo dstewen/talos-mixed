@@ -1,19 +1,25 @@
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/cilium.io/ciliumnetworkpolicy_v2.json
-apiVersion: "cilium.io/v2"
+apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
   name: allow-openclaw-test-envoy-network
-  namespace: ai # Placed inside the destination namespace
+  namespace: ai
 spec:
   endpointSelector:
     matchLabels:
-      instance: openclaw-test
+      app.kubernetes.io/instance: openclaw-test
   ingress:
     - fromEndpoints:
-        - {}
+        - matchLabels:
+            io.kubernetes.pod.namespace: network
+        - matchLabels:
+            io.kubernetes.pod.namespace: ai
       toPorts:
         - ports:
-            # Allows the operator to connect to Dragonfly management/admin ports
             - port: "18789"
+              protocol: TCP
+            - port: "18790"
+              protocol: TCP
+            - port: "18794"
               protocol: TCP
