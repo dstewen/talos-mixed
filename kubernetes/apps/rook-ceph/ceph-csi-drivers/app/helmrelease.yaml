@@ -68,6 +68,7 @@ spec:
       cephfs:
         enabled: true
         name: rook-ceph.cephfs.csi.ceph.com
+        fsGroupPolicy: File
         grpcTimeout: 150
         snapshotPolicy: volumeSnapshot
         kernelMountOptions:
@@ -76,8 +77,9 @@ spec:
           replicas: 2
         nodePlugin:
           tolerations: &pluginTolerations
-            - key: llm-workload
-              operator: Exists
+            - key: key
+              operator: Equal
+              value: llm-workload
               effect: NoSchedule
       nfs:
         enabled: false
