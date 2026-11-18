@@ -60,21 +60,20 @@ spec:
   endpoint:
     port: 8000
     type: ClusterIP
+  vllmConfig:
+    maxModelLen: 262144
+    maxNumBatchedTokens: 4096
+    gpuMemoryUtilization: 0.8
+    enablePrefixCaching: true
+    enableChunkedPrefill: true
+    kvCacheDtype: fp8
+    attentionBackend: FLASHINFER
+    toolCallParser: qwen3_xml
+    reasoningParser: qwen3
   extraArgs:
-    - --host 0.0.0.0
-    - --port 8000
-    - --max-model-len 262144
-    - --max-num-batched-tokens 4096
-    - --gpu-memory-utilization 0.8
-    - --enable-auto-tool-choice
-    - --tool-call-parser qwen3_xml
-    - --reasoning-parser qwen3
-    - --kv-cache-dtype fp8
-    - --load-format fastsafetensors
-    - --attention-backend flashinfer
-    - --enable-prefix-caching
-    - --enable-chunked-prefill
-    - --async-scheduling
+    - "--load-format"
+    - "fastsafetensors"
+    - "--async-scheduling"
   env:
     - name: VLLM_MARLIN_USE_ATOMIC_ADD
       value: "1"
