@@ -29,8 +29,8 @@ spec:
       requiredDuringSchedulingIgnoredDuringExecution:
         nodeSelectorTerms:
           - matchExpressions:
-              - key: topology.kubernetes.io/gpus
-                operator: DoesNotExist
+              - key: node-role.kubernetes.io/control-plane
+                operator: Exists
     topologyKey: kubernetes.io/hostname
     podAntiAffinityType: required
   postgresql:
