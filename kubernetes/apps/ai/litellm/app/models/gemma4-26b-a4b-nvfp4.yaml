@@ -45,6 +45,7 @@ spec:
   priority: high
   nodeSelector:
     nvidia.com/gpu.present: "true"
+  skipModelInit: true
   tolerations:
     - key: "key"
       operator: "Equal"
