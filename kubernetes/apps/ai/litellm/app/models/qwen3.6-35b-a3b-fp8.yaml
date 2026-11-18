@@ -18,7 +18,7 @@ spec:
     gpu:
       enabled: true
       vendor: nvidia
-      count: 2
+      count: 1
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/inference.llmkube.dev/inferenceservice_v1alpha1.json
 # InferenceService: vLLM serving for Qwen3.6-35B-A3B-FP8
@@ -70,7 +70,6 @@ spec:
     - --load-format fastsafetensors
     - --attention-backend flashinfer
     - --enable-prefix-caching
-    - --tensor-parallel-size 2
     - --enable-chunked-prefill
     - --async-scheduling
   env:
