@@ -85,8 +85,6 @@ spec:
     - "fp8"
     - "--max-num-batched-tokens"
     - "4096"
-    - "--speculative-config"
-    - '{"method":"mtp","model":"google/gemma-4-26B-A4B-it-assistant","num_speculative_tokens":4,"moe_backend":"triton"}'
   probeOverrides:
     startup:
       httpGet:
