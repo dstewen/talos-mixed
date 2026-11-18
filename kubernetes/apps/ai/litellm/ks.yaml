@@ -14,6 +14,7 @@ spec:
   components:
     - ../../../../components/dragonfly
     - ../../../../components/postgres
+    - ../../../../components/volsync
   dependsOn:
     - name: external-secrets
       namespace: external-secrets
@@ -41,9 +42,6 @@ spec:
   interval: 1h
   path: ./kubernetes/apps/ai/litellm/app
   postBuild:
-    substituteFrom:
-      - name: cluster-secrets
-        kind: Secret
     substitute:
       APP: *app
       VOLSYNC_CAPACITY: 1Gi
