@@ -42,9 +42,10 @@ spec:
   nodeSelector:
     nvidia.com/gpu.present: "true"
   tolerations:
-    - key: nvidia.com/gpu
-      operator: Exists
-      effect: NoSchedule
+    - key: "key"
+      operator: "Equal"
+      value: "llm-workload"
+      effect: "NoSchedule"
   contextSize: 262144
   parallelSlots: 2
   batchSize: 4096
