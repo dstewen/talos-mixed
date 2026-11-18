@@ -86,7 +86,7 @@ data:
             "workspace": "/home/node/.openclaw/workspace",
             "agentDir": "/home/node/.openclaw/agents/main/agent",
             "model": {
-              "primary": "dgx-cluster/Qwen/Qwen3.6-35B-A3B-FP8",
+              "primary": "litellm/qwen36-35b-a3b-fp8",
               "fallbacks": [
                 "ollama/gemma4:12b-it-qat"
               ]
@@ -120,7 +120,7 @@ data:
             "workspace": "/home/node/.openclaw/workspace-planner",
             "agentDir": "/home/node/.openclaw/agents/planner/agent",
             "model": {
-              "primary": "dgx-cluster/Qwen/Qwen3.6-35B-A3B-FP8",
+              "primary": "litellm/qwen36-35b-a3b-fp8",
               "fallbacks": [
                 "ollama/gemma4:12b-it-qat"
               ]
@@ -151,7 +151,7 @@ data:
             "workspace": "/home/node/.openclaw/workspace-ideator",
             "agentDir": "/home/node/.openclaw/agents/ideator/agent",
             "model": {
-              "primary": "dgx-cluster/Qwen/Qwen3.6-35B-A3B-FP8",
+              "primary": "litellm/qwen36-35b-a3b-fp8",
               "fallbacks": [
                 "ollama-rig/gemma4:e4b"
               ]
@@ -226,7 +226,7 @@ data:
             "workspace": "/home/node/.openclaw/workspace-coder",
             "agentDir": "/home/node/.openclaw/agents/coder/agent",
             "model": {
-              "primary": "dgx-cluster/Qwen/Qwen3.6-35B-A3B-FP8",
+              "primary": "litellm/qwen36-35b-a3b-fp8",
               "fallbacks": [
                 "ollama-rig/gemma4:12b-it-qat",
                 "ollama-rig/gpt-oss:20b",
@@ -270,7 +270,7 @@ data:
             "workspace": "/home/node/.openclaw/workspace-writer",
             "agentDir": "/home/node/.openclaw/agents/writer/agent",
             "model": {
-              "primary": "dgx-cluster/Qwen/Qwen3.6-35B-A3B-FP8",
+              "primary": "litellm/qwen36-35b-a3b-fp8",
               "fallbacks": [
                 "ollama-rig/gemma4:e4b"
               ]
@@ -295,7 +295,7 @@ data:
             "workspace": "/home/node/.openclaw/workspace-reviewer",
             "agentDir": "/home/node/.openclaw/agents/reviewer/agent",
             "model": {
-              "primary": "dgx-cluster/Qwen/Qwen3.6-35B-A3B-FP8",
+              "primary": "litellm/qwen36-35b-a3b-fp8",
               "fallbacks": [
                 "ollama-rig/gemma4:e4b"
               ]
@@ -320,7 +320,7 @@ data:
             "workspace": "/home/node/.openclaw/workspace-scout",
             "agentDir": "/home/node/.openclaw/agents/scout/agent",
             "model": {
-              "primary": "dgx-cluster/Qwen/Qwen3.6-35B-A3B-FP8",
+              "primary": "litellm/qwen36-35b-a3b-fp8",
               "fallbacks": [
                 "ollama-rig/gemma4:e4b"
               ]
@@ -445,7 +445,7 @@ data:
         "providers": {
           "litellm": {
             "baseUrl": "http://litellm.ai.svc.cluster.local:4000/v1",
-            "apiKey": "sk-dVujhw0SK5rF1FAyQG-dmQ",
+            "apiKey": "sk-9cAaHC_X5mJ1INnuTkZSFg",
             "api": "openai-completions",
             "timeoutSeconds": 1800,
             "models": [
@@ -468,6 +468,18 @@ data:
                 "contextWindow": 1048576,
                 "maxTokens": 131072,
                 "compat": { "supportsUsageInStreaming": true }
+              },
+              {
+                "id": "qwen36-35b-a3b-fp8",
+                "name": "Qwen 3.6 35B A3B FP8 (litellm)",
+                "reasoning": true,
+                "input": ["text", "image"],
+                "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+                "contextWindow": 262144,
+                "maxTokens": 4096,
+                "params": {
+                  "num_ctx": 262144
+                }
               },
               {
                 "id": "qwen3.8-flash-next",
