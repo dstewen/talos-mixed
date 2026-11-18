@@ -19,6 +19,9 @@ spec:
       enabled: true
       vendor: nvidia
       count: 1
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: llmkube-models-gpu
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/inference.llmkube.dev/inferenceservice_v1alpha1.json
 # InferenceService: vLLM serving for Qwen3.6-35B-A3B-FP8

@@ -20,6 +20,12 @@ spec:
     remediation:
       retries: 0
   values:
+    daemonsets:
+      tolerations:
+        - key: key
+          operator: Equal
+          value: llm-workload
+          effect: NoSchedule
     # Talos provides NVIDIA drivers via system extensions
     driver:
       enabled: false
