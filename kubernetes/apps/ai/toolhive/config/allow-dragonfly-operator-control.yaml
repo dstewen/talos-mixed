@@ -1,20 +1,19 @@
-apiVersion: "cilium.io/v2"
+apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy
 metadata:
   name: allow-dragonfly-operator-control
-  namespace: ai # Placed inside the destination namespace
+  namespace: ai
 spec:
   endpointSelector:
     matchLabels:
-      app: toolhive-operator-config-dragonfly
+      app.kubernetes.io/name: dragonfly
+      app.kubernetes.io/part-of: dragonfly
   ingress:
     - fromEndpoints:
         - matchLabels:
-            # Matches the source namespace label injected by Cilium
+            app.kubernetes.io/name: dragonfly-operator
             io.kubernetes.pod.namespace: database
-            app: dragonfly-operator
       toPorts:
         - ports:
-            # Allows the operator to connect to Dragonfly management/admin ports
             - port: "9999"
               protocol: TCP
