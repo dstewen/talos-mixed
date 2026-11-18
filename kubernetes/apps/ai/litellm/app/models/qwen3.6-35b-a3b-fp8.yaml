@@ -38,7 +38,8 @@ spec:
   runtime: vllm
   image: eugr/spark-vllm-b12x@sha256:19ab778dd57f019c44caf5df91a671cf688923d1ca9fa8ce92be0c9acb46d215
   rolloutPolicy:
-    waitForIdle: true
+    #    waitForIdle: true
+    force: true
     idleTimeoutSeconds: 86400
   replicas: 1
   priority: high
