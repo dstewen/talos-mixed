@@ -5,6 +5,13 @@ kind: LiteLLMProxy
 metadata:
   name: litellm
 spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: node-role.kubernetes.io/control-plane
+                operator: Exists
   applyMode: file
   image: ghcr.io/berriai/litellm-database:1.110.0@sha256:f52042e5144a4bb452c8d5232aa894117e1500164e3c6d4dfa088d79eefaa632
   replicas: 3
