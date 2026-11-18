@@ -17,5 +17,5 @@ spec:
             toolhive-name: kubectl
       toPorts:
         - ports:
-            - port: "8080"
+            - port: "8000"
               protocol: TCP
