@@ -62,6 +62,8 @@ spec:
     port: 8000
     type: ClusterIP
   extraArgs:
+    - "--max-num-seqs"
+    - "2"
     - "--max-model-len"
     - "262144"
     - "--gpu-memory-utilization"
@@ -82,8 +84,6 @@ spec:
     - "fp8"
     - "--max-num-batched-tokens"
     - "4096"
-    - "--distributed-executor-backend"
-    - "ray"
     - "--speculative-config"
     - '{"method":"mtp","model":"google/gemma-4-26B-A4B-it-assistant","num_speculative_tokens":4,"moe_backend":"triton"}'
   probeOverrides:
