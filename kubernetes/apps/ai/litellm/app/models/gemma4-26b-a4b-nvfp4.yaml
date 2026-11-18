@@ -83,6 +83,8 @@ spec:
     - "fp8"
     - "--max-num-batched-tokens"
     - "4096"
+    - "--enforce-eager"
+    - "--compilation-config"
   probeOverrides:
     startup:
       httpGet:
