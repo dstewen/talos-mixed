@@ -17,7 +17,10 @@ spec:
     gpu:
       enabled: true
       vendor: nvidia
-      count: 2
+      count: 1
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: llmkube-models-gpu
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/inference.llmkube.dev/inferenceservice_v1alpha1.json
 # Recipe: nvidia/Gemma-4-26B-A4B-NVFP4
@@ -35,7 +38,8 @@ spec:
   runtime: vllm
   image: eugr/spark-vllm-b12x@sha256:19ab778dd57f019c44caf5df91a671cf688923d1ca9fa8ce92be0c9acb46d215
   rolloutPolicy:
-    waitForIdle: true
+    #    waitForIdle: true
+    force: true
     idleTimeoutSeconds: 86400
   replicas: 1
   priority: high
@@ -51,26 +55,38 @@ spec:
   batchSize: 4096
   uBatchSize: 4096
   resources:
-    cpu: "1000m"
-    memory: "16Gi"
+    cpu: "2000m"
+    memory: "32Gi"
   endpoint:
     port: 8000
     type: ClusterIP
   extraArgs:
-    - --max-model-len 262144
-    - --gpu-memory-utilization 0.7
-    - --port 8000
-    - --host 0.0.0.0
-    - --load-format instanttensor
-    - --enable-prefix-caching
-    - --enable-auto-tool-choice
-    - --tool-call-parser gemma4
-    - --reasoning-parser gemma4
-    - --kv-cache-dtype fp8
-    - --max-num-batched-tokens 4096
-    - --tensor-parallel-size 2
-    - --distributed-executor-backend ray
-    - --speculative-config '{"method":"mtp","model":"google/gemma-4-26B-A4B-it-assistant","num_speculative_tokens":4,"moe_backend":"triton"}'
+    - "--max-model-len"
+    - "262144"
+    - "--gpu-memory-utilization"
+    - "0.7"
+    - "--port"
+    - "8000"
+    - "--host"
+    - "0.0.0.0"
+    - "--load-format"
+    - "instanttensor"
+    - "--enable-prefix-caching"
+    - "--enable-auto-tool-choice"
+    - "--tool-call-parser"
+    - "gemma4"
+    - "--reasoning-parser"
+    - "gemma4"
+    - "--kv-cache-dtype"
+    - "fp8"
+    - "--max-num-batched-tokens"
+    - "4096"
+    - "--tensor-parallel-size"
+    - "2"
+    - "--distributed-executor-backend"
+    - "ray"
+    - "--speculative-config"
+    - '{"method":"mtp","model":"google/gemma-4-26B-A4B-it-assistant","num_speculative_tokens":4,"moe_backend":"triton"}'
   probeOverrides:
     startup:
       httpGet:
