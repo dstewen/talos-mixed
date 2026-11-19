@@ -2292,7 +2292,7 @@ data:
         "bash": false,
         "allowFrom": { "discord": ["user:$${MY_DISCORD_USERID}"] },
         "restart": true,
-        "ownerAllowFrom": ["discord:$${MY_DISCORD_USERID}"]
+        "ownerAllowFrom": ["discord:user:376208104494465048"]
       },
       "hooks": {
         "internal": {
