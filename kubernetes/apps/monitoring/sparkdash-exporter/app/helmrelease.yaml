@@ -19,8 +19,16 @@ spec:
   values:
     fullnameOverride: *app
     defaultPodOptions:
-      nodeSelector:
-        kubernetes.io/arch: arm64
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node.kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - spark1
+                      - spark2
       runtimeClassName: nvidia
       tolerations:
         - key: key
