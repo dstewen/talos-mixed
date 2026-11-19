@@ -2148,7 +2148,6 @@ data:
           "memory-wiki",
           "ollama",
           "searxng",
-          "skill-workshop",
           "slack",
           "telegram",
           "vllm",
@@ -2213,14 +2212,6 @@ data:
               }
             }
           },
-          "skill-workshop": {
-            "enabled": true,
-            "config": {
-              "autonomous": {
-                "mode": "propose"
-              }
-            }
-          },
           "workboard": {
             "enabled": true
           }
@@ -2254,6 +2245,11 @@ data:
         "install": {
           "preferBrew": true,
           "nodeManager": "npm"
+        },
+        "workshop": {
+          "autonomous": {
+            "mode": "auto"
+          }
         },
         "entries": {
           "1password": {
