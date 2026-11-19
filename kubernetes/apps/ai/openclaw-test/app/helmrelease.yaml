@@ -198,7 +198,7 @@ spec:
               - name: TZ
                 value: "$${TIMEZONE}"
               - name: LITELLM_API_KEY
-                value: "sk-dVujhw0SK5rF1FAyQG-dmQ"
+                value: "sk-9cAaHC_X5mJ1INnuTkZSFg"
               - name: VLLM_API_KEY
                 value: "$${VLLM_API_KEY}"
               - name: XDG_CACHE_HOME
