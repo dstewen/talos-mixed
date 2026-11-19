@@ -21,6 +21,7 @@ spec:
     defaultPodOptions:
       nodeSelector:
         kubernetes.io/arch: arm64
+      runtimeClassName: nvidia
       tolerations:
         - key: key
           operator: Equal
