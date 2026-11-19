@@ -138,6 +138,9 @@ spec:
               - /bin/sh
               - -c
               - |
+                # Ensure all newly created files/dirs default to 0600/0700 (no group/world access)
+                umask 0077
+
                 # Strip Kubernetes fsGroup setgid/group-write bits so OpenClaw accepts credential directories
                 chmod 00700 /home/node /home/node/.openclaw 2>/dev/null || true
                 chmod -R go-rwx /home/node/.openclaw/credentials /home/node/.openclaw/state 2>/dev/null || true
@@ -148,6 +151,12 @@ spec:
                 node dist/index.js plugins install "clawhub:@openclaw/discord" --force --accept-capabilities
                 node dist/index.js plugins install "clawhub:@openclaw/searxng-plugin" --force --accept-capabilities
                 node dist/index.js plugins install "clawhub:@openclaw/mistral-provider" --force --accept-capabilities
+
+                # Re-harden permissions right before gateway boots (catches any 0644 files written during plugin install)
+                chmod 00700 /home/node /home/node/.openclaw 2>/dev/null || true
+                find /home/node/.openclaw -type d -exec chmod 00700 {} + 2>/dev/null || true
+                find /home/node/.openclaw -type f -exec chmod 00600 {} + 2>/dev/null || true
+
                 # Start gateway
                 exec node dist/index.js gateway --bind lan
             env:
