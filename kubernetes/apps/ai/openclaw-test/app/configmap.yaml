@@ -29,7 +29,8 @@ data:
       "agents": {
         "ownership": "explicit",
         "defaults": {
-          "systemAgent": { agentId: "main" },
+          "utilityModel": "google/gemini-2.5-flash",
+          "systemAgent": { "agentId": "main" },
           "compaction": {
             "keepRecentTokens": 4000,
             "notifyUser": true,
@@ -2136,7 +2137,6 @@ data:
       "plugins": {
         "enabled": true,
         "allow": [
-          "1password",
           "browser",
           "diagnostics-otel",
           "discord",
@@ -2148,6 +2148,7 @@ data:
           "memory-wiki",
           "ollama",
           "searxng",
+          "skill-workshop",
           "slack",
           "telegram",
           "vllm",
@@ -2209,6 +2210,14 @@ data:
                 "preserveHumanBlocks": true,
                 "createBacklinks": true,
                 "createDashboards": true
+              }
+            }
+          },
+          "skill-workshop": {
+            "enabled": true,
+            "config": {
+              "autonomous": {
+                "mode": "propose"
               }
             }
           },
