@@ -58,9 +58,15 @@ spec:
   resources:
     cpu: "2000m"
     memory: "32Gi"
+    memoryLimit: "112Gi"
   endpoint:
     port: 8000
     type: ClusterIP
+  env:
+    - name: MAX_JOBS
+      value: "4"
+    - name: CMAKE_BUILD_PARALLEL_LEVEL
+      value: "4"
   extraArgs:
     - "--max-num-seqs"
     - "2"
