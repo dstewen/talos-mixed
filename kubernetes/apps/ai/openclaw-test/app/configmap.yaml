@@ -30,10 +30,9 @@ data:
         "ownership": "explicit",
         "defaults": {
         "utilityModel": {
-          "primary": "litellm/qwen36-35b-a3b-fp8",
+          "primary": "ollama-rig/gemma4:e4b",
           "fallbacks": [
-            "ollama-rig/gemma4:12b-it-qat",
-            "ollama-rig/qwen3.5:9b"
+            "ollama-rig/gemma4:26b-a4b-it-qat"
           ]
         },
           "systemAgent": { "agentId": "main" },
