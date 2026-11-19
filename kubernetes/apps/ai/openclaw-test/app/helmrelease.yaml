@@ -103,6 +103,8 @@ spec:
                 chmod 400 /home/node/.openclaw/openclaw.json
                 chmod +t /tmp
                 chmod go-w /home/node
+                mkdir -p /home/node/.cache/
+                chown -R 1000:1000 /home/node/
                 echo "Init container completed successfully"
             env:
               TERM: xterm-256color
