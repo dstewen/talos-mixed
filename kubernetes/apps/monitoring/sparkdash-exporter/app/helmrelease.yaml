@@ -1,0 +1,70 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: &app sparkdash-exporter
+spec:
+  interval: 1h
+  chartRef:
+    kind: OCIRepository
+    name: sparkdash-exporter
+  install:
+    remediation:
+      retries: -1
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  values:
+    fullnameOverride: *app
+    defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - spark1
+                      - spark2
+    controllers:
+      sparkdash-exporter:
+        type: daemonset
+        containers:
+          app:
+            image:
+              repository: ghcr.io/dstewen/containers/sparkdash-exporter
+              tag: "1.0.0@sha256:b39483faaa9eabae0610911f98667451c70e685cf514073f277f309327d2a88a"
+            env:
+              PORT: "9100"
+              ESPORT: "2222"
+              NODE_ENV: production
+              ES_ACCEPT_PASSWORD: "1" # ← enable password auth on SSH server
+            envFrom:
+              - secretRef:
+                  name: sparkdash-exporter-secret # ← SSH password from external secret
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities:
+                drop:
+                  - ALL
+            resources:
+              requests:
+                cpu: 10m
+                memory: 64Mi
+              limits:
+                memory: 128Mi
+    service:
+      app:
+        ports:
+          metrics:
+            port: 9100
+            protocol: TCP
+            enabled: true
+          ssh:
+            port: 2222
+            protocol: TCP
+            enabled: true
