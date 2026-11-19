@@ -134,16 +134,16 @@ spec:
             image:
               repository: ghcr.io/openclaw/openclaw
               tag: 2026.11.5@sha256:9c74476e3e79b5a1595fd5cf904286eaba3471c10c640aaa9a361a89b41d0882
-            command:
-              - /bin/sh
-              - -c
-              - |
-                # Install non-bundled ClawHub plugins
-                node dist/index.js plugins install "clawhub:@openclaw/discord" --force --accept-capabilities
-                node dist/index.js plugins install "clawhub:@openclaw/searxng-plugin" --force --accept-capabilities
-                node dist/index.js plugins install "clawhub:@openclaw/mistral-provider" --force --accept-capabilities
-                # Start gateway
-                exec node dist/index.js gateway --bind lan
+            command: ["sleep", "infinity"]
+            #              - /bin/sh
+            #              - -c
+            #              - |
+            #                # Install non-bundled ClawHub plugins
+            #                node dist/index.js plugins install "clawhub:@openclaw/discord" --force --accept-capabilities
+            #                node dist/index.js plugins install "clawhub:@openclaw/searxng-plugin" --force --accept-capabilities
+            #                node dist/index.js plugins install "clawhub:@openclaw/mistral-provider" --force --accept-capabilities
+            #                # Start gateway
+            #                exec node dist/index.js gateway --bind lan
             env:
               #              BROWSER_WS_ENDPOINT: "ws://localhost:9222"
               #              DOCKER_HOST: "tcp://localhost:2376"
