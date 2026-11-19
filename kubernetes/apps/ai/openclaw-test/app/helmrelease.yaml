@@ -138,6 +138,10 @@ spec:
               - /bin/sh
               - -c
               - |
+                # Strip Kubernetes fsGroup setgid/group-write bits so OpenClaw accepts credential directories
+                chmod 00700 /home/node /home/node/.openclaw 2>/dev/null || true
+                chmod -R go-rwx /home/node/.openclaw/credentials /home/node/.openclaw/state 2>/dev/null || true
+
                 # Install non-bundled ClawHub plugins
                 node dist/index.js plugins install "clawhub:@openclaw/discord" --force --accept-capabilities
                 node dist/index.js plugins install "clawhub:@openclaw/searxng-plugin" --force --accept-capabilities
