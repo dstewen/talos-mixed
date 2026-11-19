@@ -102,6 +102,7 @@ spec:
                 chown -R 1000:1000 /home/node/.local/bin
                 chmod 400 /home/node/.openclaw/openclaw.json
                 chmod +t /tmp
+                chmod go-w /home/node
                 echo "Init container completed successfully"
             env:
               TERM: xterm-256color
