@@ -26,4 +26,5 @@ resources:
   #  - opencode-go-glm-5-2.yaml
   #  - opencode-go-qwen3-6-plus.yaml
   #  - opencode-go-qwen3-7-max.yaml
+  - qwen3-coder-next-fp8.yaml
   - qwen3.6-35b-a3b-fp8.yaml
