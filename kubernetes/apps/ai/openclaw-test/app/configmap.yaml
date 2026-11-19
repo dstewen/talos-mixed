@@ -63,12 +63,6 @@ data:
               "ollama/qwen3-coder-next:q4_K_M"
             ]
           },
-          "heartbeat": {
-            "every": "15217s",
-            "model": "ollama-rig/gemma4:e4b",
-            "isolatedSession": true,
-            "lightContext": true
-          },
           "userTimezone": "Australia/Melbourne",
           "maxConcurrent": 4,
           "subagents": {
@@ -137,13 +131,6 @@ data:
             },
             "groupChat": {
               "mentionPatterns": ["@planner", "planner", "@Planner"]
-            },
-            "heartbeat": {
-              "every": "15317s",
-              "target": "discord",
-              "directPolicy": "allow",
-              "to": "channel:$${DISCORD_PLANNER_CHANNEL_ID}",
-              "activeHours": { "start": "06:00", "end": "22:00" }
             }
           },
           "ideator": {
@@ -162,13 +149,6 @@ data:
             },
             "groupChat": {
               "mentionPatterns": ["@idea", "@ideator"]
-            },
-            "heartbeat": {
-              "every": "15417s",
-              "target": "discord",
-              "directPolicy": "allow",
-              "to": "channel:$${DISCORD_IDEATOR_CHANNEL_ID}",
-              "activeHours": { "start": "06:00", "end": "22:00" }
             }
           },
           "critic": {
@@ -187,13 +167,6 @@ data:
             },
             "groupChat": {
               "mentionPatterns": ["@critic", "@Critic"]
-            },
-            "heartbeat": {
-              "every": "15517s",
-              "target": "discord",
-              "directPolicy": "allow",
-              "to": "channel:$${DISCORD_CRITIC_CHANNEL_ID}",
-              "activeHours": { "start": "06:00", "end": "22:00" }
             }
           },
           "surveyor": {
@@ -212,13 +185,6 @@ data:
             },
             "groupChat": {
               "mentionPatterns": ["@surveyor", "@survey"]
-            },
-            "heartbeat": {
-              "every": "15617s",
-              "target": "discord",
-              "directPolicy": "allow",
-              "to": "channel:$${DISCORD_SURVEYOR_CHANNEL_ID}",
-              "activeHours": { "start": "06:00", "end": "22:00" }
             }
           },
           "coder": {
@@ -256,13 +222,6 @@ data:
             },
             "groupChat": {
               "mentionPatterns": ["@coder", "@devops"]
-            },
-            "heartbeat": {
-              "every": "15717s",
-              "target": "discord",
-              "directPolicy": "allow",
-              "to": "channel:$${DISCORD_CODER_CHANNEL_ID}",
-              "activeHours": { "start": "06:00", "end": "22:00" }
             }
           },
           "writer": {
@@ -281,13 +240,6 @@ data:
             },
             "groupChat": {
               "mentionPatterns": ["@writer", "@Writer"]
-            },
-            "heartbeat": {
-              "every": "15817s",
-              "target": "discord",
-              "directPolicy": "allow",
-              "to": "channel:$${DISCORD_WRITER_CHANNEL_ID}",
-              "activeHours": { "start": "06:00", "end": "22:00" }
             }
           },
           "reviewer": {
@@ -306,13 +258,6 @@ data:
             },
             "groupChat": {
               "mentionPatterns": ["@review", "@Review"]
-            },
-            "heartbeat": {
-              "every": "15917s",
-              "target": "discord",
-              "directPolicy": "allow",
-              "to": "channel:$${DISCORD_REVIEWER_CHANNEL_ID}",
-              "activeHours": { "start": "06:00", "end": "22:00" }
             }
           },
           "scout": {
@@ -331,13 +276,6 @@ data:
             },
             "groupChat": {
               "mentionPatterns": ["@scout", "@Scout"]
-            },
-            "heartbeat": {
-              "every": "16117s",
-              "target": "discord",
-              "directPolicy": "allow",
-              "to": "channel:$${DISCORD_SCOUT_CHANNEL_ID}",
-              "activeHours": { "start": "06:00", "end": "22:00" }
             }
           }
         }
