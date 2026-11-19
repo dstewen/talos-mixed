@@ -58,7 +58,6 @@ spec:
   resources:
     cpu: "2000m"
     memory: "32Gi"
-    memoryLimit: "96Gi"
   endpoint:
     port: 8000
     type: ClusterIP
