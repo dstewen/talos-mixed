@@ -29,7 +29,13 @@ data:
       "agents": {
         "ownership": "explicit",
         "defaults": {
-          "utilityModel": "google/gemini-2.5-flash",
+        "utilityModel": {
+          "primary": "litellm/qwen36-35b-a3b-fp8",
+          "fallbacks": [
+            "ollama-rig/gemma4:12b-it-qat",
+            "ollama-rig/qwen3.5:9b"
+          ]
+        },
           "systemAgent": { "agentId": "main" },
           "compaction": {
             "keepRecentTokens": 4000,
