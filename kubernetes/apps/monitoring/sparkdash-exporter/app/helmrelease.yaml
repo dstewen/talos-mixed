@@ -19,16 +19,13 @@ spec:
   values:
     fullnameOverride: *app
     defaultPodOptions:
-      affinity:
-        nodeAffinity:
-          requiredDuringSchedulingIgnoredDuringExecution:
-            nodeSelectorTerms:
-              - matchExpressions:
-                  - key: kubernetes.io/hostname
-                    operator: In
-                    values:
-                      - spark1
-                      - spark2
+      nodeSelector:
+        kubernetes.io/arch: arm64
+      tolerations:
+        - key: key
+          operator: Equal
+          value: llm-workload
+          effect: NoSchedule
     controllers:
       sparkdash-exporter:
         type: daemonset
