@@ -33,7 +33,7 @@ spec:
           app:
             image:
               repository: ghcr.io/dstewen/containers/sparkdash-exporter
-              tag: "1.0.0@sha256:b39483faaa9eabae0610911f98667451c70e685cf514073f277f309327d2a88a"
+              tag: "1.0.0@sha256:993b01c7529eb9d33775379c479a5b121d7329fede3ea646fb0e113a64472c93"
             env:
               PORT: "9100"
               ESPORT: "2222"
