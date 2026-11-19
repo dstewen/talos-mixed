@@ -186,6 +186,10 @@ spec:
                 value: "sk-dVujhw0SK5rF1FAyQG-dmQ"
               - name: VLLM_API_KEY
                 value: "$${VLLM_API_KEY}"
+              - name: XDG_CACHE_HOME
+                value: /tmp/.cache
+              - name: TMPDIR
+                value: /tmp
             envFrom:
               - secretRef:
                   name: openclaw-test-secret
