@@ -29,7 +29,6 @@ spec:
                     values:
                       - spark1
                       - spark2
-      runtimeClassName: nvidia
       tolerations:
         - key: key
           operator: Equal
