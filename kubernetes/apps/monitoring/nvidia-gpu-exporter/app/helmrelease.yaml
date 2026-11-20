@@ -54,7 +54,7 @@ spec:
           # see #3052). NVIDIA_DRIVER_CAPABILITIES=utility is what
           # makes the runtime inject the `nvidia-smi` binary this exporter
           # shells out to.
-          runtimeClassName: nvidia
+        #          runtimeClassName: nvidia
         containers:
           app:
             image:
