@@ -43,18 +43,18 @@ spec:
     controllers:
       app:
         type: daemonset
-        #        pod:
-        # GPU access like ollama-prime: the nvidia RuntimeClass plus
-        # NVIDIA_VISIBLE_DEVICES=all. No nvidia.com/gpu request and no
-        # `privileged`, so every card on the node stays visible. This exporter
-        # must keep `all` — it reports per-card metrics for the whole node, so
-        # it is deliberately NOT subject to the per-app GPU split the owner
-        # ruled on 2026-09-22 (#2960: comfyui -> 3090 #0 / 01:00.0 the hot
-        # slot, llama-server -> 3090 #1 / 02:00.0 the cool one, both by UUID;
-        # see #3052). NVIDIA_DRIVER_CAPABILITIES=utility is what
-        # makes the runtime inject the `nvidia-smi` binary this exporter
-        # shells out to.
-        #          runtimeClassName: nvidia
+        pod:
+          # GPU access like ollama-prime: the nvidia RuntimeClass plus
+          # NVIDIA_VISIBLE_DEVICES=all. No nvidia.com/gpu request and no
+          # `privileged`, so every card on the node stays visible. This exporter
+          # must keep `all` — it reports per-card metrics for the whole node, so
+          # it is deliberately NOT subject to the per-app GPU split the owner
+          # ruled on 2026-09-22 (#2960: comfyui -> 3090 #0 / 01:00.0 the hot
+          # slot, llama-server -> 3090 #1 / 02:00.0 the cool one, both by UUID;
+          # see #3052). NVIDIA_DRIVER_CAPABILITIES=utility is what
+          # makes the runtime inject the `nvidia-smi` binary this exporter
+          # shells out to.
+          runtimeClassName: nvidia
         containers:
           app:
             image:
