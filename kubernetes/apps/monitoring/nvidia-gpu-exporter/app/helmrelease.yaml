@@ -20,6 +20,7 @@ spec:
   values:
     fullnameOverride: *app
     defaultPodOptions:
+      hostPID: true # Required to see GPU processes from other pods
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -59,7 +60,7 @@ spec:
           app:
             image:
               repository: ghcr.io/utkuozdemir/nvidia_gpu_exporter
-              tag: 1.19.0@sha256:4b18ec4390279d90c8f40e952ba1d575f7df1691f29bb5be79843238483b35f5
+              tag: 2.0.0@sha256:bd7ca0426cbfd4a5e5b33625b873541c5da58c52569f9e141db8e76c7d3e9256
             # No --query-field-names: AUTO (the default) discovers every field
             # this driver reports, so a driver upgrade that adds fields needs no
             # edit here.
@@ -69,6 +70,10 @@ spec:
               # wedged driver, so a hung nvidia-smi surfaces as
               # nvidia_smi_last_collect_success 0 instead of hanging the scrape.
               - --collect.timeout=10s
+              - --collect.timeout=10s
+              - --collect.compute-apps
+              - --collect.compute-apps-identity
+              - --collect.graphics-apps
             env:
               NVIDIA_VISIBLE_DEVICES: all
               NVIDIA_DRIVER_CAPABILITIES: utility
