@@ -43,9 +43,10 @@ spec:
     node-feature-discovery:
       enabled: false
 
+    # Disable GPU operators dcgmExporter - the metrics are already provided my nvidia-gpu-exporter
+    # Having both polls the GPU's twice
     dcgmExporter:
-      serviceMonitor:
-        enabled: true
+      enabled: false
 
     # Talos installs drivers via system extensions under /usr/local
     hostPaths:
