@@ -37,10 +37,9 @@ spec:
         runAsGroup: 65534
         seccompProfile: { type: RuntimeDefault }
       tolerations:
-        - key: key
-          operator: Equal
-          value: llm-workload
-          effect: NoSchedule
+        - key: "llm-workload"
+          operator: "Exists"
+          effect: "NoSchedule"
     controllers:
       app:
         type: daemonset
