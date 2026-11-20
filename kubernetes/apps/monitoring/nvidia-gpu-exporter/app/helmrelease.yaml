@@ -70,7 +70,6 @@ spec:
               # wedged driver, so a hung nvidia-smi surfaces as
               # nvidia_smi_last_collect_success 0 instead of hanging the scrape.
               - --collect.timeout=10s
-              - --collect.timeout=10s
               - --collect.compute-apps
               - --collect.compute-apps-identity
               - --collect.graphics-apps
