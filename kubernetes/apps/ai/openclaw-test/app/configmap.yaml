@@ -2101,7 +2101,6 @@ data:
           "searxng",
           "slack",
           "telegram",
-          "vllm",
           "workboard"
         ],
         "entries": {
