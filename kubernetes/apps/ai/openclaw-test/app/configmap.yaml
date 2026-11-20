@@ -316,70 +316,6 @@ data:
         },
         {
           "agentId": "scout", "match": { "channel": "discord", "accountId": "scout" }
-        },
-
-        {
-          "agentId": "main",
-          "match": {
-            "channel": "discord",
-            "peer": { "kind": "channel", "id": "$${DISCORD_CHANNEL_ID}" }
-          }
-        },
-        {
-          "agentId": "planner",
-          "match": {
-            "channel": "discord",
-            "peer": { "kind": "channel", "id": "$${DISCORD_PLANNER_CHANNEL_ID}" }
-          }
-        },
-        {
-          "agentId": "ideator",
-          "match": {
-            "channel": "discord",
-            "peer": { "kind": "channel", "id": "$${DISCORD_IDEATOR_CHANNEL_ID}" }
-          }
-        },
-        {
-          "agentId": "critic",
-          "match": {
-            "channel": "discord",
-            "peer": { "kind": "channel", "id": "$${DISCORD_CRITIC_CHANNEL_ID}" }
-          }
-        },
-        {
-          "agentId": "surveyor",
-          "match": {
-            "channel": "discord",
-            "peer": { "kind": "channel", "id": "$${DISCORD_SURVEYOR_CHANNEL_ID}" }
-          }
-        },
-        {
-          "agentId": "coder",
-          "match": {
-            "channel": "discord",
-            "peer": { "kind": "channel", "id": "$${DISCORD_CODER_CHANNEL_ID}" }
-          }
-        },
-        {
-          "agentId": "writer",
-          "match": {
-            "channel": "discord",
-            "peer": { "kind": "channel", "id": "$${DISCORD_WRITER_CHANNEL_ID}" }
-          }
-        },
-        {
-          "agentId": "reviewer",
-          "match": {
-            "channel": "discord",
-            "peer": { "kind": "channel", "id": "$${DISCORD_REVIEWER_CHANNEL_ID}" }
-          }
-        },
-        {
-          "agentId": "scout",
-          "match": {
-            "channel": "discord",
-            "peer": { "kind": "channel", "id": "$${DISCORD_SCOUT_CHANNEL_ID}" }
-          }
         }
       ],
       "memory": {
@@ -1915,7 +1851,7 @@ data:
                   "channels": {
                     "$${DISCORD_CHANNEL_ID}": { "enabled": true, "requireMention": false, "users": [ "$${MY_DISCORD_USERID}" ] },
                     "$${DISCORD_TEST_VOICE_CHANNEL_ID}": { "enabled": true, "requireMention": false, "users": [ "$${MY_DISCORD_USERID}" ] },
-                    "$${DISCORD_GENERAL_CHANNEL_ID}": { "enabled": true, "requireMention": false }
+                    "$${DISCORD_GENERAL_CHANNEL_ID}": { "enabled": true, "requireMention": true }
                   }
                 }
               }
@@ -1926,7 +1862,7 @@ data:
                 "$${DISCORD_SERVER_ID}": {
                   "channels": {
                     "$${DISCORD_PLANNER_CHANNEL_ID}": { "enabled": true, "requireMention": false, "users": [ "$${MY_DISCORD_USERID}" ] },
-                    "$${DISCORD_GENERAL_CHANNEL_ID}": { "enabled": true, "requireMention": false }
+                    "$${DISCORD_GENERAL_CHANNEL_ID}": { "enabled": true, "requireMention": true }
                   }
                 }
               }
@@ -1937,7 +1873,7 @@ data:
                 "$${DISCORD_SERVER_ID}": {
                   "channels": {
                     "$${DISCORD_IDEATOR_CHANNEL_ID}": { "enabled": true, "requireMention": false, "users": [ "$${MY_DISCORD_USERID}" ] },
-                    "$${DISCORD_GENERAL_CHANNEL_ID}": { "enabled": true, "requireMention": false }
+                    "$${DISCORD_GENERAL_CHANNEL_ID}": { "enabled": true, "requireMention": true }
                   }
                 }
               }
@@ -1948,7 +1884,7 @@ data:
                 "$${DISCORD_SERVER_ID}": {
                   "channels": {
                     "$${DISCORD_CRITIC_CHANNEL_ID}": { "enabled": true, "requireMention": false, "users": [ "$${MY_DISCORD_USERID}" ] },
-                    "$${DISCORD_GENERAL_CHANNEL_ID}": { "enabled": true, "requireMention": false }
+                    "$${DISCORD_GENERAL_CHANNEL_ID}": { "enabled": true, "requireMention": true }
                   }
                 }
               }
@@ -1959,7 +1895,7 @@ data:
                 "$${DISCORD_SERVER_ID}": {
                   "channels": {
                     "$${DISCORD_SURVEYOR_CHANNEL_ID}": { "enabled": true, "requireMention": false, "users": [ "$${MY_DISCORD_USERID}" ] },
-                    "$${DISCORD_GENERAL_CHANNEL_ID}": { "enabled": true, "requireMention": false }
+                    "$${DISCORD_GENERAL_CHANNEL_ID}": { "enabled": true, "requireMention": true }
                   }
                 }
               }
@@ -1970,7 +1906,7 @@ data:
                 "$${DISCORD_SERVER_ID}": {
                   "channels": {
                     "$${DISCORD_CODER_CHANNEL_ID}": { "enabled": true, "requireMention": false, "users": [ "$${MY_DISCORD_USERID}" ] },
-                    "$${DISCORD_GENERAL_CHANNEL_ID}": { "enabled": true, "requireMention": false }
+                    "$${DISCORD_GENERAL_CHANNEL_ID}": { "enabled": true, "requireMention": true }
                   }
                 }
               }
@@ -1981,7 +1917,7 @@ data:
                 "$${DISCORD_SERVER_ID}": {
                   "channels": {
                     "$${DISCORD_WRITER_CHANNEL_ID}": { "enabled": true, "requireMention": false, "users": [ "$${MY_DISCORD_USERID}" ] },
-                    "$${DISCORD_GENERAL_CHANNEL_ID}": { "enabled": true, "requireMention": false }
+                    "$${DISCORD_GENERAL_CHANNEL_ID}": { "enabled": true, "requireMention": true }
                   }
                 }
               }
@@ -1992,7 +1928,7 @@ data:
                 "$${DISCORD_SERVER_ID}": {
                   "channels": {
                     "$${DISCORD_REVIEWER_CHANNEL_ID}": { "enabled": true, "requireMention": false, "users": [ "$${MY_DISCORD_USERID}" ] },
-                    "$${DISCORD_GENERAL_CHANNEL_ID}": { "enabled": true, "requireMention": false }
+                    "$${DISCORD_GENERAL_CHANNEL_ID}": { "enabled": true, "requireMention": true }
                   }
                 }
               }
@@ -2003,7 +1939,7 @@ data:
                 "$${DISCORD_SERVER_ID}": {
                   "channels": {
                     "$${DISCORD_SCOUT_CHANNEL_ID}": { "enabled": true, "requireMention": false, "users": [ "$${MY_DISCORD_USERID}" ] },
-                    "$${DISCORD_GENERAL_CHANNEL_ID}": { "enabled": true, "requireMention": false }
+                    "$${DISCORD_GENERAL_CHANNEL_ID}": { "enabled": true, "requireMention": true }
                   }
                 }
               }
@@ -2080,6 +2016,7 @@ data:
         }
       },
       "session": {
+        "store": "/home/node/.openclaw/agents/{agentId}/sessions/sessions.json",
         "dmScope": "per-channel-peer",
         "reset": {
           "mode": "idle",
@@ -2105,9 +2042,6 @@ data:
         "consoleStyle": "pretty"
       },
       "tools": {
-        "sessions": {
-          "visibility": "tree"
-        },
         "sessions_spawn": {
           "attachments": {
             "enabled": false,
@@ -2134,9 +2068,6 @@ data:
           },
           "search": {
             "provider": "searxng"
-          },
-          "fetch": {
-            "enabled": true
           }
         }
       },
