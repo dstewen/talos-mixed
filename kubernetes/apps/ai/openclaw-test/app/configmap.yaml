@@ -113,7 +113,12 @@ data:
                 "message",
                 "sessions_spawn",
                 "sessions_yield",
-                "subagents"
+                "subagents",
+                "wiki_apply",
+                "wiki_get",
+                "wiki_lint",
+                "wiki_search",
+                "wiki_status"
               ]
             }
           },
@@ -316,8 +321,17 @@ data:
         },
         {
           "agentId": "scout", "match": { "channel": "discord", "accountId": "scout" }
+        },
+        {
+          "agentId": "coder", "match": { "channel": "slack", "peer": { "kind": "channel", "id": "#coder-agent" } }
+        },
+        {
+          "agentId": "main", "match": { "channel": "slack", "accountId": "*" }
         }
       ],
+      "talk": {
+        "agentId": "main"
+      },
       "memory": {
         "search": {
           "provider": "ollama",
