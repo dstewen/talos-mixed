@@ -6,5 +6,7 @@ resources:
   - ./externalsecret.yaml
   - ./litellmproxy.yaml
   - ./servicemonitor.yaml
+  - ./spark1-model-cache.yaml
+  - ./spark2-model-cache.yaml
   - ./models/
   - ./virtualkeys/

@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: spark2-model-cache
+  namespace: ai
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: openebs-hostpath-3tb
+  resources:
+    requests:
+      storage: 1Ti
