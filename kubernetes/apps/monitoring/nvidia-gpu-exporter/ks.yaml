@@ -16,8 +16,8 @@ spec:
     # The DaemonSet is scheduled purely by the NFD GPU labels
     # (kube-system/node-feature-discovery/rules/nvidia-*-gpu-device.yaml), so it
     # would land on zero nodes if those NodeFeatureRules were not applied yet.
-  #    - name: node-feature-discovery-rules
-  #      namespace: kube-system
+    - name: node-feature-discovery-rules
+      namespace: kube-system
   path: ./kubernetes/apps/monitoring/nvidia-gpu-exporter/app
   prune: true
   sourceRef:
