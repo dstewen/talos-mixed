@@ -3,7 +3,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: nvidia-gpu-exporter
+  name: &app nvidia-gpu-exporter
 spec:
   interval: 30m
   chartRef:
@@ -18,6 +18,23 @@ spec:
       retries: 3
       strategy: rollback
   values:
+    fullnameOverride: *app
+    defaultPodOptions:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: node.kubernetes.io/hostname
+                    operator: In
+                    values:
+                      - spark1
+                      - spark2
+      tolerations:
+        - key: key
+          operator: Equal
+          value: llm-workload
+          effect: NoSchedule
     controllers:
       app:
         type: daemonset
@@ -33,11 +50,6 @@ spec:
           # makes the runtime inject the `nvidia-smi` binary this exporter
           # shells out to.
           runtimeClassName: nvidia
-          tolerations:
-            - key: key
-              operator: Equal
-              value: llm-workload
-              effect: NoSchedule
         containers:
           app:
             image:
