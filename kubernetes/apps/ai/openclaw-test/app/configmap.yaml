@@ -37,6 +37,7 @@ data:
         },
           "systemAgent": { "agentId": "main" },
           "compaction": {
+            "thinkingLevel": "off",
             "keepRecentTokens": 4000,
             "notifyUser": true,
             "memoryFlush": {
