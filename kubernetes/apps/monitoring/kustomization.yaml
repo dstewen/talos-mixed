@@ -21,6 +21,7 @@ resources:
   #  - ./netdata/ks.yaml
   - ./node-problem-detector/ks.yaml
   - ./nut-exporter/ks.yaml
+  - ./nvidia-gpu-exporter/ks.yaml
   - ./otel-collector/ks.yaml
   - ./opnsense-exporter/ks.yaml
   #  - ./patchmon/ks.yaml
