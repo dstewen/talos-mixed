@@ -30,9 +30,8 @@ spec:
                       - spark1
                       - spark2
       tolerations:
-        - key: key
-          operator: Equal
-          value: llm-workload
+        - key: nvidia.com/gpu
+          operator: Exists
           effect: NoSchedule
     controllers:
       sparkdash-exporter:

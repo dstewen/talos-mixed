@@ -37,9 +37,9 @@ spec:
         runAsGroup: 65534
         seccompProfile: { type: RuntimeDefault }
       tolerations:
-        - key: "llm-workload"
-          operator: "Exists"
-          effect: "NoSchedule"
+        - key: nvidia.com/gpu
+          operator: Exists
+          effect: NoSchedule
     controllers:
       app:
         type: daemonset

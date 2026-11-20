@@ -30,7 +30,6 @@ spec:
     # nvidia.com/gpu:NoSchedule taint that Talos sets on DGX nodes.
     kubeletPlugin:
       tolerations:
-        - key: key
-          operator: Equal
-          value: llm-workload
+        - key: nvidia.com/gpu
+          operator: Exists
           effect: NoSchedule

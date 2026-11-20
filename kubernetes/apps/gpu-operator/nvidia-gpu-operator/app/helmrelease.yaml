@@ -22,9 +22,8 @@ spec:
   values:
     daemonsets:
       tolerations:
-        - key: key
-          operator: Equal
-          value: llm-workload
+        - key: nvidia.com/gpu
+          operator: Exists
           effect: NoSchedule
     # Talos provides NVIDIA drivers via system extensions
     driver:
