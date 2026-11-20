@@ -25,7 +25,7 @@ spec:
           requiredDuringSchedulingIgnoredDuringExecution:
             nodeSelectorTerms:
               - matchExpressions:
-                  - key: node.kubernetes.io/hostname
+                  - key: kubernetes.io/hostname
                     operator: In
                     values:
                       - spark1
