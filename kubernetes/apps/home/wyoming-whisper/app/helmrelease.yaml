@@ -16,7 +16,7 @@ spec:
           app:
             image:
               repository: rhasspy/wyoming-whisper
-              tag: 3.9.0
+              tag: 3.9.1
               pullPolicy: Always
             env:
               TZ: Australia/Melbourne
