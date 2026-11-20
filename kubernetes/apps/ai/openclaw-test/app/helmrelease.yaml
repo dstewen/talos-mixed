@@ -102,10 +102,12 @@ spec:
                 chown -R 1000:1000 /home/node/.openclaw/
                 chown -R 1000:1000 /home/node/.local/bin
                 chmod 400 /home/node/.openclaw/openclaw.json
-                chmod +t /tmp
+                chmod 1777 /tmp
+                chmod 1777 /tmp
+                mkdir -p /tmp/.cache /tmp/openclaw-tmp
+                chown 1000:1000 /tmp/.cache /tmp/openclaw-tmp
+                chmod 700 /tmp/.cache /tmp/openclaw-tmp
                 chmod go-w /home/node
-                mkdir -p /home/node/.cache/
-                chown -R 1000:1000 /home/node/
                 chmod 700 /home/node /home/node/.openclaw /home/node/.openclaw/tmp /home/node/.cache
                 echo "Init container completed successfully"
             env:
@@ -201,12 +203,10 @@ spec:
                 value: "$${TIMEZONE}"
               - name: LITELLM_API_KEY
                 value: "sk-9cAaHC_X5mJ1INnuTkZSFg"
-              - name: VLLM_API_KEY
-                value: "$${VLLM_API_KEY}"
               - name: XDG_CACHE_HOME
                 value: /tmp/.cache
               - name: TMPDIR
-                value: /tmp
+                value: /tmp/openclaw-tmp
             envFrom:
               - secretRef:
                   name: openclaw-test-secret

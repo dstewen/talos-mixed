@@ -1,0 +1,22 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/litellm.home-operations.com/litellmmodel_v1alpha1.json
+apiVersion: ://home-operations.com
+kind: LiteLLMModel
+metadata:
+  name: qwen3-5-4b-ollama
+spec:
+  modelName: utility-qwen3.5-4b
+  proxyRef: litellm # matches metadata.name in your litellmproxy.yaml
+  params:
+    model: qwen3.5:4b
+    apiBase: http://192.168.10.87:11434 # replace with your Windows PC's LAN IP
+    dropParams: true
+    additional:
+      think: false
+      options:
+        num_ctx: 16384
+  info:
+    mode: chat
+    maxInputTokens: 16384
+    maxOutputTokens: 4096
+    supportsFunctionCalling: true
