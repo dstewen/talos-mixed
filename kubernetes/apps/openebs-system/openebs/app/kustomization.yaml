@@ -5,4 +5,5 @@ resources:
   - ./helmrelease.yaml
   - ./ocirepository.yaml
   - ./storageclass-blades.yaml
+  - ./storageclass-dgx-spark-nodes.yaml
   - ./storageclass-nucs.yaml
