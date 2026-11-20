@@ -12,5 +12,5 @@ metadata:
         value: /var/mnt/local-hostpath-3tb
     volumeMode: Filesystem
 provisioner: openebs.io/local
-reclaimPolicy: Delete
+reclaimPolicy: Retain
 volumeBindingMode: WaitForFirstConsumer
