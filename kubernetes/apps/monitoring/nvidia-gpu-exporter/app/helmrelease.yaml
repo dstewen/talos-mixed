@@ -1,0 +1,137 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/bjw-s-labs/helm-charts/main/charts/other/app-template/schemas/helmrelease-helm-v2.schema.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: nvidia-gpu-exporter
+spec:
+  interval: 30m
+  chartRef:
+    kind: OCIRepository
+    name: app-template
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+      strategy: rollback
+  values:
+    controllers:
+      app:
+        type: daemonset
+        pod:
+          # GPU access like ollama-prime: the nvidia RuntimeClass plus
+          # NVIDIA_VISIBLE_DEVICES=all. No nvidia.com/gpu request and no
+          # `privileged`, so every card on the node stays visible. This exporter
+          # must keep `all` — it reports per-card metrics for the whole node, so
+          # it is deliberately NOT subject to the per-app GPU split the owner
+          # ruled on 2026-09-22 (#2960: comfyui -> 3090 #0 / 01:00.0 the hot
+          # slot, llama-server -> 3090 #1 / 02:00.0 the cool one, both by UUID;
+          # see #3052). NVIDIA_DRIVER_CAPABILITIES=utility is what
+          # makes the runtime inject the `nvidia-smi` binary this exporter
+          # shells out to.
+          runtimeClassName: nvidia
+          tolerations:
+            - key: key
+              operator: Equal
+              value: llm-workload
+              effect: NoSchedule
+        containers:
+          app:
+            image:
+              repository: ghcr.io/utkuozdemir/nvidia_gpu_exporter
+              tag: 1.19.0@sha256:4b18ec4390279d90c8f40e952ba1d575f7df1691f29bb5be79843238483b35f5
+            # No --query-field-names: AUTO (the default) discovers every field
+            # this driver reports, so a driver upgrade that adds fields needs no
+            # edit here.
+            args:
+              - --web.listen-address=:9835
+              # Currently the upstream default, pinned deliberately: it bounds a
+              # wedged driver, so a hung nvidia-smi surfaces as
+              # nvidia_smi_last_collect_success 0 instead of hanging the scrape.
+              - --collect.timeout=10s
+            env:
+              NVIDIA_VISIBLE_DEVICES: all
+              NVIDIA_DRIVER_CAPABILITIES: utility
+            probes:
+              # Process-level on purpose: a failing nvidia-smi must keep the pod
+              # scrapeable so the failure is visible as a metric, not as a
+              # CrashLoop that also removes the target.
+              liveness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /-/healthy
+                    port: &port 9835
+                  initialDelaySeconds: 10
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+              readiness:
+                enabled: true
+                custom: true
+                spec:
+                  httpGet:
+                    path: /-/ready
+                    port: *port
+                  initialDelaySeconds: 10
+                  periodSeconds: 30
+                  timeoutSeconds: 5
+                  failureThreshold: 3
+            securityContext:
+              allowPrivilegeEscalation: false
+              readOnlyRootFilesystem: true
+              capabilities: { drop: ["ALL"] }
+            resources:
+              requests:
+                cpu: 10m
+                memory: 32Mi
+              limits:
+                # The exporter itself is ~25Mi; the headroom is for the
+                # nvidia-smi child it forks on each collection. An OOMKill here
+                # is a silent monitoring gap, so do not shave this.
+                memory: 256Mi
+    defaultPodOptions:
+      securityContext:
+        runAsNonRoot: true
+        # 65534 is the uid baked into the upstream distroless image.
+        runAsUser: 65534
+        runAsGroup: 65534
+        seccompProfile: { type: RuntimeDefault }
+    service:
+      app:
+        controller: app
+        ports:
+          metrics:
+            port: *port
+    serviceMonitor:
+      app:
+        service:
+          identifier: app
+        endpoints:
+          - port: metrics
+            # 30s: the 3090s go from 74C to the driver's slowdown point in about
+            # 25s under load (#3052), so a 1m interval would miss the ramp.
+            interval: 30s
+            scrapeTimeout: 20s
+            # The exporter labels its series by GPU uuid only. Carry the node
+            # name so alerts and dashboards can say WHICH machine, and so the
+            # GpuMissing/GpuExporterDown rules can group and join by node.
+            # `node` matches kube-state-metrics, `kubernetes_node` matches this
+            # cluster's node-exporter/KSM relabeling convention.
+            relabelings:
+              - action: replace
+                sourceLabels: ["__meta_kubernetes_pod_node_name"]
+                targetLabel: node
+              - action: replace
+                sourceLabels: ["__meta_kubernetes_pod_node_name"]
+                targetLabel: kubernetes_node
+    persistence:
+      # readOnlyRootFilesystem is on; give nvidia-smi a writable scratch dir.
+      tmp:
+        type: emptyDir
+        globalMounts:
+          - path: /tmp

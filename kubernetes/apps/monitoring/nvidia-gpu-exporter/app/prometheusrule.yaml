@@ -1,0 +1,209 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/monitoring.coreos.com/prometheusrule_v1.json
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: nvidia-gpu-exporter-rules
+spec:
+  groups:
+    - name: nvidia-gpu-exporter.rules
+      rules:
+        # Why these exist (issue #3050, 2026-09-21 GPU audit): Prometheus had
+        # ZERO GPU series. The 3090 at host 0000:01:00.0 failed silently for
+        # ~11 days (08-30 -> 09-10, "vfio-pci ... inaccessible" then "broken
+        # device, retraining failed") and nothing noticed; its replacement runs
+        # into thermal slowdown under load (#3052) and nothing noticed that
+        # either.
+        #
+        # Routing (kube-prometheus-stack alertmanager.yaml): severity=critical
+        # -> Pushover; everything else -> "null" (Alertmanager/Grafana UI only).
+        # scope=host tells the alert-responder this is host/hardware and to skip
+        # LLM diagnosis — every rule here ends at a physical card.
+        #
+        # Paging philosophy: only a GPU that has actually gone away pages. The
+        # thermal rules are chassis-airflow facts already tracked in #3052 and
+        # stay at warning on purpose — do not promote them without a ruling.
+
+        # A GPU that "fell off the PCIe bus" simply stops being listed by
+        # nvidia-smi, so the count drops with no error anywhere. Expected counts
+        # (verified 2026-09-21 against `kubectl get nodes -l ...`):
+        #   talosw01 = 2  (repaired RTX 3090 Cards A and C, verified by UUID
+        #                  2026-10-31; shared Wan video worker, OP#339)
+        #   talosm01 = 1  (RTX A2000 — voice: whisper STT, speech-to-phrase, kokoro TTS,
+        #                  vexa-whisper)
+        #   talosm03 = 1  (RTX 2000 Ada — ComfyUI)
+        #   talosm05 = 1  (RTX A2000, ex-edgem01; joined as a master for #3332;
+        #                  ollama-assist02 + immich-machine-learning)
+        #   talosw04 = 1  (RTX 3090 card B on the OCuLink dock — Muse. It pages like
+        #                  the rest since its GPU-test role ended, #279.)
+        # talosm04 (ex-edgem03, #3332) is left out until its A2000 enumerates: the
+        # card was fitted but not visible on the PCIe bus at join time (BIOS PEG /
+        # reseat pending), so listing it would page. Add it to both vectors with
+        # the rook PR once `nvidia-smi -L` on talosm04 lists the card.
+        # The label_replace(vector(0), ...) terms make the left side read 0
+        # rather than "no data" when a node reports nothing at all, so total
+        # silence (exporter unscheduled, nvidia-smi failing, driver gone) fires
+        # this too. The trailing `and on (node) kube_node_info` keeps a node quiet
+        # until it exists in Kubernetes, so a GPU node can be listed here in the
+        # same PR that joins it (talosm05, #3332) without paging during the
+        # Omni sync; once its Node object exists, silence counts as missing.
+        # Adding a GPU node means adding it in BOTH vectors here and making sure
+        # the helmrelease nodeAffinity matches its NFD label.
+        - alert: GpuMissing
+          annotations:
+            summary: >-
+              {{ $labels.node }} is reporting fewer NVIDIA GPUs than it has.
+            description: >-
+              nvidia-smi on {{ $labels.node }} has listed fewer GPUs than expected for 10 minutes
+              (expected: spark1 1, spark2 1). A card that falls off the PCIe bus
+              disappears exactly like this. Check `kubectl exec -n monitoring $(kubectl get pod -n
+              monitoring -l app.kubernetes.io/name=nvidia-gpu-exporter --field-selector
+              spec.nodeName={{ $labels.node }} -o name) -- nvidia-smi -L` first (`ds/nvidia-gpu-exporter`
+              picks an arbitrary node's pod, not this one), then the Talos node dmesg for NVRM/Xid 79 lines
+              (`talosctl -n <node-ip> dmesg | grep -i nvrm`) and the Proxmox host journal for
+              "vfio-pci ... inaccessible" / "retraining failed" on the card's PCI address.
+              Recovery is a host power-cycle and, if it recurs, reseating the card or its power
+              cables. talosw04's card is on an OCuLink dock, which is not hot-pluggable: PC
+              off, dock off and on, then PC on (.agents/runbooks/egpu-test-node.md). GPU workloads (ComfyUI, ollama) keep running on whatever cards are left.
+          expr: |
+            (
+              (
+                count by (node) (nvidia_smi_gpu_info)
+                or label_replace(vector(0), "node", "spark1", "", "")
+                or label_replace(vector(0), "node", "spark2", "", "")
+              )
+              < on (node)
+              (
+                label_replace(vector(2), "node", "spark1", "", "")
+                or label_replace(vector(1), "node", "spark2", "", "")
+              )
+            )
+            unless on (node) (max by (node) (up{job="nvidia-gpu-exporter"}) == 0)
+            and on (node) kube_node_info
+          for: 10m
+          labels:
+            severity: critical
+            scope: host
+
+        # The other half of "the card fell off the bus": the exporter target
+        # itself is unreachable, so there is no GPU data to judge. Guarded on the
+        # node being Ready, because a node that is down already pages on its own
+        # and does not need a second page per exporter.
+        - alert: GpuExporterDown
+          annotations:
+            summary: >-
+              The NVIDIA GPU exporter on {{ $labels.node }} is not being scraped.
+            description: >-
+              Prometheus has failed to scrape nvidia-gpu-exporter on {{ $labels.node }} for 15
+              minutes while the node itself is Ready, so the GPUs on it are unmonitored — a card
+              could be failing right now and nothing would say so. Check
+              `kubectl get pods -n monitoring -l app.kubernetes.io/name=nvidia-gpu-exporter -o wide`
+              and that pod's logs. A pod that is Running but serving errors usually means
+              nvidia-smi is wedged: the fix is a node reboot.
+          expr: |
+            max by (node) (up{job="nvidia-gpu-exporter"}) == 0
+            and on (node)
+            (max by (node) (kube_node_status_condition{condition="Ready", status="true"}) == 1)
+          for: 15m
+          labels:
+            severity: critical
+            scope: host
+
+        # Warning on purpose (#3052): the chassis can only shed ~150 W per card
+        # at 88 C with the fan at 100 %, so ANY sustained render throttles. The
+        # driver applies the right per-model trip point, so this works for the
+        # A2000/2000 Ada too. Both the hw (trip point) and sw (max operating
+        # temp) reasons count, and both spellings are matched: driver 580.178.04
+        # reports clocks_event_reasons.*, older/other drivers report
+        # clocks_throttle_reasons.* (verified live 2026-09-21: 580 answers a
+        # clocks_throttle_reasons query with a clocks_event_reasons header, so
+        # only the first pair exists here today).
+        - alert: GpuThermalThrottling
+          annotations:
+            summary: >-
+              GPU {{ $labels.index }} ({{ $labels.name }}) on {{ $labels.node }} is thermally throttled.
+            description: >-
+              The NVIDIA driver has been cutting clocks on GPU {{ $labels.index }} of
+              {{ $labels.node }} for 10 minutes because the card is too hot. Renders and inference
+              run roughly 2.7-8x slower while this holds. This is the known chassis-airflow
+              condition tracked in issue #3052 (intake air passes the CPU radiator first) — it is
+              NOT a new fault and does not page. Only worth acting on if it starts happening at
+              idle or on a card that never used to do it: then check fans, dust and the GPU
+              temperature panel on the "NVIDIA GPUs" Grafana dashboard.
+          expr: |
+            (
+              max by (node, uuid) (
+                nvidia_smi_clocks_event_reasons_hw_thermal_slowdown
+                or nvidia_smi_clocks_event_reasons_sw_thermal_slowdown
+                or nvidia_smi_clocks_throttle_reasons_hw_thermal_slowdown
+                or nvidia_smi_clocks_throttle_reasons_sw_thermal_slowdown
+              ) == 1
+            )
+            * on (uuid) group_left (name, index) nvidia_smi_gpu_info
+          for: 10m
+          labels:
+            severity: warning
+            scope: host
+
+        # 90 C is above the observed throttling plateau (88 C) and below the
+        # 3090's 93 C shutdown, so this is the "hotter than the known-bad case"
+        # line rather than a restatement of GpuThermalThrottling.
+        - alert: GpuHot
+          annotations:
+            summary: >-
+              GPU {{ $labels.index }} ({{ $labels.name }}) on {{ $labels.node }} is at {{ $value | printf "%.0f" }} C.
+            description: >-
+              GPU {{ $labels.index }} of {{ $labels.node }} has been at or above 90 C for 10
+              minutes. The 3090s plateau at 88 C once the driver throttles them (#3052), so
+              anything sustained at 90 C or above is hotter than the known-bad case and is worth
+              a physical look: fan spinning, intake clear, dust, and whether a second heavy
+              workload landed on the same card. The card shuts itself down around 93 C.
+          expr: |
+            (
+              max by (node, uuid) (nvidia_smi_temperature_gpu) >= 90
+            )
+            * on (uuid) group_left (name, index) nvidia_smi_gpu_info
+          for: 10m
+          labels:
+            severity: warning
+            scope: host
+
+        # The two RTX A2000s that voice depends on are shared: talosm05 holds
+        # ollama-assist02 (Home Assistant's Assist model, ~7.0 GB resident) next to
+        # immich-machine-learning, and talosm01 holds whisper, speech-to-phrase,
+        # kokoro and vexa-whisper. A card that stays nearly full means the next
+        # allocation by any of them can fail. On 2026-10-06 immich-ML filled
+        # talosm05 to 11.9 of 12.3 GB and logged about 150 CUDA out-of-memory errors
+        # (.agents/runbooks/immich-ml-backlog.md). Its VRAM guard keeps the card
+        # under ~11.3 GB since then, so this firing means something new took
+        # the memory.
+        # Only these two cards: talosm03 (ComfyUI) fills its card on purpose
+        # (97% peaks are normal there), and talosw01's 3090 has its own headroom rules.
+        # Warning: it never pages.
+        - alert: SharedGpuMemoryNearlyFull
+          annotations:
+            summary: >-
+              GPU {{ $labels.index }} ({{ $labels.name }}) on {{ $labels.node }} is {{ $value | humanizePercentage }} full.
+            description: >-
+              The shared voice GPU on {{ $labels.node }} has had more than 95% of its memory in use
+              for 5 minutes. The next allocation by ollama-assist02, whisper or kokoro could fail,
+              so voice may break. Find out what holds the memory: `nvidia-smi` in that node's
+              nvidia-gpu-exporter pod (`kubectl exec -n observability $(kubectl get pod -n
+              observability -l app.kubernetes.io/name=nvidia-gpu-exporter --field-selector
+              spec.nodeName={{ $labels.node }} -o name) -- nvidia-smi`) gives the total but not
+              the processes. On talosm05, check immich-machine-learning first: its logs, its
+              ImmichMlCudaOutOfMemory and ImmichMlVramGuardInactive alerts, and the runbook
+              .agents/runbooks/immich-ml-backlog.md. Restarting immich-machine-learning frees its
+              memory at once (`kubectl rollout restart -n photos deploy/immich-machine-learning`).
+          expr: |
+            (
+              max by (node, uuid) (
+                nvidia_smi_memory_used_bytes{node=~"spark1|spark2"}
+                / nvidia_smi_memory_total_bytes{node=~"spark1|spark2"}
+              ) > 0.95
+            )
+            * on (uuid) group_left (name, index) nvidia_smi_gpu_info
+          # No scope=host: the cause is software on the card, not the card.
+          for: 5m
+          labels:
+            severity: warning
