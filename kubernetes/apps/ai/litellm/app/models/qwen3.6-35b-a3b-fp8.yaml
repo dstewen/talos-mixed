@@ -44,13 +44,8 @@ spec:
   replicas: 1
   priority: high
   nodeSelector:
-    nvidia.com/gpu.present: "true"
+    kubernetes.io/hostname: spark2
   skipModelInit: true
-  tolerations:
-    - key: "key"
-      operator: "Equal"
-      value: "llm-workload"
-      effect: "NoSchedule"
   contextSize: 262144
   parallelSlots: 2
   batchSize: 4096
@@ -58,6 +53,7 @@ spec:
   resources:
     cpu: "2000m"
     memory: "32Gi"
+    memoryLimit: "112Gi"
   endpoint:
     port: 8000
     type: ClusterIP
@@ -89,6 +85,34 @@ spec:
   env:
     - name: VLLM_MARLIN_USE_ATOMIC_ADD
       value: "1"
+    - name: MAX_JOBS
+      value: "4"
+    - name: CMAKE_BUILD_PARALLEL_LEVEL
+      value: "4"
+    - name: HF_HUB_OFFLINE
+      value: "1"
+    - name: TRANSFORMERS_OFFLINE
+      value: "1"
+  extraVolumes:
+    - name: local-cache
+      persistentVolumeClaim:
+        claimName: spark2-model-cache
+  extraVolumeMounts:
+    - name: local-cache
+      mountPath: /root/.cache/flashinfer
+      subPath: .cache/flashinfer
+    - name: local-cache
+      mountPath: /root/.cache/huggingface
+      subPath: .cache/huggingface
+    - name: local-cache
+      mountPath: /root/.cache/vllm
+      subPath: .cache/vllm
+    - name: local-cache
+      mountPath: /root/.triton
+      subPath: .triton
+    - name: local-cache
+      mountPath: /root/.nv
+      subPath: .nv
   probeOverrides:
     startup:
       httpGet:
