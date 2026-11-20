@@ -26,3 +26,9 @@ spec:
           labelSources: ["all"]
     prometheus:
       enable: true
+    # Run on all nodes - detects Intel GPUs via custom rules, NVIDIA via PCI discovery
+    tolerations:
+      - key: key
+        operator: Equal
+        value: llm-workload
+        effect: NoSchedule
