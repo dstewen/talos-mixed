@@ -93,6 +93,7 @@ spec:
                 mkdir -p /home/node/.openclaw/extensions
                 mkdir -p /home/node/.openclaw/logs
                 mkdir -p /home/node/.openclaw/state
+                mkdir -p /home/node/.openclaw/tmp
                 rm -f /home/node/.openclaw/openclaw.json
                 cp /tmp/openclaw.json /home/node/.openclaw/openclaw.json
                 chown 1000:1000 /home/node/.openclaw/openclaw.json
@@ -105,6 +106,7 @@ spec:
                 chmod go-w /home/node
                 mkdir -p /home/node/.cache/
                 chown -R 1000:1000 /home/node/
+                chmod 700 /home/node /home/node/.openclaw /home/node/.openclaw/tmp /home/node/.cache
                 echo "Init container completed successfully"
             env:
               TERM: xterm-256color
