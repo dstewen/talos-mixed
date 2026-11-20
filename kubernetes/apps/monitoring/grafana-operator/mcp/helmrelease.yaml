@@ -23,26 +23,12 @@ spec:
           app:
             image:
               repository: mcp/grafana
-              tag: latest
+              tag: latest@sha256:9362bcf6aa0e44e61f645b905cec03fb346a946a34a4dafecd7f3e28d3724014
               pullPolicy: Always
             args:
-              - "run"
-              - "--rm"
-              - "-i"
-              - "-e"
-              - "GRAFANA_URL"
-              - "-e"
-              - "GRAFANA_AUTH"
-              - "mcp/grafana"
-              - "-t"
-              - "sse"
-              - "--allowed-hosts"
-              - "mcp-grafana.monitoring:8000"
-              - "localhost"
-              - "127.0.0.1"
-              - "10.42.0.87"
-              - "*"
-              - "--allowed-origins"
+              - --allowed-hosts
+              - mcp-grafana.monitoring:8000,grafana-mcp.davidstewen.com,localhost,127.0.0.1
+              - --allowed-origins
               - "*"
             env:
               GRAFANA_URL: "http://grafana-service.monitoring:3000"
