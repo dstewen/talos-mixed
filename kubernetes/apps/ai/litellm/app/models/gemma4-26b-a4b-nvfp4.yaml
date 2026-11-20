@@ -46,11 +46,6 @@ spec:
   nodeSelector:
     nvidia.com/gpu.present: "true"
   skipModelInit: true
-  tolerations:
-    - key: "key"
-      operator: "Equal"
-      value: "llm-workload"
-      effect: "NoSchedule"
   contextSize: 262144
   parallelSlots: 2
   batchSize: 4096
@@ -67,6 +62,30 @@ spec:
       value: "4"
     - name: CMAKE_BUILD_PARALLEL_LEVEL
       value: "4"
+    - name: HF_HUB_OFFLINE
+      value: "1"
+    - name: TRANSFORMERS_OFFLINE
+      value: "1"
+  extraVolumes:
+    - name: local-cache
+      persistentVolumeClaim:
+        claimName: spark1-model-cache # use spark2-model-cache for qwen3.6-35b-a3b-fp8
+  extraVolumeMounts:
+    - name: local-cache
+      mountPath: /root/.cache/flashinfer
+      subPath: .cache/flashinfer
+    - name: local-cache
+      mountPath: /root/.cache/huggingface
+      subPath: .cache/huggingface
+    - name: local-cache
+      mountPath: /root/.cache/vllm
+      subPath: .cache/vllm
+    - name: local-cache
+      mountPath: /root/.triton
+      subPath: .triton
+    - name: local-cache
+      mountPath: /root/.nv
+      subPath: .nv
   extraArgs:
     - "--max-num-seqs"
     - "2"
