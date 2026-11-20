@@ -44,7 +44,7 @@ spec:
   replicas: 1
   priority: high
   nodeSelector:
-    nvidia.com/gpu.present: "true"
+    kubernetes.io/hostname: spark1
   skipModelInit: true
   contextSize: 262144
   parallelSlots: 2
