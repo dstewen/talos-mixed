@@ -1,0 +1,27 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/litellm.home-operations.com/litellmmodel_v1alpha1.json
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMModel
+metadata:
+  name: embed
+spec:
+  # This is the name your client apps (Agents/OpenClaw) will use in their API calls
+  # memini expects model name: embed
+  modelName: embed
+
+  info:
+    maxTokens: 32768
+    maxInputTokens: 32768
+    supportsFunctionCalling: false
+    embeddingDimensions: 1024
+
+  params:
+    model: embed
+    apiKeyRef:
+      name: litellm-secret
+      key: LITELLM_MASTER_KEY
+    # embed-1 is an InferenceService in ai namespace, port 8080
+    apiBase: http://embed-1.ai:8080/v1
+    # Embedding models use OpenAI-compatible /v1/embeddings endpoint
+  # Explicitly link this model to your main proxy
+  proxyRef: litellm

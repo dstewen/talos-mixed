@@ -6,11 +6,11 @@ metadata:
   name: &app embeddings
   namespace: flux-system
 spec:
-  path: ./kubernetes/apps/llm/embeddings/app
+  path: ./kubernetes/apps/ai/embed/app
   commonMetadata:
     labels:
       app.kubernetes.io/name: *app
-  targetNamespace: llm
+  targetNamespace: ai
   prune: true
   sourceRef:
     kind: GitRepository
