@@ -18,7 +18,7 @@ spec:
       layers: -1
       resourceClaims:
         - name: gpu
-          resourceClaimTemplateName: llmkube-models-gpu
+          resourceClaimTemplateName: llmkube-models-intel-gpu
   resources:
     cpu: "500m"
     memory: 8Gi
