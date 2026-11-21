@@ -10,7 +10,7 @@
 #   kubectl delete pod preloader-embeddings -n ai
 #
 # Matches the pattern in llmkube/app/models/preloader.yaml:
-# control-plane affinity, huggingface-cli, chown/chmod for fsGroup 1000.
+# control-plane affinity, hf_hub Python API, chown/chmod for fsGroup 1000.
 apiVersion: v1
 kind: Pod
 metadata:
@@ -28,25 +28,6 @@ spec:
     - name: downloader
       image: python:3.15-slim
       command: ["/bin/sh", "-ec"]
-      args:
-        - |
-          set -euo pipefail
-          echo "[preloader] Installing huggingface_hub..."
-          pip install huggingface_hub 2>&1
-          echo "[preloader] Downloading Qwen3-Embedding-0.6B-Q8_0.gguf ..."
-          python3 -c "
-import os, tempfile
-from huggingface_hub import hf_hub_download
-repo = 'Qwen/Qwen3-Embedding-0.6B-GGUF'
-file = 'Qwen3-Embedding-0.6B-Q8_0.gguf'
-outdir = '/models/Qwen/Qwen3-Embedding-0.6B-GGUF'
-os.makedirs(outdir, exist_ok=True)
-path = hf_hub_download(repo, file, local_dir=outdir)
-print(f'[preloader] Downloaded to: {path}')
-" 2>&1
-          chown -R 1000:1000 /models/Qwen/Qwen3-Embedding-0.6B-GGUF
-          chmod -R 755 /models/Qwen/Qwen3-Embedding-0.6B-GGUF
-          echo "[preloader] Done"
       env:
         - name: HF_TOKEN
           valueFrom:
@@ -61,3 +42,39 @@ print(f'[preloader] Downloaded to: {path}')
       persistentVolumeClaim:
         claimName: llmkube
   restartPolicy: Never
+  initContainers:
+    - name: download-model
+      image: python:3.15-slim
+      command: ["/bin/sh", "-c"]
+      args:
+        - |
+          set -euo pipefail
+          echo "[preloader] Installing huggingface_hub..."
+          pip install huggingface_hub 2>&1
+          echo "[preloader] Downloading Qwen3-Embedding-0.6B-Q8_0.gguf ..."
+          python3 << 'EOF'
+          import os
+          from huggingface_hub import hf_hub_download
+          repo = "Qwen/Qwen3-Embedding-0.6B-GGUF"
+          file = "Qwen3-Embedding-0.6B-Q8_0.gguf"
+          outdir = "/models/Qwen/Qwen3-Embedding-0.6B-GGUF"
+          os.makedirs(outdir, exist_ok=True)
+          path = hf_hub_download(repo, file, local_dir=outdir)
+          print(f"[preloader] Downloaded to: {path}")
+          EOF
+          chown -R 1000:1000 /models/Qwen/Qwen3-Embedding-0.6B-GGUF
+          chmod -R 755 /models/Qwen/Qwen3-Embedding-0.6B-GGUF
+          echo "[preloader] Done"
+      env:
+        - name: HF_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: huggingface
+              key: HF_TOKEN
+      volumeMounts:
+        - name: model-cache
+          mountPath: /models
+      resources:
+        limits:
+          cpu: "1"
+          memory: 2Gi
