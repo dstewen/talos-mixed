@@ -30,13 +30,14 @@ data:
         "ownership": "explicit",
         "defaults": {
         "utilityModel": {
-          "primary": "ollama-rig/gemma4:e4b",
+          "primary": "litellm/gemma4-26b-a4b-nvfp4-no-thinking",
           "fallbacks": [
             "ollama-rig/gemma4:26b-a4b-it-qat"
           ]
         },
           "systemAgent": { "agentId": "main" },
           "compaction": {
+            "model": "litellm/gemma4-26b-a4b-nvfp4-no-thinking",
             "thinkingLevel": "off",
             "keepRecentTokens": 4000,
             "notifyUser": true,
