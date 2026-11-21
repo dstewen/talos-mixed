@@ -32,7 +32,9 @@ spec:
         - |
           set -euo pipefail
           echo "[preloader] Installing huggingface_hub..."
-          pip install huggingface_hub > /dev/null 2>&1
+          pip install huggingface_hub 2>&1
+          echo "[preloader] Verifying huggingface-cli is available..."
+          which huggingface-cli || { echo "[preloader] ERROR: huggingface-cli not found"; exit 1; }
           echo "[preloader] Downloading Qwen3-Embedding-0.6B-Q8_0.gguf ..."
           mkdir -p /models/Qwen/Qwen3-Embedding-0.6B-GGUF
           huggingface-cli download \
