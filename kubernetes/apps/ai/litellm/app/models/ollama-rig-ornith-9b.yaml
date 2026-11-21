@@ -7,8 +7,13 @@ metadata:
 spec:
   # This is the name your client apps (Agents/OpenClaw) will use in their API calls
   modelName: ollama-rig-ornith-9b
-
   params:
+    apiBase: http://192.168.10.87:11434 # replace with your Windows PC's LAN IP
+    dropParams: true
+    additional:
+      think: false
+      options:
+        num_ctx: 16384
     model: ornith-9b
     # We reference the secret key via environment variable mapping in the proxy
     apiKeyRef:
