@@ -1,0 +1,15 @@
+---
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMVirtualKey
+metadata:
+  name: memini
+spec:
+  proxyRef: litellm
+  keyAlias: Memini
+  secretName: litellm-key-memini
+  secretKey: api-key
+  models:
+    - qwen36-35b-a3b-fp8
+    - gemma4-26b-a4b-nvfp4-no-thinking
+    - embed
+    - rerank
