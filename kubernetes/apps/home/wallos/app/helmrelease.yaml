@@ -32,7 +32,7 @@ spec:
           wallos:
             image:
               repository: ghcr.io/ellite/wallos
-              tag: 5.11.2@sha256:254a815765e8d898816108f380c9e49545963a41f0fc49ce8cbda3603f4fdccf
+              tag: 5.11.3@sha256:451605509cd236262d3582fe0be9815ec0ec0b75538831b0cc8b1a077f73dffc
             env:
               TZ: Australia/Melbourne
               SERVER_PORT: 80
