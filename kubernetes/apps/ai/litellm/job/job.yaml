@@ -8,7 +8,7 @@ spec:
     spec:
       containers:
         - name: psql-init
-          image: postgres:18-alpine
+          image: postgres:19-alpine
           command: ["sh", "-c"]
           args:
             - |
