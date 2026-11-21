@@ -44,11 +44,6 @@ spec:
   parallelSlots: 4
   batchSize: 16384
   uBatchSize: 16384
-  env:
-    - name: GOMP_CPU_AFFINITY
-      value: "0-11"
-    - name: KMP_AFFINITY
-      value: "granularity=fine,proc_list=[0-11],explicit"
   resources:
     cpu: 250m
     memory: 9Gi
@@ -120,11 +115,6 @@ spec:
   parallelSlots: 4
   batchSize: 16384
   uBatchSize: 16384
-  env:
-    - name: GOMP_CPU_AFFINITY
-      value: "0-11"
-    - name: KMP_AFFINITY
-      value: "granularity=fine,proc_list=[0-11],explicit"
   resources:
     cpu: 250m
     memory: 9Gi
@@ -196,11 +186,6 @@ spec:
   parallelSlots: 4
   batchSize: 16384
   uBatchSize: 16384
-  env:
-    - name: GOMP_CPU_AFFINITY
-      value: "0-11"
-    - name: KMP_AFFINITY
-      value: "granularity=fine,proc_list=[0-11],explicit"
   resources:
     cpu: 250m
     memory: 9Gi
