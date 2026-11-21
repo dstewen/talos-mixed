@@ -1,0 +1,58 @@
+---
+# One-off Pod to pre-stage the Qwen3-Embedding model onto the shared
+# llmkube PVC so the InferenceService can read it directly via
+# `pvc://llmkube/Qwen/Qwen3-Embedding-0.6B-GGUF/Qwen3-Embedding-0.6B-Q8_0.gguf`
+# (no runtime download needed).
+#
+# Run manually:
+#   kubectl apply -f preloader-embeddings.yaml -n ai
+#   kubectl logs -f pod/preloader-embeddings -n ai
+#   kubectl delete pod preloader-embeddings -n ai
+#
+# Matches the pattern in llmkube/app/models/preloader.yaml:
+# control-plane affinity, huggingface-cli, chown/chmod for fsGroup 1000.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: preloader-embeddings
+  namespace: ai
+spec:
+  affinity:
+    nodeAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        nodeSelectorTerms:
+          - matchExpressions:
+              - key: node-role.kubernetes.io/control-plane
+                operator: Exists
+  containers:
+    - name: downloader
+      image: python:3.15-slim
+      command: ["/bin/sh", "-ec"]
+      args:
+        - |
+          set -euo pipefail
+          echo "[preloader] Installing huggingface_hub..."
+          pip install huggingface_hub > /dev/null 2>&1
+          echo "[preloader] Downloading Qwen3-Embedding-0.6B-Q8_0.gguf ..."
+          mkdir -p /models/Qwen/Qwen3-Embedding-0.6B-GGUF
+          huggingface-cli download \
+            Qwen/Qwen3-Embedding-0.6B-GGUF \
+            Qwen3-Embedding-0.6B-Q8_0.gguf \
+            --local-dir /models/Qwen/Qwen3-Embedding-0.6B-GGUF
+          chown -R 1000:1000 /models/Qwen/Qwen3-Embedding-0.6B-GGUF
+          chmod -R 755 /models/Qwen/Qwen3-Embedding-0.6B-GGUF
+          echo "[preloader] Done"
+      env:
+        - name: HF_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: huggingface
+              key: HF_TOKEN
+      volumeMounts:
+        - name: model-cache
+          mountPath: /models
+  volumes:
+    - name: model-cache
+      persistentVolumeClaim:
+        claimName: llmkube
+  restartPolicy: Never
