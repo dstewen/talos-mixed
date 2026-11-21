@@ -21,7 +21,8 @@ metadata:
 spec:
   modelRef: memini-rerank
   runtime: llamacpp
-  image: ghcr.io/ggml-org/llama.cpp:server-intel@sha256:56df0a745f16eed7c819c929a9b40038d169509d8d3f05edc08fd11252d14c49
+  # server-vulkan (not intel): intel image ships SYCL backend which crashes at startup on CPU-only nodes
+  image: ghcr.io/ggml-org/llama.cpp:server-vulkan
   rolloutPolicy:
     waitForIdle: true
     idleTimeoutSeconds: 86400
@@ -97,7 +98,7 @@ metadata:
 spec:
   modelRef: memini-rerank
   runtime: llamacpp
-  image: ghcr.io/ggml-org/llama.cpp:server@sha256:5b43086e3ba7ea5794d72904654f6cd41224a9b1c6ac0398f4940ee380d30f23
+  image: ghcr.io/ggml-org/llama.cpp:server-vulkan
   rolloutPolicy:
     waitForIdle: true
     idleTimeoutSeconds: 86400
@@ -173,7 +174,7 @@ metadata:
 spec:
   modelRef: memini-rerank
   runtime: llamacpp
-  image: ghcr.io/ggml-org/llama.cpp:server@sha256:5b43086e3ba7ea5794d72904654f6cd41224a9b1c6ac0398f4940ee380d30f23
+  image: ghcr.io/ggml-org/llama.cpp:server-vulkan
   rolloutPolicy:
     waitForIdle: true
     idleTimeoutSeconds: 86400
