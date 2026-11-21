@@ -5,7 +5,7 @@ kind: Model
 metadata:
   name: rerank
 spec:
-  source: hf://gpustack/bge-reranker-v2-m3-GGUF/bge-reranker-v2-m3-FP16.gguf
+  source: https://huggingface.co/gpustack/bge-reranker-v2-m3-GGUF/resolve/main/bge-reranker-v2-m3-FP16.gguf
   sourceSecretRef:
     name: huggingface
   format: gguf
