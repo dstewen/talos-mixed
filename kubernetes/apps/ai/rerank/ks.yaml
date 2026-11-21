@@ -19,6 +19,7 @@ spec:
   dependsOn:
     # Wait for the embeddings PVC to be ready, shared with the embed pool.
     - name: rook-ceph-cluster
+      namespace: rook-ceph
   interval: 5m
   retryInterval: 1m
   timeout: 5m
