@@ -58,13 +58,14 @@ This labels nodes with `intel.feature.node.kubernetes.io/gpu: true` when an Inte
 
 ## 2. AI Workloads — Current Deployment
 
-### Ollama (iGPU — Intel Vulkan)
-- **Location:** Deployed on all nodes with Intel GPUs (nuc1, nuc2, ms1, ms2, ms3)
+### Ollama (iGPU — Intel Vulkan) ⚠️ Legacy — being replaced by vLLM
+- **Location:** ms2 (single instance)
 - **GPU:** Intel iGPU via Vulkan (`OLLAMA_INTEL_GPU: true`, `OLLAMA_VULKAN: 1`)
 - **DRA:** Yes — claims `gpu` via ResourceClaimTemplate `ollama-gpu`
-- **Replicas:** 1 per node (DaemonSet-style via app-template)
+- **Replicas:** 1 (single Pod)
 - **Models:** Hosted on 500GB Ceph PVC (`ollama-models-pvc`)
 - **Inference method:** Vulkan + GGML on integrated graphics
+- **Status:** Temporary — will be replaced by vLLM via llmkube (pattern already proven on Spark nodes)
 
 ### LLMKube (NVIDIA GPU)
 - **Location:** spark1, spark2 (DGX Spark arm64)
@@ -80,7 +81,7 @@ This labels nodes with `intel.feature.node.kubernetes.io/gpu: true` when an Inte
 - **Replicas:** 3 (HA)
 - **Database:** External PostgreSQL (postgres18, hosted on postgres18-rw.database.svc)
 - **Routing:** Redis-based least-busy routing + fallback to local gemma4-26b-a4b-nvfp4
-- **Models served:** 20+ — mixed cloud APIs (Gemini, Groq) and local (Ollama via Rig)
+- **Models served:** 20+ — mixed cloud APIs (Gemini, Groq) and local (Ollama via Rig, **legacy**)
 
 ### Immich Machine Learning
 - **Location:** Nodes with Intel GPU (nuc1, nuc2)
@@ -90,7 +91,7 @@ This labels nodes with `intel.feature.node.kubernetes.io/gpu: true` when an Inte
 
 ### Stable Diffusion
 - **ComfyUI:** Separate deployment, uses app-template (likely Intel iGPU via Vulkan)
-- **OpenWebUI:** Runs on control-plane, no GPU claims — CPU inference via Ollama
+- **OpenWebUI:** Runs on control-plane, no GPU claims — CPU inference via Ollama (**legacy**, will be replaced by vLLM)
 
 ## 3. Control Plane iGPU Value Analysis
 
@@ -99,28 +100,28 @@ This labels nodes with `intel.feature.node.kubernetes.io/gpu: true` when an Inte
 - **iGPU:** Each has Intel integrated GPU (NUC-class hardware)
 - **Taints:** `node-role.kubernetes.io/control-plane:NoSchedule` **TOLERATED** — taints are deleted in `talos/main/control-plane/00-cluster.yaml`
 - **DRA driver:** `intel-gpu-resource-driver-xe` is affinity-bound to control-plane nodes
-- **Ollama:** Runs on CP nodes (1 replica per node, using Intel iGPU via Vulkan)
+- **Ollama:** Single legacy instance on **ms2** only (Intel iGPU via Vulkan) — being replaced by vLLM
 
 ### Value of Enabling DRA on Control Plane Nodes
 
 **What you already have:**
-- Ollama workloads are already running on CP nodes, consuming iGPU memory
-- The `intel-gpu-resource-driver-xe` helmrelease targets CP nodes only
-- LiteLLM proxy runs on CP nodes (3 replicas) — pure CPU workload
+- Ollama: **1 legacy Pod on ms2 only** — consuming iGPU memory on one of three CP nodes
+- The `intel-gpu-resource-driver-xe` helmrelease targets CP nodes (ms1–3) — **all three have DRA drivers but only ms2 uses the GPU**
+- LiteLLM proxy: 3 replicas on CP nodes — pure CPU workload, no competition
+- ms1 and ms3: iGPUs completely idle (DRA driver installed but no workloads claiming GPUs)
+- vLLM: **Already proven on Spark nodes** via llmkube (`eugr/spark-vllm-b12x` image) — this is the serving runtime pattern to follow
 
 **Potential additional value:**
 
 | Use Case | Value | Complexity |
 |----------|-------|-----------|
-| **CPU inference on CP cores** | **HIGH** — 3x MS nodes = ~12+ CPU cores at idle, could run additional small models (7B params quantized) alongside existing Ollama iGPU workloads | Low — Ollama already configured |
-| **Dedicated GPU inference pool on iGPU** | **MEDIUM** — 3x iGPUs could serve a pool of light models (embedding, reranking, small chat models) with better load distribution than current single-node ollama | Medium — need ResourceClaimTemplates per model |
-| **GPU-accelerated vector search (pgvector)** | **LOW** — iGPU memory is limited; pgvector benefits more from GPU RAM | Low setup, low ROI |
-| **Dedicated embedding/reranking** | **MEDIUM** — Run sentence-transformers on iGPU, reducing CPU load on worker nodes | Medium — need dedicated workloads |
-| **LLMKube-style inference on iGPU** | **LOW** — iGPU RAM too limited for large model serving; best for small models | High setup, low ROI |
+| **vLLM inference on MS nodes (CPU)** | **HIGH** — ms1+ms3 have zero AI workloads; all 3 MS nodes idle (~12+ CPU cores total). Use llmkube to deploy vLLM instances for embedding/reranking alongside the Spark vLLM instances | Low — llmkube already configured on cluster, proven pattern on Spark |
+| **vLLM iGPU inference on ms1+ms3** | **HIGH** — 2 unused iGPUs (ms1, ms3) with DRA drivers already installed. Use llmkube + llamacpp backend to serve quantized models (up to 7B) on Intel Xe iGPU with Vulkan, with load distribution and failover across ms1–3 | Medium — need llmkube Model/InferenceService CRDs for Intel GPU |
+| **vLLM embedding/reranking on CP** | **HIGH** — Memini needs CPU inference for embed + rerank. CP nodes are ideal: idle CPU cores on ms1,ms3 + spare RAM on ms2. Deploy via llmkube (same infrastructure as Spark vLLM) | Low — llmkube already running, just add Model/InferenceService CRDs |
 
-**Key insight:** The control plane nodes are already being used for inference via Ollama on iGPU. The biggest ROI would be adding **CPU inference** to these nodes — using the spare 96GB RAM and CPU cores to run additional quantized models via Ollama. This would complement the existing iGPU workloads and create a more distributed inference pool.
+**Key insight:** The CP nodes are dramatically underutilized. ms1 and ms3 have **zero AI workloads** — no vLLM, no iGPU usage, no CPU inference. ms2 has only 1 legacy Ollama Pod (being phased out). vLLM via llmkube is already proven on Spark nodes. All 3 nodes have 96GB RAM at idle and DRA drivers installed. The most impactful change is deploying vLLM (via llmkube) across all 3 MS nodes — creating a 3-node inference pool with 3 iGPUs and 288GB RAM for memini models, replacing the legacy Ollama instance.
 
-**Recommendation:** Add an `OLLAMA_NUM_GPUS: 0` or CPU-only Ollama instance alongside the Vulkan iGPU instances on CP nodes, or use a separate CPU-focused LLM runtime (like `litellm`'s local models) to leverage the CP nodes' CPU/RAM for inference work.
+**Recommendation:** Deploy vLLM (via llmkube) on ms1 and ms3 — CPU-only instances for embedding/reranking, and Intel Xe iGPU instances via Vulkan for the assessment model. This turns 3 idle CP nodes into a single 3-node vLLM pool, replacing the legacy Ollama on ms2 and giving you 3 iGPUs + 288GB RAM for memini models, agent context models, and light workload inference.
 
 ## 4. DRA Gaps & Opportunities
 
@@ -133,11 +134,11 @@ This labels nodes with `intel.feature.node.kubernetes.io/gpu: true` when an Inte
 
 | Node | GPU Type | DRA Driver | Alloc Mode | Workloads |
 |------|----------|-----------|------------|-----------|
-| nuc1 | Intel i965 | intel-gpu-resource-driver | Whole | Ollama, Immich ML |
-| nuc2 | Intel i965 | intel-gpu-resource-driver | Whole | Ollama |
-| ms1 | Intel (Xe) | intel-gpu-resource-driver-xe | Whole | Ollama, LiteLLM |
-| ms2 | Intel (Xe) | intel-gpu-resource-driver-xe | Whole | Ollama, LiteLLM |
-| ms3 | Intel (Xe) | intel-gpu-resource-driver-xe | Whole | Ollama, LiteLLM |
+| nuc1 | Intel i965 | intel-gpu-resource-driver | Whole | Immich ML |
+| nuc2 | Intel i965 | intel-gpu-resource-driver | Whole | (idle) |
+| ms1 | Intel (Xe) | intel-gpu-resource-driver-xe | Whole | LiteLLM |
+| ms2 | Intel (Xe) | intel-gpu-resource-driver-xe | Whole | Ollama (legacy), LiteLLM |
+| ms3 | Intel (Xe) | intel-gpu-resource-driver-xe | Whole | LiteLLM |
 | spark1 | NVIDIA Blackwell | dra-driver-nvidia-gpu | Whole | LLMKube (vLLM) |
 | spark2 | NVIDIA Blackwell | dra-driver-nvidia-gpu | Whole | LLMKube (vLLM) |
 | blade1-8 | (varies) | N/A | N/A | No GPU workloads currently |
@@ -156,12 +157,12 @@ This labels nodes with `intel.feature.node.kubernetes.io/gpu: true` when an Inte
 
 | Component | Model | Size | Serving | Where | Why |
 |-----------|-------|------|---------|-------|-----|
-| **Embedding** | Qwen3-Embedding-0.6B | 0.6B | CPU (llama.cpp) | MS nodes (CP, 96GB RAM) | Purpose-built, tiny, 3 replicas for concurrency. No GPU needed. |
-| **Reranker** | bge-reranker-v2-m3 | ~420M | CPU (llama.cpp) | MS nodes (CP, 96GB RAM) | Purpose-built, tiny, 3 replicas. No GPU needed. |
-| **Assessment** | Qwen3.8-Flash-Next (non-thinking) | 35B | iGPU (llama.cpp) | MS nodes (CP, Intel Xe iGPU) | Semantic alignment with Qwen chat models. MS iGPUs already have DRA driver + Ollama. Best for "is this worth remembering?" classification. |
-| **Summary** | Gemma2-9B Q4 | ~4.5GB VRAM | CUDA (llama.cpp) | Gaming 3060 Ti (8GB) | Gemma produces better compression summaries than Qwen. Fits comfortably on 8GB VRAM. Lossless-claw needs compression quality, not semantic reasoning. |
+| **Embedding** | Qwen3-Embedding-0.6B | 0.6B | CPU (vLLM) | MS nodes (CP, 96GB RAM) | Purpose-built, tiny, 3 replicas for concurrency. No GPU needed. |
+| **Reranker** | bge-reranker-v2-m3 | ~420M | CPU (vLLM) | MS nodes (CP, 96GB RAM) | Purpose-built, tiny, 3 replicas. No GPU needed. |
+| **Assessment** | Qwen3.8-Flash-Next (non-thinking) | 35B | iGPU (vLLM + llamacpp) | MS nodes (CP, Intel Xe iGPU) | Semantic alignment with Qwen chat models. Deploy vLLM (via llmkube) to ms1–3 for a 3-node iGPU pool. Best for "is this worth remembering?" classification. |
+| **Summary** | Gemma2-9B Q4 | ~4.5GB VRAM | CUDA (vLLM) | Gaming 3060 Ti (8GB) | Gemma produces better compression summaries than Qwen. Fits comfortably on 8GB VRAM. Lossless-claw needs compression quality, not semantic reasoning. |
 
-**Why not Spark nodes?** They're running the big AI models (vLLM). Memini/lossless-claw are background utility tasks — running them on dedicated smaller hardware prevents competition for GPU resources.
+**Why not Spark nodes?** They're running the big AI models via vLLM. Memini/lossless-claw are background utility tasks — running them on dedicated smaller hardware prevents competition for GPU resources.
 
 **Why Gemma for summarization?** Gemma2-9B is specifically strong at instruction-following and dense text compression. It produces more concise, higher-quality summaries per token than Qwen3.8-Flash, which is optimized for reasoning, not compression.
 
@@ -179,14 +180,15 @@ Phase 1: Embedding + Reranker (CPU, MS nodes)
 
 Phase 2: Assessment Model (Qwen3.8-Flash, MS iGPU)
   ├── Dependency: Phase 1 complete (embedding + reranker must work)
-  ├── Dependency: Qwen3.8-Flash-Next model on MS nodes via Ollama/llmkube
+  ├── Dependency: Deploy vLLM (via llmkube) to ms1–3 with Intel Xe iGPU Vulkan support
+  ├── Dependency: Qwen3.8-Flash-Next model (move from Spark or deploy new instance)
   ├── Dependency: LiteLLMModel for assessment model
   └── Test: Can memini assess message salience and decide what to store?
 
 Phase 3: Summary Model (Gemma2-9B, Gaming 3060 Ti)
   ├── Dependency: Phase 1 complete (embedding + reranker must work)
   ├── Dependency: Gemma2-9B Q4 model file (~4.5GB)
-  ├── Dependency: Inference service on gaming rig (Ollama recommended)
+  ├── Dependency: vLLM instance on gaming rig (via llmkube or direct deployment)
   ├── Dependency: LiteLLMModel for summary model
   └── Test: Can lossless-claw compress a 100k-token context into a summary?
 
@@ -255,38 +257,54 @@ spec:
     maxInputTokens: 8192
 ```
 
-### Step 3: Create Inference Services (llmkube)
+### Step 3: Deploy vLLM via llmkube on ms1, ms3
 
-For each model, create a Model + InferenceService:
+Deploy vLLM (via llmkube) on ms1–3 using the same pattern as Spark nodes. Two deployment types:
+- **CPU-only instances** — for embedding/reranker workloads (no GPU needed)
+- **iGPU instances** (Intel Xe via Vulkan) — for assessment model
 
 ```yaml
-# Model: qwen3-embedding (CPU, MS nodes)
----
-apiVersion: inference.llmkube.dev/v1alpha1
-kind: Model
+# CPU vLLM instance for embedding/reranker (3 replicas across ms1–3)
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: qwen3-embedding
+  name: vllm-embedding  # CPU, 3 replicas
 spec:
-  source: /path/to/models/qwen3-embedding-0.6b-Q8_0.gguf
-  format: gguf
-  hardware:
-    accelerator: cpu
-
----
-apiVersion: inference.llmkube.dev/v1alpha1
-kind: InferenceService
-metadata:
-  name: qwen3-embedding-1
-spec:
-  modelRef: qwen3-embedding
-  runtime: llamacpp
-  nodeSelector:
-    kubernetes.io/hostname: ms1  # or spread across MS nodes
+  replicas: 3
+  selector:
+    matchLabels:
+      app: vllm-embedding
+  template:
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values: [ms1, ms2, ms3]
+      containers:
+      - name: vllm
+        image: eugr/spark-vllm-b12x  # same image as Spark nodes
+        env:
+        - name: VLLM_CPU_ENABLE
+          value: "true"  # CPU inference
+        - name: MODEL_PATH
+          value: "/models/qwen3-embedding-0.6b"
+        resources:
+          requests:
+            cpu: "4"
+            memory: "16Gi"
+          limits:
+            memory: "32Gi"
 ```
 
-Repeat for `bge-reranker-v2-m3` (CPU) and `gemma2-9b` (CUDA on gaming rig).
+### Step 4: Create llmkube Model/InferenceService CRDs
 
-### Step 4: OpenClaw Configuration
+For embedding and reranker models, create Model + InferenceService (CPU, targeting ms1–3):
+
+### Step 5: OpenClaw Configuration
 
 Update `openclaw.json` with memini and lossless-claw:
 
