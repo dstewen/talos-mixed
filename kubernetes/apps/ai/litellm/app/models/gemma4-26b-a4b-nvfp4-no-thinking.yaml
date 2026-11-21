@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/litellm.home-operations.com/litellmmodel_v1alpha1.json
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMModel
+metadata:
+  name: gemma4-26b-a4b-nvfp4-no-thinking
+  namespace: ai
+spec:
+  modelName: gemma4-26b-a4b-nvfp4-no-thinking
+  params:
+    apiBase: http://gemma4-26b-a4b-nvfp4.ai.svc.cluster.local:8000/v1
+    apiKey: sk-llmkube-noauth
+    model: gemma4-26b-a4b-nvfp4
+    additional:
+      extra_body:
+        chat_template_kwargs:
+          enable_thinking: false

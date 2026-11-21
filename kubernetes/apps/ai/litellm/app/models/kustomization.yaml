@@ -2,6 +2,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
+  - gemma4-26b-a4b-nvfp4-no-thinking.yaml
   - gemma4-26b-a4b-nvfp4.yaml
   #  - google-ai-gemini-2.5-flash-lite.yaml
   #  - google-ai-gemini-2.5-flash.yaml
