@@ -62,7 +62,7 @@ spec:
           memory: 2Gi
   containers:
     - name: wait
-      image: alpine:3.21
+      image: alpine:3.24
       command: ["sleep", "infinity"]
   volumes:
     - name: model-cache
