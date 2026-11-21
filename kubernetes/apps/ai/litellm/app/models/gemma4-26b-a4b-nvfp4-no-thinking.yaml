@@ -9,7 +9,7 @@ spec:
   params:
     apiBase: http://gemma4-26b-a4b-nvfp4.ai.svc.cluster.local:8000/v1
     apiKey: sk-llmkube-noauth
-    model: gemma4-26b-a4b-nvfp4
+    model: openai/gemma4-26b-a4b-nvfp4
     additional:
       extra_body:
         chat_template_kwargs:
