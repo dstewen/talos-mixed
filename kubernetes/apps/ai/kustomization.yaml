@@ -24,6 +24,7 @@ resources:
   #  - ./mem0/ks.yaml
   - ./memini/ks.yaml
   - ./memory-mcp/ks.yaml
+  - ./rerank/ks.yaml
   - ./n8n-mcp/ks.yaml
   - ./ollama/ks.yaml
   #  - ./opencode/ks.yaml
