@@ -24,24 +24,6 @@ spec:
           - matchExpressions:
               - key: node-role.kubernetes.io/control-plane
                 operator: Exists
-  containers:
-    - name: downloader
-      image: python:3.15-slim
-      command: ["/bin/sh", "-ec"]
-      env:
-        - name: HF_TOKEN
-          valueFrom:
-            secretKeyRef:
-              name: huggingface
-              key: HF_TOKEN
-      volumeMounts:
-        - name: model-cache
-          mountPath: /models
-  volumes:
-    - name: model-cache
-      persistentVolumeClaim:
-        claimName: llmkube
-  restartPolicy: Never
   initContainers:
     - name: download-model
       image: python:3.15-slim
@@ -78,3 +60,12 @@ spec:
         limits:
           cpu: "1"
           memory: 2Gi
+  containers:
+    - name: wait
+      image: alpine:3.21
+      command: ["sleep", "infinity"]
+  volumes:
+    - name: model-cache
+      persistentVolumeClaim:
+        claimName: llmkube
+  restartPolicy: Never
