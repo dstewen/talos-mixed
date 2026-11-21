@@ -1,8 +1,13 @@
 ---
 # One-off Pod to pre-stage the Qwen3-Embedding model onto the shared
-# llmkube PVC so the InferenceService can read it directly via
-# `pvc://llmkube/Qwen/Qwen3-Embedding-0.6B-GGUF/Qwen3-Embedding-0.6B-Q8_0.gguf`
-# (no runtime download needed).
+# embeddings PVC at PVC root (/Qwen/...) so the InferenceService can read it
+# via `pvc://embeddings/Qwen/Qwen3-Embedding-0.6B-GGUF/...` (no runtime
+# download needed).
+#
+# IMPORTANT: write to PVC root path, not /models/ — the InferenceService
+# expects the model at /Qwen/... on the embeddings PVC.
+# If you mounted / to the PVC root, it fails with "mountpoint on the top of
+# rootfs". So we mount the PVC at /pvc and write to /pvc/Qwen/...
 #
 # Run manually:
 #   kubectl apply -f preloader-embeddings.yaml -n ai
@@ -39,13 +44,13 @@ spec:
           from huggingface_hub import hf_hub_download
           repo = "Qwen/Qwen3-Embedding-0.6B-GGUF"
           file = "Qwen3-Embedding-0.6B-Q8_0.gguf"
-          outdir = "/models/Qwen/Qwen3-Embedding-0.6B-GGUF"
+          outdir = "/pvc/Qwen/Qwen3-Embedding-0.6B-GGUF"
           os.makedirs(outdir, exist_ok=True)
           path = hf_hub_download(repo, file, local_dir=outdir)
           print(f"[preloader] Downloaded to: {path}")
           EOF
-          chown -R 1000:1000 /models/Qwen/Qwen3-Embedding-0.6B-GGUF
-          chmod -R 755 /models/Qwen/Qwen3-Embedding-0.6B-GGUF
+          chown -R 1000:1000 /pvc/Qwen/Qwen3-Embedding-0.6B-GGUF
+          chmod -R 755 /pvc/Qwen/Qwen3-Embedding-0.6B-GGUF
           echo "[preloader] Done"
       env:
         - name: HF_TOKEN
@@ -55,7 +60,7 @@ spec:
               key: HF_TOKEN
       volumeMounts:
         - name: model-cache
-          mountPath: /models
+          mountPath: /pvc
       resources:
         limits:
           cpu: "1"
@@ -67,5 +72,5 @@ spec:
   volumes:
     - name: model-cache
       persistentVolumeClaim:
-        claimName: llmkube
+        claimName: embeddings
   restartPolicy: Never
