@@ -16,10 +16,8 @@ spec:
   modelCache:
     claimName: embeddings
   runtime: llamacpp
-  # No spec.command here, deliberately: llmkube >= 0.9.28 drops its generated
-  # args when command is set (why the chart is held at 0.9.27). The stock
-  # image's entrypoint is llama-server already.
-  image: ghcr.io/ggml-org/llama.cpp:server-intel@sha256:56df0a745f16eed7c819c929a9b40038d169509d8d3f05edc08fd11252d14c49
+  # Plain server (no SYCL): intel image crashes on CPU nodes.
+  image: ghcr.io/ggml-org/llama.cpp:server@sha256:56df0a745f16eed7c819c929a9b40038d169509d8d3f05edc08fd11252d14c49
   rolloutPolicy:
     waitForIdle: true
     idleTimeoutSeconds: 600
