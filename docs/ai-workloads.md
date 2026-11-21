@@ -104,23 +104,24 @@ This labels nodes with `intel.feature.node.kubernetes.io/gpu: true` when an Inte
 ### Value of Enabling DRA on Control Plane Nodes
 
 **What you already have:**
-- Ollama is running on ms2 (single instance), consuming iGPU memory on one CP node
-- The `intel-gpu-resource-driver-xe` helmrelease targets CP nodes only
-- LiteLLM proxy runs on CP nodes (3 replicas) — pure CPU workload
+- Ollama: **1 Pod on ms2 only** — consuming iGPU memory on one of three CP nodes
+- The `intel-gpu-resource-driver-xe` helmrelease targets CP nodes (ms1–3) — **all three have DRA drivers but only ms2 uses the GPU**
+- LiteLLM proxy: 3 replicas on CP nodes — pure CPU workload, no competition
+- ms1 and ms3: iGPUs completely idle (DRA driver installed but no workloads claiming GPUs)
 
 **Potential additional value:**
 
 | Use Case | Value | Complexity |
 |----------|-------|-----------|
-| **CPU inference on CP cores** | **HIGH** — 3x MS nodes = ~12+ CPU cores at idle, could run additional small models (7B params quantized) alongside the single existing Ollama instance on ms2 | Low — Ollama already configured |
-| **Dedicated GPU inference pool on iGPU** | **MEDIUM** — 3x iGPUs (ms1–3) could serve a pool of light models (embedding, reranking, small chat models) with better load distribution than the single Ollama instance on ms2 | Medium — need ResourceClaimTemplates per model |
+| **CPU inference on CP cores** | **HIGH** — ms1+ms3 have zero CPU inference; all 3 MS nodes idle (~12+ CPU cores total). Deploying Ollama CPU instances on ms1,ms3 alongside ms2's iGPU instance creates a 3-node inference pool with 96GB RAM to share | Low — Ollama already installed on ms2, same image/config works |
+| **iGPU pool on ms1+ms3** | **HIGH** — 2 unused iGPUs (ms1, ms3) with DRA drivers already installed. Deploying Ollama on them creates a 3-node iGPU pool (ms1–3) for models up to 7B quantized, with load distribution and failover | Medium — same app-template as ms2, just add nodes |
+| **Dedicated embedding/reranking** | **HIGH** — Memini needs CPU inference for embed + rerank. CP nodes are already the right place: idle CPU cores on ms1,ms3 + spare RAM on ms2 (LiteLLM doesn't compete for memory) | Low — just deploy 3 CPU-only Ollama instances |
 | **GPU-accelerated vector search (pgvector)** | **LOW** — iGPU memory is limited; pgvector benefits more from GPU RAM | Low setup, low ROI |
-| **Dedicated embedding/reranking** | **MEDIUM** — Run sentence-transformers on iGPU, reducing CPU load on worker nodes | Medium — need dedicated workloads |
 | **LLMKube-style inference on iGPU** | **LOW** — iGPU RAM too limited for large model serving; best for small models | High setup, low ROI |
 
-**Key insight:** The CP nodes are already partially used for inference (Ollama on ms2's iGPU). The biggest ROI would be adding **CPU inference** to these nodes — using the spare 96GB RAM and CPU cores across all 3 MS nodes to run additional quantized models via Ollama. This would complement the existing ms2 iGPU workload and create a more distributed inference pool.
+**Key insight:** The CP nodes are dramatically underutilized. ms1 and ms3 have **zero AI workloads** — no Ollama, no iGPU usage, no CPU inference. ms2 has only 1 Ollama Pod (iGPU only). All 3 nodes have 96GB RAM at idle and DRA drivers installed. The single most impactful change is deploying Ollama across all 3 CP nodes, creating a 3-node inference pool with 3 iGPUs and 288GB RAM for lightweight models.
 
-**Recommendation:** Add CPU-only Ollama instances (or separate CPU-focused LLM runtime) on the remaining CP nodes (ms1, ms3) alongside the existing Vulkan iGPU instance on ms2, to leverage the CP nodes' CPU/RAM for inference work.
+**Recommendation:** Deploy Ollama on ms1 and ms3 — both CPU-only (for embedding/reranker workloads) and with iGPU Vulkan enabled (for chat model inference). This turns 3 idle CP nodes into a single 3-node inference pool, giving you 3 iGPUs + 288GB RAM for memini models, agent context models, and light workload inference.
 
 ## 4. DRA Gaps & Opportunities
 
@@ -158,7 +159,7 @@ This labels nodes with `intel.feature.node.kubernetes.io/gpu: true` when an Inte
 |-----------|-------|------|---------|-------|-----|
 | **Embedding** | Qwen3-Embedding-0.6B | 0.6B | CPU (llama.cpp) | MS nodes (CP, 96GB RAM) | Purpose-built, tiny, 3 replicas for concurrency. No GPU needed. |
 | **Reranker** | bge-reranker-v2-m3 | ~420M | CPU (llama.cpp) | MS nodes (CP, 96GB RAM) | Purpose-built, tiny, 3 replicas. No GPU needed. |
-| **Assessment** | Qwen3.8-Flash-Next (non-thinking) | 35B | iGPU (llama.cpp) | MS nodes (CP, Intel Xe iGPU) | Semantic alignment with Qwen chat models. MS iGPUs have DRA driver; only ms2 currently runs Ollama. Best for "is this worth remembering?" classification. |
+| **Assessment** | Qwen3.8-Flash-Next (non-thinking) | 35B | iGPU (llama.cpp) | MS nodes (CP, Intel Xe iGPU) | Semantic alignment with Qwen chat models. Only ms2 currently runs Ollama — deploy to ms1+ms3 to create a 3-node iGPU pool for this model. Best for "is this worth remembering?" classification. |
 | **Summary** | Gemma2-9B Q4 | ~4.5GB VRAM | CUDA (llama.cpp) | Gaming 3060 Ti (8GB) | Gemma produces better compression summaries than Qwen. Fits comfortably on 8GB VRAM. Lossless-claw needs compression quality, not semantic reasoning. |
 
 **Why not Spark nodes?** They're running the big AI models (vLLM). Memini/lossless-claw are background utility tasks — running them on dedicated smaller hardware prevents competition for GPU resources.
@@ -179,7 +180,8 @@ Phase 1: Embedding + Reranker (CPU, MS nodes)
 
 Phase 2: Assessment Model (Qwen3.8-Flash, MS iGPU)
   ├── Dependency: Phase 1 complete (embedding + reranker must work)
-  ├── Dependency: Qwen3.8-Flash-Next model on MS nodes (via Ollama on ms2 or llmkube)
+  ├── Dependency: Deploy Ollama to ms1, ms3 (creating 3-node iGPU pool on ms1–3)
+  ├── Dependency: Qwen3.8-Flash-Next model on ms2 via Ollama (existing)
   ├── Dependency: LiteLLMModel for assessment model
   └── Test: Can memini assess message salience and decide what to store?
 
@@ -255,9 +257,56 @@ spec:
     maxInputTokens: 8192
 ```
 
-### Step 3: Create Inference Services (llmkube)
+### Step 3: Deploy Ollama to ms1, ms3 (create 3-node pool)
 
-For each model, create a Model + InferenceService:
+Extend the existing Ollama deployment from ms2 to all 3 CP nodes. Two instances per node:
+- **Vulkan iGPU instance** (existing pattern on ms2) — for chat/embedding models on GPU
+- **CPU-only instance** — for embedding/reranker workloads (no GPU needed)
+
+```yaml
+# Option A: Single Ollama DaemonSet with OLLAMA_NUM_GPUS per pod
+# On ms1,ms3: OLLAMA_NUM_GPUS=0 (CPU) or OLLAMA_NUM_GPUS=1 (iGPU Vulkan)
+# On ms2: already running OLLAMA_INTEL_GPU=true, OLLAMA_VULKAN=1
+
+# Option B: Separate deployments per workload
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ollama-embedding  # CPU-only, 3 replicas
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ollama-embedding
+  template:
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values: [ms1, ms2, ms3]
+      containers:
+      - name: ollama
+        image: ollama/ollama
+        env:
+        - name: OLLAMA_NUM_GPUS
+          value: "0"  # CPU-only
+        - name: OLLAMA_HOST
+          value: "0.0.0.0:11435"
+        resources:
+          requests:
+            cpu: "2"
+            memory: "8Gi"
+          limits:
+            memory: "16Gi"
+```
+
+### Step 4: Create Inference Services (llmkube)
+
+For embedding and reranker models, create Model + InferenceService (CPU, targeting ms1–3):
 
 ```yaml
 # Model: qwen3-embedding (CPU, MS nodes)
@@ -281,12 +330,12 @@ spec:
   modelRef: qwen3-embedding
   runtime: llamacpp
   nodeSelector:
-    kubernetes.io/hostname: ms1  # or spread across MS nodes
+    kubernetes.io/hostname: ms1  # or use nodeAffinity for ms1-3
 ```
 
 Repeat for `bge-reranker-v2-m3` (CPU) and `gemma2-9b` (CUDA on gaming rig).
 
-### Step 4: OpenClaw Configuration
+### Step 5: OpenClaw Configuration
 
 Update `openclaw.json` with memini and lossless-claw:
 
