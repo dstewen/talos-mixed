@@ -16,8 +16,12 @@ spec:
   modelCache:
     claimName: embeddings
   runtime: llamacpp
-  # Plain server (no SYCL): intel image crashes on CPU nodes.
-  image: ghcr.io/ggml-org/llama.cpp:server@sha256:56df0a745f16eed7c819c929a9b40038d169509d8d3f05edc08fd11252d14c49
+  # server-vulkan (not intel): intel image ships SYCL backend which crashes at
+  # startup on CPU-only nodes (no Intel GPU device → "can not find preferred
+  # GPU platform"). The vulkan image has no SYCL; if no Vulkan ICD is on the
+  # host it gracefully falls back to CPU. Pre-staged model on embeddings PVC
+  # via preloader-embeddings.yaml.
+  image: ghcr.io/ggml-org/llama.cpp:server-vulkan@sha256:56df0a745f16eed7c819c929a9b40038d169509d8d3f05edc08fd11252d14c49
   rolloutPolicy:
     waitForIdle: true
     idleTimeoutSeconds: 600
