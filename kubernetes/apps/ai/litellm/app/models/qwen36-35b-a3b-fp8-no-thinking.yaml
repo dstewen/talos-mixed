@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/litellm.home-operations.com/litellmmodel_v1alpha1.json
+# Non-thinking variant of qwen36-35b-a3b-fp8 for memini assessment/distillation
+# and lossless-claw summarization — same InferenceService, thinking disabled
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMModel
+metadata:
+  name: qwen36-35b-a3b-fp8-no-thinking
+  namespace: ai
+spec:
+  modelName: qwen36-35b-a3b-fp8-no-thinking
+  params:
+    apiBase: http://qwen36-35b-a3b-fp8.ai.svc.cluster.local:8000/v1
+    apiKey: sk-llmkube-noauth
+    model: openai/qwen36-35b-a3b-fp8
+    additional:
+      extra_body:
+        chat_template_kwargs:
+          enable_thinking: false

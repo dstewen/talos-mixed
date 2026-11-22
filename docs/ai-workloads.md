@@ -342,7 +342,7 @@ Update `openclaw.json` with memini and lossless-claw:
         "embed_dims": 1024,
         "embed_api_key_secret": "litellm-key-memini",
         "llm_base_url": "http://litellm.ai:4000/v1",
-        "llm_model": "litellm/gemma4-26b-a4b-nvfp4-no-thinking",
+        "llm_model": "litellm/qwen36-35b-a3b-fp8-no-thinking",
         "llm_api_key_secret": "litellm-key-memini",
         "rerank": "http://litellm.ai:4000/v1",
         "rerank_model": "rerank",
