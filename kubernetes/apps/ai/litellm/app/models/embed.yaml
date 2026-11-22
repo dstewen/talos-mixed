@@ -1,0 +1,14 @@
+# LiteLLMModel for embed (wraps embed-1/2 InferenceServices)
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMModel
+metadata:
+  name: embed
+  namespace: ai
+spec:
+  modelName: embed
+  params:
+    apiBase: http://embed.ai.svc.cluster.local:8080/v1
+    apiKey: sk-llmkube-noauth
+    model: openai/embed
+  info:
+    endpoint: /v1/embeddings
