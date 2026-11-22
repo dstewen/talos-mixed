@@ -1,0 +1,12 @@
+# LiteLLMModel for rerank (wraps rerank-1/2 InferenceServices)
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMModel
+metadata:
+  name: rerank
+  namespace: ai
+spec:
+  modelName: rerank
+  params:
+    apiBase: http://rerank.ai.svc.cluster.local:8080/v1
+    apiKey: sk-llmkube-noauth
+    model: openai/rerank

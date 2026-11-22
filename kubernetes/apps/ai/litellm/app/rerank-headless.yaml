@@ -1,0 +1,15 @@
+---
+# Headless service for rerank-1/2 InferenceServices (load-balances across both)
+apiVersion: v1
+kind: Service
+metadata:
+  name: rerank
+  namespace: ai
+spec:
+  clusterIP: None  # headless
+  selector:
+    rerank-pool: "true"
+  ports:
+    - port: 8080
+      targetPort: 8080
+      name: http
