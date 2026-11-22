@@ -30,6 +30,5 @@ resources:
   #  - opencode-go-qwen3-7-max.yaml
   #  - qwen3-coder-next-fp8.yaml
   #  - ollama-rig-qwen3-5-4b-ollama.yaml
-  #  - qwen3-coder-next-fp8.yaml
   - qwen3.6-35b-a3b-fp8.yaml
   - rerank.yaml
