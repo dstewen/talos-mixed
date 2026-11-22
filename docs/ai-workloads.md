@@ -337,14 +337,14 @@ Update `openclaw.json` with memini and lossless-claw:
     "entries": {
       "memini": {
         "enabled": true,
-        "embed_base_url": "http://litellm.llm:4000/v1",
+        "embed_base_url": "http://litellm.ai:4000/v1",
         "embed_model": "embed",
         "embed_dims": 1024,
         "embed_api_key_secret": "litellm-key-memini",
-        "llm_base_url": "http://litellm.llm:4000/v1",
+        "llm_base_url": "http://litellm.ai:4000/v1",
         "llm_model": "litellm/qwen3.8-flash-next-chat",
         "llm_api_key_secret": "litellm-key-memini",
-        "rerank": "http://litellm.llm:4000/v1",
+        "rerank": "http://litellm.ai:4000/v1",
         "rerank_model": "rerank",
         "rerank_api_key_secret": "litellm-key-memini"
       },
