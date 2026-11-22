@@ -32,3 +32,4 @@ resources:
   #  - ollama-rig-qwen3-5-4b-ollama.yaml
   - qwen3.6-35b-a3b-fp8.yaml
   - rerank.yaml
+  - qwen36-35b-a3b-fp8-no-thinking.yaml
