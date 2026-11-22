@@ -148,5 +148,5 @@ spec:
       - REDIS_PORT
   apiAccess:
     masterKeyRef:
-      name: litellm
+      name: litellm-secret
       key: LITELLM_MASTER_KEY
