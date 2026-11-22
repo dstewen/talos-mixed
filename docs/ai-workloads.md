@@ -1,5 +1,7 @@
 # AI Workloads Analysis
 
+**Version:** 1.0.1 (2026-11-22) — Updated memini LLM model to `qwen36-35b-a3b-fp8-no-thinking`; added no-thinking LiteLLMModel alias
+
 ## 1. DRA (Device Resource Allocation) — Current State
 
 ### Which Nodes Use DRA
@@ -159,14 +161,14 @@ This labels nodes with `intel.feature.node.kubernetes.io/gpu: true` when an Inte
 |-----------|-------|------|---------|-------|-----|
 | **Embedding** | Qwen3-Embedding-0.6B | 0.6B | CPU (vLLM) | MS nodes (CP, 96GB RAM) | Purpose-built, tiny, 3 replicas for concurrency. No GPU needed. |
 | **Reranker** | bge-reranker-v2-m3 | ~420M | CPU (vLLM) | MS nodes (CP, 96GB RAM) | Purpose-built, tiny, 3 replicas. No GPU needed. |
-| **Assessment** | Qwen3.8-Flash-Next (non-thinking) | 35B | iGPU (vLLM + llamacpp) | MS nodes (CP, Intel Xe iGPU) | Semantic alignment with Qwen chat models. Deploy vLLM (via llmkube) to ms1–3 for a 3-node iGPU pool. Best for "is this worth remembering?" classification. |
+| **Assessment** | Qwen3.6-35B-A3B-FP8 (no-thinking) | 35B | vLLM (Spark2) | Spark2 (NVIDIA GPU) | Same model family as primary agent model. No-thinking variant created via LiteLLMModel alias — thinking disabled via `chat_template_kwargs.enable_thinking: false`. Memini assessment needs structured JSON output, not extended reasoning chains.
 | **Summary** | Gemma2-9B Q4 | ~4.5GB VRAM | CUDA (vLLM) | Gaming 3060 Ti (8GB) | Gemma produces better compression summaries than Qwen. Fits comfortably on 8GB VRAM. Lossless-claw needs compression quality, not semantic reasoning. |
 
 **Why not Spark nodes?** They're running the big AI models via vLLM. Memini/lossless-claw are background utility tasks — running them on dedicated smaller hardware prevents competition for GPU resources.
 
 **Why Gemma for summarization?** Gemma2-9B is specifically strong at instruction-following and dense text compression. It produces more concise, higher-quality summaries per token than Qwen3.8-Flash, which is optimized for reasoning, not compression.
 
-**Why Qwen for assessment?** Memini's assessment model needs to understand conversation semantics — "is this a fact worth keeping, or just chat?" Using a Qwen-family model gives better semantic alignment with the Qwen chat models your agents already use, and the assessment prompts are written for Qwen-style models.
+**Why Qwen for assessment?** Memini's assessment model needs to understand conversation semantics — "is this a fact worth keeping, or just chat?" Using `qwen36-35b-a3b-fp8` (the same model family as your primary agent model) gives better semantic alignment with the chat models your agents use. The assessment/distillation functions need structured JSON output, not extended reasoning chains — hence the `no-thinking` variant via LiteLLMModel `chat_template_kwargs`.
 
 ### Implementation Order & Dependencies
 
@@ -178,10 +180,10 @@ Phase 1: Embedding + Reranker (CPU, MS nodes)
   └── Dependency: OpenClaw memini plugin installed
   └── Test: Can memini embed messages and retrieve via similarity search?
 
-Phase 2: Assessment Model (Qwen3.8-Flash, MS iGPU)
+Phase 2: Assessment Model (Qwen3.6-35B-A3B-FP8-no-thinking, vLLM on Spark)
   ├── Dependency: Phase 1 complete (embedding + reranker must work)
   ├── Dependency: Deploy vLLM (via llmkube) to ms1–3 with Intel Xe iGPU Vulkan support
-  ├── Dependency: Qwen3.8-Flash-Next model (move from Spark or deploy new instance)
+  ├── Dependency: Qwen3.6-35B-A3B-FP8-no-thinking LiteLLMModel alias (already deployed via qwen36-35b-a3b-fp8-no-thinking.yaml)
   ├── Dependency: LiteLLMModel for assessment model
   └── Test: Can memini assess message salience and decide what to store?
 
@@ -210,8 +212,9 @@ wget -O /path/to/models/qwen3-embedding-0.6b-Q8_0.gguf \
 wget -O /path/to/models/bge-reranker-v2-m3-Q8_0.gguf \
   https://huggingface.co/gpustack/bge-reranker-v2-m3-GGUF/resolve/main/bge-reranker-v2-m3-Q8_0.gguf
 
-# Qwen3.8-Flash-Next (non-thinking variant)
-# Already running on Spark nodes — reuse the same weights with thinking disabled
+# Qwen3.6-35B-A3B-FP8 (no-thinking variant)
+# Already deployed as LiteLLMModel alias: qwen36-35b-a3b-fp8-no-thinking
+# Same InferenceService as qwen36-35b-a3b-fp8, with thinking disabled via chat_template_kwargs
 
 # Gemma2-9B Q4 (for gaming rig)
 wget -O /path/to/models/gemma2-9b-Q4_K_M.gguf \
@@ -451,7 +454,7 @@ PLEASE submit a bug report to https://software.intel.com/en-us/support/priority-
 **Resolution (PR #866):**
 - **HelmRelease:** Added `clawhub:@eleboucher/memini` and `@martian-engineering/lossless-claw` to the init container plugin install commands
 - **ConfigMap:** Added `memini` and `lossless-claw` to `plugins.allow`, configured `memini` with `base_url: http://memini.llm:8080` and per-agent namespace isolation, set `plugins.slots.memory: "memini"` and `plugins.slots.contextEngine: "lossless-claw"`
-- **Memini HelmRelease:** Updated `MEMINI_LLM_MODEL` from `muse-glimmer` to `gemma4-26b-a4b-nvfp4-no-thinking` (the `muse-glimmer` model doesn't exist)
+- **Memini HelmRelease:** Updated `MEMINI_LLM_MODEL` from `muse-glimmer` to `qwen36-35b-a3b-fp8-no-thinking` (same model family as agents, no-thinking variant ensures structured JSON output for memini assessment/distillation without extended reasoning chains)
 
 ### Key Issues Summary
 
@@ -464,7 +467,7 @@ PLEASE submit a bug report to https://software.intel.com/en-us/support/priority-
 | **Flux not applying new CRDs** | `kustomization.yaml` explicit resource list not updated | Add `embed.yaml` and `rerank.yaml` to resources |
 | **Invalid LiteLLMModel schema** | Used `endpoint: /v1/embeddings` instead of `mode: embedding` | Use correct `mode: embedding` field |
 | **Memini not installed in OpenClaw** | Was only a K8s service, not an OpenClaw plugin | Install `clawhub:@eleboucher/memini` via init container |
-| **Non-existent LLM model** | `MEMINI_LLM_MODEL: muse-glimmer` doesn't exist | Changed to `gemma4-26b-a4b-nvfp4-no-thinking` |
+| **Non-existent LLM model** | `MEMINI_LLM_MODEL: muse-glimmer` doesn't exist | Changed to `qwen36-35b-a3b-fp8-no-thinking` (no-thinking variant of the primary agent model)
 
 ### Troubleshooting Checklist
 
