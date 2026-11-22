@@ -11,4 +11,4 @@ spec:
     apiKey: sk-llmkube-noauth
     model: openai/embed
   info:
-    endpoint: /v1/embeddings
+    mode: embedding
