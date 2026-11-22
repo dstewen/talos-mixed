@@ -1770,10 +1770,6 @@ data:
             }
           }
         },
-        "slots": {
-          "memory": "memini",
-          "contextEngine": "lossless-claw"
-        }
       },
       "diagnostics": {
         "enabled": true,
