@@ -156,6 +156,15 @@ spec:
                 node dist/index.js plugins install "clawhub:@openclaw/discord" --force --accept-capabilities
                 node dist/index.js plugins install "clawhub:@openclaw/searxng-plugin" --force --accept-capabilities
                 node dist/index.js plugins install "clawhub:@openclaw/mistral-provider" --force --accept-capabilities
+                node dist/index.js plugins install "clawhub:@eleboucher/memini" --force --accept-capabilities
+
+                # Install lossless-claw from npm (context engine)
+                if ! ls /app/node_modules/@martian-engineering/lossless-claw 2>/dev/null; then
+                  echo "Installing lossless-claw from npm..."
+                  npm install --prefix /app @martian-engineering/lossless-claw --force 2>/dev/null || \
+                  npm install @martian-engineering/lossless-claw 2>/dev/null || \
+                  echo "lossless-claw npm install skipped (plugin may already be bundled)"
+                fi
 
                 # Re-harden permissions right before gateway boots (catches any 0644 files written during plugin install)
                 chmod 00700 /home/node /home/node/.openclaw 2>/dev/null || true
