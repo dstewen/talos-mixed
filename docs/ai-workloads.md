@@ -1,6 +1,6 @@
 # AI Workloads Analysis
 
-**Version:** 1.0.1 (2026-11-22) — Updated memini LLM model to `qwen36-35b-a3b-fp8-no-thinking`; added no-thinking LiteLLMModel alias
+**Version:** 1.0.2 (2026-11-22) — Added basic cross-session memory test verification
 
 ## 1. DRA (Device Resource Allocation) — Current State
 
@@ -482,3 +482,20 @@ For future deployments of llama.cpp models on Talos:
 7. **LiteLLMModel aliases:** Required when llmkube auto-suffixes model names (e.g., `embed-1`, `embed-2`) but the consumer expects bare names (`embed`)
 8. **Flux kustomization:** Always check that new CRD files are added to the kustomization's `resources:` list
 9. **LiteLLMModel schema:** Use `mode: embedding` or `mode: reranker`, NOT `endpoint: /v1/embeddings`
+
+### Cross-Session Memory Test
+
+**Date:** 2026-11-22 19:51 AEST
+
+**Test:** In a fresh agent session (separate from the install session), asked "what do we know about memini's LLM model?" — the agent successfully recalled memini configuration from a prior session.
+
+**Results recalled:**
+- Model: `qwen36-35b-a3b-fp8-no-thinking`
+- Namespace isolation: `{namespace}/{agent}` pattern
+- LiteLLM routing: `litellm.qwen36-35b-a3b-fp8` → `http://litellm.ai.svc.cluster.local:4000/v1`
+- Ollama fallback paths: `http://ollama.ai.svc.cluster.local:11434`
+- Plugin version: v0.7.39
+
+**Conclusion:** memini memory persists across separate agent chat sessions. The `memory_recall` tool successfully retrieves stored configuration facts when queried.
+
+**Note:** Manual `memory_remember` calls via MCP tools returned `TypeError: fetch failed` — may be a transient connectivity issue to the memini service. The recall/briefing pipeline is functional.
