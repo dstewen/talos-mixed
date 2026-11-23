@@ -221,34 +221,28 @@ loki.process "loki_syslog_proxy" {
 
 }
 
-// Talos kernel logs via KmsgLogConfig (json_lines format over TCP)
-loki.source.syslog "talos_kernel" {
-  listener {
-    protocol = "tcp"
-    address = "0.0.0.0:5141"
-    labels = {
-      job = "talos.kernel",
-      cluster = "main",
-    }
+// Talos kernel logs via KmsgLogConfig (JSON lines format over TCP)
+loki.source.raw "talos_kernel" {
+  listen_address = "0.0.0.0:5141"
+  listen_protocol = "tcp"
+  format = "json_lines"
+  labels = {
+    job = "talos.kernel",
+    cluster = "main",
   }
   forward_to = [loki.process.talos_kernel.receiver]
-
-  // Map Talos kernel log fields to Loki-standard labels
-  stage.static_labels {
-    values = {
-      cluster = "main",
-    }
-  }
-
-  stage.syslog {
-    time_offset = ""
-    time_field = "time"
-    labels = ["facility", "priority", "app_name", "hostname", "msg_id", "proc_id"]
-  }
 }
 
 loki.process "talos_kernel" {
   forward_to = [loki.write.default.receiver]
+
+  // Parse the JSON from Talos kmsg
+  stage.json {
+    expressions = {
+      hostname = "hostname",
+      msg = "msg",
+    }
+  }
 
   stage.static_labels {
     values = {
