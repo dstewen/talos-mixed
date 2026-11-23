@@ -1,0 +1,4 @@
+apiVersion: v1alpha1
+kind: KmsgLogConfig
+name: alloy
+url: tcp://alloy.monitoring.svc.cluster.local:5141/
