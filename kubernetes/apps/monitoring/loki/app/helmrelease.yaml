@@ -61,7 +61,8 @@ spec:
         type: s3
         bucketNames:
           chunks: talos-kernel-logs
-          rules: talos-kernel-logs
+          index: talos-kernel-logs
+          ruler: talos-kernel-logs
     singleBinary:
       replicas: 1
       persistence:
