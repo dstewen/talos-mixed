@@ -1,0 +1,27 @@
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/litellm.home-operations.com/litellmmodel_v1alpha1.json
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMModel
+metadata:
+  name: qwen3-5-4b-utility
+  namespace: ai # Replace with your LiteLLMProxy namespace
+spec:
+  # Optional: explicitly bind to a specific LiteLLMProxy name (omit if your proxy adopts all models in the namespace)
+  proxyRef: litellm
+  # The model name clients (like OpenClaw) will request
+  modelName: qwen3.5-4b-utility
+  params:
+    # Match the exact model tag served on your Windows rig (e.g., qwen3.5:4b for Ollama)
+    model: openai/qwen3.5:4b-q8_0
+    # Use :11434/v1 for Ollama, :1234/v1 for LM Studio, or :8080/v1 for llama.cpp
+    apiBase: http://192.168.10.87:11434/v1
+    # LiteLLM's openai provider requires a non-empty placeholder key even when local auth is off
+    apiKey: sk-no-key-required
+    dropParams: true
+    # Escape hatch for extra litellm_params (such as disabling Qwen 3.5 thinking mode)
+    additional:
+      extra_body:
+        think: false
+  info:
+    maxInputTokens: 32768
+    supportsFunctionCalling: true
