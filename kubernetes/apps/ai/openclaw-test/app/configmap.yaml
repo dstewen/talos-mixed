@@ -32,6 +32,7 @@ data:
         "utilityModel": {
           "primary": "litellm/gemma4-26b-a4b-nvfp4-no-thinking",
           "fallbacks": [
+            "litellm/qwen3.5-4b-utility"
             "ollama-rig/gemma4:26b-a4b-it-qat"
           ]
         },
@@ -342,6 +343,15 @@ data:
                 "params": {
                   "num_ctx": 262144
                 }
+              },
+              {
+                "id": "qwen3.5-4b-utility",
+                "name": "Qwen 3.5 4B Q8_0 (litellm)",
+                "reasoning": true,
+                "input": ["text", "image"],
+                "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+                "contextWindow": 32768,
+                "maxTokens": 4096,
               },
               {
                 "id": "qwen36-35b-a3b-fp8",
