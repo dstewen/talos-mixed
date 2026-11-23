@@ -7,6 +7,8 @@ resources:
   - ./service.yaml
   - ./httproute.yaml
   - ./ocirepository.yaml
+  - ./pvc.yaml
+  - ./ssh-identity-externalsecret.yaml
   # Power meters — uncomment when hardware is ready
   # - ./power-meters-config.yaml
   # - ./power-meters-secret.yaml
