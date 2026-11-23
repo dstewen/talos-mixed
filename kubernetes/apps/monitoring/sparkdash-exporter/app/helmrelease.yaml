@@ -19,6 +19,7 @@ spec:
   values:
     fullnameOverride: *app
     defaultPodOptions:
+      hostNetwork: true
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
@@ -36,6 +37,8 @@ spec:
     controllers:
       sparkdash-exporter:
         type: daemonset
+        pod:
+          runtimeClassName: nvidia
         containers:
           app:
             image:
@@ -51,6 +54,8 @@ spec:
                   secretKeyRef:
                     name: sparkdash-exporter-secret
                     key: SSH_PASSWORD # ← SSH password from external secret
+              NVIDIA_VISIBLE_DEVICES: all
+              NVIDIA_DRIVER_CAPABILITIES: utility
             securityContext:
               allowPrivilegeEscalation: false
               readOnlyRootFilesystem: true

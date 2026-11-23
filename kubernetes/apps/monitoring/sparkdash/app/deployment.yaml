@@ -40,6 +40,12 @@ spec:
               value: "production"
             - name: BIND_HOST
               value: "0.0.0.0"
+            - name: SSH_IDENTITY_FILE
+              value: "/app/ssh/id_ed25519"
+            - name: SSH_CONTROL_PERSIST_SECONDS
+              value: "300"
+            - name: SSH_CONNECT_TIMEOUT
+              value: "10"
             # Power meters — uncomment when hardware is ready:
             # - name: POWER_METERS_CONFIG_PATH
             #   value: "/app/config/power-meters.json"
@@ -61,6 +67,9 @@ spec:
           volumeMounts:
             - name: config
               mountPath: /app/config
+            - name: ssh-identity
+              mountPath: /app/ssh
+              readOnly: true
           livenessProbe:
             httpGet:
               path: /
@@ -77,12 +86,18 @@ spec:
             periodSeconds: 10
             timeoutSeconds: 3
             failureThreshold: 3
+      tolerations:
+        - key: nvidia.com/gpu
+          operator: Exists
+          effect: NoSchedule
       volumes:
         - name: config
-          emptyDir: {}
-          # Replace emptyDir with ConfigMap when power meters are ready:
-          # configMap:
-          #   name: sparkdash-power-meters
+          persistentVolumeClaim:
+            claimName: sparkdash-config
+        - name: ssh-identity
+          secret:
+            secretName: sparkdash-ssh-identity
+            defaultMode: 0400
       affinity:
         nodeAffinity:
           requiredDuringSchedulingIgnoredDuringExecution:
