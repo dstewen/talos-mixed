@@ -27,6 +27,15 @@ spec:
         retention_enabled: true
       ingester:
         chunk_encoding: snappy
+      schema_config:
+        configs:
+          - from: "2024-04-01"
+            store: tsdb
+            object_store: s3
+            schema: v13
+            index:
+              prefix: loki_index_
+              period: 24h
       limits_config:
         retention_period: 7d
         reject_old_samples: false
@@ -39,15 +48,6 @@ spec:
       storage_config:
         tsdb:
           directory: /var/loki
-        schemaConfig:
-          configs:
-            - from: "2024-04-01" # quote
-              store: tsdb
-              object_store: s3
-              schema: v13
-              index:
-                prefix: loki_index_
-                period: 24h
         storage:
           type: s3
           s3: http://192.168.10.198:9000
