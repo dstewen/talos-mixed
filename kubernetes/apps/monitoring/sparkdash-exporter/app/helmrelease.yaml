@@ -29,8 +29,6 @@ spec:
                     values:
                       - spark1
                       - spark2
-                      - spark3
-                      - spark4
       tolerations:
         - key: nvidia.com/gpu
           operator: Exists
