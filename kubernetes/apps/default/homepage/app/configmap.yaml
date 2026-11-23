@@ -113,6 +113,95 @@ data:
               href: https://github.com/dstewen/talos-homelab/issues/1
 
   services.yaml: |
+    - AI:
+        - LiteLLM:
+            href: https://litellm.davidstewen.com
+            icon: mdi-robot
+        - Open WebUI:
+            href: https://open-webui.davidstewen.com
+            icon: mdi-chat
+        - Ollama:
+            href: https://ollama.davidstewen.com
+            icon: mdi-robot-happy
+        - OpenClaw:
+            href: https://miso.davidstewen.com
+            icon: mdi-robot
+        - OpenCode:
+            href: https://opencode.davidstewen.com
+            icon: mdi-code-braces
+        - Qdrant:
+            href: https://qdrant.davidstewen.com
+            icon: mdi-database
+        - Memini:
+            href: https://memini.davidstewen.com
+            icon: mdi-brain
+        - Turnstone:
+            href: https://turnstone.davidstewen.com
+            icon: mdi-shield
+        - Stable Diffusion:
+            href: https://stable-diffusion.davidstewen.com
+            icon: mdi-palette
+        - Paperless AI:
+            href: https://paperless-ai.davidstewen.com
+            icon: mdi-file-document
+
+    - Database:
+        - Postgres 18:
+            href: https://postgres18.davidstewen.com
+            icon: mdi-postgresql
+            widget:
+              type: postgres
+              host: postgres18-rw.database.svc.cluster.local
+              port: 5432
+              username: postgres
+              password: {{HOMEPAGE_VAR_PG18_PASSWORD}}
+        - Postgres Vector:
+            href: https://postgres-vector.davidstewen.com
+            icon: mdi-postgresql
+        - PgAdmin:
+            href: https://pgadmin.davidstewen.com
+            icon: mdi-database
+        - InfluxDB3:
+            href: https://influxdb3.davidstewen.com
+            icon: mdi-chart-line
+        - Dragonfly:
+            href: https://dragonfly.davidstewen.com
+            icon: mdi-memory
+
+    - Finance:
+        - Actual Budget:
+            href: https://actual-budget.davidstewen.com
+            icon: mdi-account-cash
+
+    - Flux:
+        - Headlamp:
+            href: https://headlamp.davidstewen.com
+            icon: mdi-view-dashboard
+        - Konflate:
+            href: https://konflate.davidstewen.com
+            icon: mdi-source-branch-merge
+
+    - Home:
+        - Home Assistant:
+            href: https://hass.davidstewen.com
+            icon: mdi-home-assistant
+            widget:
+              type: homeassistant
+              url: https://hass.davidstewen.com
+              key: {{HOMEPAGE_VAR_HASS_API_TOKEN}}
+        - ESPHome:
+            href: https://esphome.davidstewen.com
+            icon: mdi-home-network
+        - Frigate:
+            href: https://video.davidstewen.com
+            icon: mdi-cctv
+            widget:
+              type: frigate
+              url: https://video.davidstewen.com
+        - Wallos:
+            href: https://wallos.davidstewen.com
+            icon: mdi-chart-pie
+
     - Infrastructure:
         - Cloudflared:
             href: https://dash.cloudflare.com/
@@ -159,6 +248,127 @@ data:
               type: pihole
               url: http://192.168.10.195
               key: {{HOMEPAGE_VAR_PIHOLE_API_TOKEN}}
+
+    - Media:
+        - Plex:
+            href: https://plex.davidstewen.com
+            icon: mdi-plex
+            widget:
+              type: plex
+              url: https://plex.davidstewen.com
+              ssl: true
+        - Sonarr:
+            href: https://sonarr.davidstewen.com
+            icon: mdi-television-box
+        - Radarr:
+            href: https://radarr.davidstewen.com
+            icon: mdi-filmstrip
+        - Lidarr:
+            href: https://lidarr.davidstewen.com
+            icon: mdi-music-note
+        - Prowlarr:
+            href: https://prowlarr.davidstewen.com
+            icon: mdi-book-search
+        - Bazarr:
+            href: https://bazarr.davidstewen.com
+            icon: mdi-subtitles
+        - Whisparr:
+            href: https://whisparr.davidstewen.com
+            icon: mdi-video
+        - SABnzbd:
+            href: https://sabnzbd.davidstewen.com
+            icon: mdi-download
+        - qBittorrent:
+            href: https://qbittorrent.davidstewen.com
+            icon: mdi-seed
+        - Tautulli:
+            href: https://tautulli.davidstewen.com
+            icon: mdi-monitor
+        - Immich:
+            href: https://photos.davidstewen.com
+            icon: mdi-camera
+            widget:
+              type: immich
+              url: https://photos.davidstewen.com
+        - Paperless:
+            href: https://paperless.davidstewen.com
+            icon: mdi-file-document
+        - Seerr:
+            href: https://seerr.davidstewen.com
+            icon: mdi-filmstrip
+        - Calibre:
+            href: https://calibre.davidstewen.com
+            icon: mdi-book
+        - Calibre-Web:
+            href: https://calibre-web.davidstewen.com
+            icon: mdi-book-open
+        - Tdarr:
+            href: https://tdarr.davidstewen.com
+            icon: mdi-server
+            widget:
+              type: tdarr
+              url: https://tdarr.davidstewen.com
+
+    - Monitoring:
+        - Prometheus:
+            href: https://prometheus.davidstewen.com
+            icon: mdi-chart-line
+            widget:
+              type: prometheus
+              url: https://prometheus.davidstewen.com
+        - Grafana:
+            href: https://grafana.davidstewen.com
+            icon: mdi-google-circles-communities
+            widget:
+              type: grafana
+              url: https://grafana.davidstewen.com
+              key: {{HOMEPAGE_VAR_GRAFANA_TOKEN}}
+        - Alertmanager:
+            href: https://alertmanager.davidstewen.com
+            icon: mdi-alert-circle
+        - Loki:
+            href: https://loki.davidstewen.com
+            icon: mdi-file-search
+        - OTEL:
+            href: https://otel.davidstewen.com
+            icon: mdi-truck-fast
+        - Kromgo:
+            href: https://kromgo.davidstewen.com
+            icon: mdi-chart-bar
+        - SparkDash:
+            href: https://sparkdash.davidstewen.com
+            icon: mdi-chart-box
+        - Netdata:
+            href: https://netdata.davidstewen.com
+            icon: mdi-speedometer
+        - Patchmon:
+            href: https://patchmon.davidstewen.com
+            icon: mdi-update
+
+    - Network:
+        - Netboot:
+            href: https://netboot.davidstewen.com
+            icon: mdi-server-network
+
+    - Security:
+        - Authentik:
+            href: https://id.davidstewen.com
+            icon: mdi-key
+        - LLdap:
+            href: https://lldap.davidstewen.com
+            icon: mdi-account-group
+
+    - Selfhosted:
+        - ChangeDetection:
+            href: https://changedetection.davidstewen.com
+            icon: mdi-eye
+        - IT-Tools:
+            href: https://it-tools.davidstewen.com
+            icon: mdi-tools
+        - Webhook:
+            href: https://webhook.davidstewen.com
+            icon: mdi-webhook
+
     - Storage:
         - DSM918:
             href: http://192.168.10.15:5000/
@@ -168,7 +378,10 @@ data:
               url: http://192.168.10.15:5000/
               username: {{HOMEPAGE_VAR_DSM_USER}}
               password: {{HOMEPAGE_VAR_DSM_PASSWORD}}
-        - Minio:
+        - Garage:
+            href: https://garage.davidstewen.com
+            icon: mdi-database
+        - Minio-Synology:
             href: http://192.168.10.198:9001/
             icon: si-minio
         - Rook-Ceph:
@@ -178,6 +391,7 @@ data:
         - Renovate-Operator:
             href: https://renovate.davidstewen.com/
             icon: sh-mend-renovate
+
   widgets.yaml: |
     - search:
         provider: [google]
