@@ -32,7 +32,7 @@ data:
         "utilityModel": {
           "primary": "litellm/gemma4-26b-a4b-nvfp4-no-thinking",
           "fallbacks": [
-            "litellm/qwen3.5-4b-utility"
+            "litellm/qwen3.5-4b-utility",
             "ollama-rig/gemma4:26b-a4b-it-qat"
           ]
         },
