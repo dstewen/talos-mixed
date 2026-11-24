@@ -80,11 +80,6 @@ spec:
         storageClass: openebs-hostpath-1tb
         size: 30Gi
       extraEnv:
-        - name: AWS_S3_ENDPOINT
-          valueFrom:
-            secretKeyRef:
-              name: loki-s3
-              key: AWS_S3_ENDPOINT
         - name: AWS_ACCESS_KEY_ID
           valueFrom:
             secretKeyRef:
