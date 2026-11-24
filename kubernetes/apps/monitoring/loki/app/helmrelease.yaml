@@ -69,11 +69,12 @@ spec:
           type: s3
           s3: http://192.168.10.198:9000
           s3ForcePathStyle: true
-          bucketNames:
-            chunks: talos-kernel-logs
-            index: talos-kernel-logs
-            rules: talos-kernel-logs
           endpoint: http://192.168.10.198:9000
+      storage:
+        bucketNames:
+          chunks: talos-kernel-logs
+          index: talos-kernel-logs
+          ruler: talos-kernel-logs
     singleBinary:
       replicas: 1
       persistence:
