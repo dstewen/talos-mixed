@@ -13,11 +13,22 @@ spec:
     deploymentMode: SingleBinary
     loki:
       # Customize rediness probes. Longer readiness probes set due to S3 backend
-      readinessProbe:
-        failureThreshold: 10
+      startupProbe:
+        httpGet:
+          path: /ready
+          port: http-metrics
+        periodSeconds: 10
         initialDelaySeconds: 30
+        failureThreshold: 60
+      readinessProbe: {}
       livenessProbe:
-        failureThreshold: 15
+        httpGet:
+          path: /loki/api/v1/status/buildinfo
+          port: http-metrics
+        periodSeconds: 30
+        successThreshold: 1
+        failureThreshold: 10
+        timeoutSeconds: 1
       auth_enabled: false
       analytics:
         reporting_enabled: false
