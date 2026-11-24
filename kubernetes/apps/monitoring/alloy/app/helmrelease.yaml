@@ -21,6 +21,7 @@ spec:
       # -- Disables sending Grafana Labs anonymous usage stats
       # Alloy.
       enableReporting: false
+      stabilityLevel: "experimental"
       extraPorts:
         - name: tcp-syslog
           port: 514
