@@ -67,9 +67,9 @@ spec:
           directory: /var/loki
       storage:
         type: s3
-        s3: http://192.168.10.198:9000
-        s3ForcePathStyle: true
-        endpoint: http://192.168.10.198:9000
+        s3:
+          s3ForcePathStyle: true
+          endpoint: http://192.168.10.198:9000
         bucketNames:
           chunks: talos-kernel-logs
           index: talos-kernel-logs
