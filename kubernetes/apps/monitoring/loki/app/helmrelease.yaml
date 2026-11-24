@@ -77,6 +77,8 @@ spec:
           ruler: talos-kernel-logs
     singleBinary:
       replicas: 1
+      extraArgs:
+        - -config.expand-env=true
       persistence:
         enabled: true
         storageClass: openebs-hostpath-1tb
