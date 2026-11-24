@@ -222,10 +222,9 @@ loki.process "loki_syslog_proxy" {
 }
 
 // Talos kernel logs via KmsgLogConfig (JSON lines format over TCP)
-loki.source.tcp "talos_kernel" {
+loki.source.raw "talos_kernel" {
   listen_address = "0.0.0.0:5141"
   listen_protocol = "tcp"
-  format = "json_lines"
   labels = {
     job = "talos.kernel",
     cluster = "main",
