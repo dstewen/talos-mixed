@@ -74,12 +74,6 @@ spec:
             index: talos-kernel-logs
             rules: talos-kernel-logs
           endpoint: http://192.168.10.198:9000
-      storage:
-        type: s3
-        bucketNames:
-          chunks: talos-kernel-logs
-          index: talos-kernel-logs
-          ruler: talos-kernel-logs
     singleBinary:
       replicas: 1
       persistence:
