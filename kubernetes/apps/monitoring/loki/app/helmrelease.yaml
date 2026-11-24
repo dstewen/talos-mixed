@@ -65,8 +65,10 @@ spec:
       storage:
         type: s3
         s3:
-          s3ForcePathStyle: true
           endpoint: http://192.168.10.198:9000
+          region: us-east-1
+          s3ForcePathStyle: true
+          insecure: true
         bucketNames:
           chunks: talos-kernel-logs
           index: talos-kernel-logs
@@ -77,7 +79,7 @@ spec:
         enabled: true
         storageClass: openebs-hostpath-1tb
         size: 30Gi
-      extraEnvs:
+      extraEnv:
         - name: AWS_S3_ENDPOINT
           valueFrom:
             secretKeyRef:
