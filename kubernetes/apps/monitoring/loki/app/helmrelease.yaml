@@ -62,9 +62,6 @@ spec:
         split_queries_by_interval: 15m
         ingestion_rate_mb: 8
         ingestion_burst_size_mb: 16
-      storage_config:
-        tsdb:
-          directory: /var/loki
       storage:
         type: s3
         s3:
