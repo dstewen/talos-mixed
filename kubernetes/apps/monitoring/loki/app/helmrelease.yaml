@@ -12,6 +12,12 @@ spec:
   values:
     deploymentMode: SingleBinary
     loki:
+      # Customize rediness probes. Longer readiness probes set due to S3 backend
+      readinessProbe:
+        failureThreshold: 10
+        initialDelaySeconds: 30
+      livenessProbe:
+        failureThreshold: 15
       auth_enabled: false
       analytics:
         reporting_enabled: false
