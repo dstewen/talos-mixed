@@ -248,7 +248,14 @@ loki.process "talos_kernel" {
   stage.json {
     expressions = {
       hostname = "hostname",
-      msg = "msg",
+      msg      = "msg",
+    }
+  }
+
+  // Promote hostname to a Loki label so we can see which node the log came from
+  stage.labels {
+    values = {
+      hostname = "",
     }
   }
 

@@ -38,6 +38,10 @@ spec:
     controller:
       podAnnotations:
         configmap.reloader.stakater.com/reload: *name
+      tolerations:
+        - key: nvidia.com/gpu
+          operator: Exists
+          effect: NoSchedule
     serviceAccount:
       create: true
     serviceMonitor:
