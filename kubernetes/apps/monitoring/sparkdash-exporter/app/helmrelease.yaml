@@ -49,11 +49,6 @@ spec:
               ESPORT: "2222"
               NODE_ENV: production
               ES_ACCEPT_PASSWORD: "1" # ← enable password auth on SSH server
-              SSH_PASSWORD:
-                valueFrom:
-                  secretKeyRef:
-                    name: sparkdash-exporter-secret
-                    key: SSH_PASSWORD # ← SSH password from external secret
               NVIDIA_VISIBLE_DEVICES: all
               NVIDIA_DRIVER_CAPABILITIES: utility
             securityContext:
