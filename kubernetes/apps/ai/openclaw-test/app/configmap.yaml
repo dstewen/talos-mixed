@@ -1838,11 +1838,6 @@ data:
           "preferBrew": true,
           "nodeManager": "npm"
         },
-        "workshop": {
-          "autonomous": {
-            "mode": "auto"
-          }
-        },
         "entries": {
           "1password": {
             "enabled": true
@@ -1882,6 +1877,12 @@ data:
           },
           "skill-creator": {
             "enabled": true
+          },
+          "skill-workshop": {
+            "config": {
+              "autonomous": { "mode": "auto" },
+              "maxSkillBytes": 40000,
+            },
           },
           "sql-optimization": {
             "enabled": true
