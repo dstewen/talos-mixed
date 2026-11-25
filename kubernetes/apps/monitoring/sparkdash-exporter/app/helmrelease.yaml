@@ -45,7 +45,7 @@ spec:
               repository: ghcr.io/dstewen/containers/sparkdash-exporter
               tag: "1.0.0@sha256:6d05f65ef2738029f34a0eccf2aeba6d766707ed559797a9e14d04a33e60037b"
             env:
-              METRICS_PORT: "9100"
+              METRICS_PORT: "9101"
               ESPORT: "2222"
               NODE_ENV: production
               NVIDIA_VISIBLE_DEVICES: all
@@ -66,7 +66,7 @@ spec:
       app:
         ports:
           metrics:
-            port: 9100
+            port: 9101
             protocol: TCP
             enabled: true
           ssh:
