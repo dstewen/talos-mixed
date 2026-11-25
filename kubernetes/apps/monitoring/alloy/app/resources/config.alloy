@@ -252,6 +252,13 @@ loki.process "talos_kernel" {
     }
   }
 
+  // Drop noisy DGX Spark ACPI fan telemetry errors
+  stage.drop {
+    source              = "msg"
+    expression          = "(FunctionalFixedHW \\(ID=127\\)|Region \\[SMCR\\]|_SB\\.FAN[0-9]+\\._FST)"
+    drop_counter_reason = "dgx_acpi_fan_noise"
+  }
+
   stage.static_labels {
     values = {
       cluster = "main",
