@@ -211,8 +211,6 @@ spec:
                 value: xterm-256color
               - name: TZ
                 value: "$${TIMEZONE}"
-              - name: LITELLM_API_KEY
-                value: "sk-9cAaHC_X5mJ1INnuTkZSFg"
               - name: XDG_CACHE_HOME
                 value: /tmp/.cache
               - name: TMPDIR
