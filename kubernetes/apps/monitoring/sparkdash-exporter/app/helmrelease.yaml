@@ -48,7 +48,6 @@ spec:
               METRICS_PORT: "9100"
               ESPORT: "2222"
               NODE_ENV: production
-              ES_ACCEPT_PASSWORD: "1" # ← enable password auth on SSH server
               NVIDIA_VISIBLE_DEVICES: all
               NVIDIA_DRIVER_CAPABILITIES: utility
             securityContext:
