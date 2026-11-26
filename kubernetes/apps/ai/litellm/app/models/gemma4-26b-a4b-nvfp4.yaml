@@ -67,9 +67,9 @@ spec:
     - name: CMAKE_BUILD_PARALLEL_LEVEL
       value: "4"
     - name: HF_HUB_OFFLINE
-      value: "0"
+      value: "1"
     - name: TRANSFORMERS_OFFLINE
-      value: "0"
+      value: "1"
   extraVolumes:
     - name: local-cache
       persistentVolumeClaim:
