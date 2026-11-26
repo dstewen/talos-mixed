@@ -215,6 +215,11 @@ spec:
                 value: /tmp/.cache
               - name: TMPDIR
                 value: /tmp/openclaw-tmp
+              - name: MEMINI_API_KEY
+                valueFrom:
+                  secretKeyRef:
+                    name: memini
+                    key: MEMINI_API_KEY
             envFrom:
               - secretRef:
                   name: openclaw-test-secret
