@@ -162,8 +162,8 @@ nodes:
     role: worker
     schematicId: "@schematics/dgx.yaml"
     data:
-      installDisk: "nvme0n1"
-      #      installDiskSerial: "BTHH81000E09512D"
+      installDisk: ""
+      installDiskSerial: "S8C2NE0L208715"
       macAddr: "4c:bb:47:ec:9d:9e"
       mtu: 1500
       encryptDisk: false
@@ -173,8 +173,8 @@ nodes:
     role: worker
     schematicId: "@schematics/dgx.yaml"
     data:
-      installDisk: "nvme0n1"
-      #      installDiskSerial: "S8C2NE0L208716"
+      installDisk: ""
+      installDiskSerial: "S8C2NE0L208538"
       macAddr: "4c:bb:47:ec:9c:99"
       mtu: 1500
       encryptDisk: false
