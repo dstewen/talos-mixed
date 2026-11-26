@@ -57,15 +57,19 @@ spec:
   endpoint:
     port: 8000
     type: ClusterIP
+  vllmConfig:
+    hfTokenSecretRef:
+      name: huggingface
+      key: HF_TOKEN
   env:
     - name: MAX_JOBS
       value: "4"
     - name: CMAKE_BUILD_PARALLEL_LEVEL
       value: "4"
     - name: HF_HUB_OFFLINE
-      value: "1"
+      value: "0"
     - name: TRANSFORMERS_OFFLINE
-      value: "1"
+      value: "0"
   extraVolumes:
     - name: local-cache
       persistentVolumeClaim:
