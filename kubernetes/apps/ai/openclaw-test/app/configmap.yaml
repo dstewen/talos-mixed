@@ -217,7 +217,7 @@ data:
             "tools": {
               "profile": "coding",
               "deny": ["canvas"],
-              "alsoAllow": ["group:sessions", "group:messaging", "group:plugins", "web_fetch", "browser", "wiki_apply", "wiki_get", "wiki_lint", "wiki_search", "wiki_status", "bundle-mcp"],
+              "alsoAllow": ["group:sessions", "sessions_spawn", "sessions_send", "sessions_yield", "subagents", "group:messaging", "group:plugins", "web_fetch", "browser", "wiki_apply", "wiki_get", "wiki_lint", "wiki_search", "wiki_status", "bundle-mcp"],
               "elevated": { "enabled": true }
             },
             "groupChat": {
@@ -255,6 +255,11 @@ data:
             "identity": {
               "name": "Reviewer Bot",
               "emoji": "🔍"
+            },
+            "tools": {
+              "profile": "coding",
+              "deny": ["canvas"],
+              "alsoAllow": ["group:sessions", "sessions_spawn", "sessions_send", "sessions_yield", "subagents", "read", "write", "edit", "group:openclaw", "group:plugins", "wiki_apply", "wiki_get", "wiki_lint", "wiki_search", "wiki_status", "bundle-mcp", "web_fetch", "ask_user"]
             },
             "groupChat": {
               "mentionPatterns": ["@review", "@Review"]
