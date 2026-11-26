@@ -36,5 +36,10 @@
       matchSourceUrls: ["https://github.com/stacklok/toolhive/"],
       fetchChangeLogs: "pr",
     },
+    {
+      description: "Changelog URL for Loki (Grafana Community Helm Chart)",
+      matchPackageNames: ["loki"],
+      changelogUrl: "https://github.com/grafana-community/helm-charts/releases/tag/loki-{{toVersion}}",
+    },
   ],
 }
