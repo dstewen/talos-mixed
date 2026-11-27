@@ -38,7 +38,7 @@
     },
     {
       description: "Changelog URL for Loki (Grafana Community Helm Chart)",
-      matchPackageNames: ["loki"],
+      matchPackageNames: ["/ghcr\\.io\\/grafana-community\\/helm-charts\\/loki/"],
       changelogUrl: "https://github.com/grafana-community/helm-charts/releases/tag/loki-{{toVersion}}",
     },
   ],
