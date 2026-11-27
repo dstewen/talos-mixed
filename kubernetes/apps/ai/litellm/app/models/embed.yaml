@@ -1,14 +1,89 @@
-# LiteLLMModel for embed (wraps embed-1/2 InferenceServices)
-apiVersion: litellm.home-operations.com/v1alpha1
-kind: LiteLLMModel
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/inference.llmkube.dev/model_v1alpha1.json
+apiVersion: inference.llmkube.dev/v1alpha1
+kind: Model
 metadata:
   name: embed
-  namespace: ai
 spec:
-  modelName: embed
-  params:
-    apiBase: http://embed.ai.svc.cluster.local:8080/v1
-    apiKey: sk-llmkube-noauth
-    model: openai/embed
-  info:
-    mode: embedding
+  source: hf://Qwen/Qwen3-Embedding-0.6B-GGUF
+  sourceSecretRef:
+    name: huggingface
+  files:
+    - Qwen3-Embedding-0.6B-Q8_0.gguf
+  format: gguf
+  quantization: Q8_0
+  hardware:
+    accelerator: intel
+    gpu:
+      enabled: true
+      vendor: intel
+      layers: 99
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: llmkube-models-intel-gpu
+---
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/inference.llmkube.dev/inferenceservice_v1alpha1.json
+apiVersion: inference.llmkube.dev/v1alpha1
+kind: InferenceService
+metadata:
+  name: embed
+  labels:
+    krr/ignore: "true"
+spec:
+  modelRef: embed
+  runtime: llamacpp
+  image: ghcr.io/ggml-org/llama.cpp:server-vulkan@sha256:1ba441f2843f86e99ec64a218c427bd2d391393a73b39b9ec2c2e69a0ae9be4e
+  mode: embedding
+  contextSize: 32768
+  parallelSlots: 8
+  batchSize: 2048
+  uBatchSize: 2048
+  extraArgs:
+    - --cont-batching
+    - --flash-attn
+    - "on"
+    - --load-mode
+    - mmap
+    - --threads
+    - "4"
+    - --threads-batch
+    - "4"
+  rolloutPolicy:
+    waitForIdle: false
+    idleTimeoutSeconds: 300
+  replicas: 1
+  priority: high
+  nodeSelector:
+    topology.kubernetes.io/gpus: intel
+  tolerations:
+    - key: llm-workload
+      operator: Exists
+      effect: NoSchedule
+  resources:
+    cpu: "2"
+    memory: 8Gi
+  modelCache:
+    claimName: llmkube-layla-cache
+  endpoint:
+    port: 8080
+    type: ClusterIP
+  probeOverrides:
+    startup:
+      httpGet:
+        path: /health
+        port: 8080
+      periodSeconds: 10
+      failureThreshold: 120
+    liveness:
+      httpGet:
+        path: /health
+        port: 8080
+      initialDelaySeconds: 30
+      periodSeconds: 30
+      failureThreshold: 6
+    readiness:
+      httpGet:
+        path: /health
+        port: 8080
+      initialDelaySeconds: 20
+      periodSeconds: 10
+      failureThreshold: 6
