@@ -60,6 +60,7 @@ spec:
   modelCache:
     claimName: llmkube-model-cache
   endpoint:
+    path: /v1/rerank
     port: 8080
     type: ClusterIP
   probeOverrides:
