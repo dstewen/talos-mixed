@@ -149,7 +149,7 @@ spec:
     model_list:
       - model_name: rerank
         litellm_params:
-          model: openai/rerank
+          model: cohere/rerank
           api_base: http://rerank.ai.svc.cluster.local:8080/v1
       - model_name: embed
         litellm_params:
