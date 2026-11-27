@@ -10,6 +10,8 @@ spec:
   secretKey: api-key
   models:
     - qwen36-35b-a3b-fp8
+    - qwen36-35b-a3b-fp8-no-thinking
+    - gemma4-26b-a4b-nvfp4
     - gemma4-26b-a4b-nvfp4-no-thinking
     - embed
     - rerank
