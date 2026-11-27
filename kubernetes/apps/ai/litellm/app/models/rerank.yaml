@@ -53,7 +53,7 @@ spec:
   replicas: 1
   priority: high
   nodeSelector:
-    node.kubernetes.io/gpu: "true"
+    node-role.kubernetes.io/control-plane: ""
   resources:
     cpu: "2"
     memory: 8Gi
