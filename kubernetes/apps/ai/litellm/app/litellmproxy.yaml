@@ -149,12 +149,12 @@ spec:
     model_list:
       - model_name: rerank
         litellm_params:
-          model: cohere/rerank
-          api_base: http://rerank.ai.svc.cluster.local:8080/v1
+          model: vllm/rerank
+          api_base: http://rerank.ai.svc.cluster.local:8000/v1
       - model_name: embed
         litellm_params:
-          model: openai/embedding
-          api_base: http://embed.ai.svc.cluster.local:8080/v1
+          model: vllm/embedding
+          api_base: http://embed.ai.svc.cluster.local:8000/v1
   apiAccess:
     masterKeyRef:
       name: litellm-secret

@@ -4,15 +4,20 @@ kind: Model
 metadata:
   name: embed
 spec:
-  source: hf://Qwen/Qwen3-Embedding-0.6B-GGUF
+  source: hf://Qwen/Qwen3-Embedding-0.6B
   sourceSecretRef:
     name: huggingface
-  files:
-    - Qwen3-Embedding-0.6B-Q8_0.gguf
-  format: gguf
-  quantization: Q8_0
+  format: safetensors
+  quantization: fp16
   hardware:
-    accelerator: cpu
+    accelerator: cuda
+    gpu:
+      enabled: true
+      vendor: nvidia
+      layers: 99
+      resourceClaims:
+        - name: gpu
+          resourceClaimTemplateName: llmkube-models-gpu
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/inference.llmkube.dev/inferenceservice_v1alpha1.json
 apiVersion: inference.llmkube.dev/v1alpha1
@@ -23,55 +28,58 @@ metadata:
     krr/ignore: "true"
 spec:
   modelRef: embed
-  runtime: llamacpp
-  image: ghcr.io/ggml-org/llama.cpp:server
+  runtime: vllm
+  image: eugr/spark-vllm-b12x@sha256:19ab778dd57f019c44caf5df91a671cf688923d1ca9fa8ce92be0c9acb46d215
   mode: embedding
   contextSize: 32768
   parallelSlots: 8
   batchSize: 2048
   uBatchSize: 2048
   extraArgs:
-    - --cont-batching
-    - --load-mode
-    - mmap
-    - --threads
-    - "8"
-    - --threads-batch
-    - "16"
+    - "--max-model-len"
+    - "32768"
+    - "--max-num-batched-tokens"
+    - "2048"
+    - "--gpu-memory-utilization"
+    - "0.6"
+    - "--load-format"
+    - "safetensors"
   rolloutPolicy:
     waitForIdle: false
     idleTimeoutSeconds: 300
   replicas: 1
   priority: high
   nodeSelector:
-    node-role.kubernetes.io/control-plane: ""
+    kubernetes.io/hostname: spark2
   resources:
-    cpu: "2"
-    memory: 8Gi
+    cpu: "2000m"
+    memory: "16Gi"
+    memoryLimit: "32Gi"
+    nvidia.com/gpu: "1"
   modelCache:
-    claimName: llmkube-model-cache
+    claimName: spark2-model-cache
   endpoint:
     path: /v1/embeddings
-    port: 8080
+    port: 8000
     type: ClusterIP
   probeOverrides:
     startup:
       httpGet:
         path: /health
-        port: 8080
+        port: 8000
       periodSeconds: 10
       failureThreshold: 120
     liveness:
       httpGet:
         path: /health
-        port: 8080
+        port: 8000
       initialDelaySeconds: 30
       periodSeconds: 30
       failureThreshold: 6
     readiness:
       httpGet:
         path: /health
-        port: 8080
+        port: 8000
       initialDelaySeconds: 20
       periodSeconds: 10
       failureThreshold: 6
