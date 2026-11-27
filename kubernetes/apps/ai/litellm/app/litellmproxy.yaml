@@ -146,6 +146,17 @@ spec:
     environment:
       - REDIS_HOST
       - REDIS_PORT
+    model_groups:
+      - provider: openai/rerank
+        models:
+          - rerank
+        provider_config:
+          api_base: http://rerank.ai.svc.cluster.local:8080/v1
+      - provider: openai/embedding
+        models:
+          - embed
+        provider_config:
+          api_base: http://embed.ai.svc.cluster.local:8080/v1
   apiAccess:
     masterKeyRef:
       name: litellm-secret
