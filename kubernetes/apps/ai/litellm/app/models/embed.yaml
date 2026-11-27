@@ -58,8 +58,9 @@ spec:
     cpu: "2"
     memory: 8Gi
   modelCache:
-    claimName: embeddings
+    claimName: llmkube-model-cache
   endpoint:
+    path: /v1/embeddings
     port: 8080
     type: ClusterIP
   probeOverrides:
