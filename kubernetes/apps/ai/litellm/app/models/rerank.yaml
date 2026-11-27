@@ -53,16 +53,12 @@ spec:
   replicas: 1
   priority: high
   nodeSelector:
-    topology.kubernetes.io/gpus: intel
-  tolerations:
-    - key: llm-workload
-      operator: Exists
-      effect: NoSchedule
+    node.kubernetes.io/gpu: "true"
   resources:
     cpu: "2"
     memory: 8Gi
   modelCache:
-    claimName: llmkube-layla-cache
+    claimName: llmkube-model-cache
   endpoint:
     port: 8080
     type: ClusterIP
