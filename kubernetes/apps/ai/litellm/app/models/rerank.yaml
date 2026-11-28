@@ -26,8 +26,6 @@ apiVersion: inference.llmkube.dev/v1alpha1
 kind: InferenceService
 metadata:
   name: rerank
-  labels:
-    krr/ignore: "true"
 spec:
   modelRef: rerank
   runtime: llamacpp
