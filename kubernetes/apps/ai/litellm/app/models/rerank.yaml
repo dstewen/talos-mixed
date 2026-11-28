@@ -1,83 +1,15 @@
-# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/inference.llmkube.dev/model_v1alpha1.json
-apiVersion: inference.llmkube.dev/v1alpha1
-kind: Model
-metadata:
-  name: rerank
-spec:
-  source: hf://Qwen/Qwen3-Reranker-0.6B
-  sourceSecretRef:
-    name: huggingface
-  files:
-    - qwen3-reranker-0.6b-q8_0.gguf
-  format: gguf
-  quantization: Q8_0
-  hardware:
-    accelerator: intel
-    gpu:
-      enabled: true
-      vendor: intel
-      layers: 99
-      resourceClaims:
-        - name: gpu
-          resourceClaimTemplateName: llmkube-models-intel-gpu
 ---
-# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/inference.llmkube.dev/inferenceservice_v1alpha1.json
-apiVersion: inference.llmkube.dev/v1alpha1
-kind: InferenceService
+# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/litellm.home-operations.com/litellmmodel_v1alpha1.json
+apiVersion: litellm.home-operations.com/v1alpha1
+kind: LiteLLMModel
 metadata:
   name: rerank
 spec:
-  modelRef: rerank
-  runtime: llamacpp
-  image: ghcr.io/ggml-org/llama.cpp:server-vulkan@sha256:a4911a324843555ff09cd403f21ba314a78a1aa5f515a145774465161f168a7a
-  mode: rerank
-  contextSize: 8192
-  parallelSlots: 2
-  batchSize: 2048
-  uBatchSize: 2048
-  extraArgs:
-    - --cont-batching
-    - --flash-attn
-    - "on"
-    - --load-mode
-    - mmap
-    - --threads
-    - "4"
-    - --threads-batch
-    - "4"
-  rolloutPolicy:
-    waitForIdle: false
-    idleTimeoutSeconds: 300
-  replicas: 1
-  priority: high
-  nodeSelector:
-    kubernetes.io/hostname: nuc2
-  resources:
-    cpu: "2000m"
-    memory: "8Gi"
-  modelCache:
-    claimName: nuc2-model-cache
-  endpoint:
-    port: 8000
-    type: ClusterIP
-  probeOverrides:
-    startup:
-      httpGet:
-        path: /health
-        port: 8000
-      periodSeconds: 10
-      failureThreshold: 120
-    liveness:
-      httpGet:
-        path: /health
-        port: 8000
-      initialDelaySeconds: 30
-      periodSeconds: 30
-      failureThreshold: 6
-    readiness:
-      httpGet:
-        path: /health
-        port: 8000
-      initialDelaySeconds: 20
-      periodSeconds: 10
-      failureThreshold: 6
+  modelName: rerank
+  proxyRef: litellm
+  params:
+    model: infinity/rerank
+    apiBase: http://rerank.ai:8080/v1
+    apiKey: memini-rerank
+  info:
+    mode: rerank
