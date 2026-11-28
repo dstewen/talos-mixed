@@ -54,8 +54,7 @@ spec:
   resources:
     cpu: "2000m"
     memory: "16Gi"
-    memoryLimit: "32Gi"
-    nvidia.com/gpu: "1"
+    memoryLimit: "24Gi"
   modelCache:
     claimName: spark2-model-cache
   endpoint:
