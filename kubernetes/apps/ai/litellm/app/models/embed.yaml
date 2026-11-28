@@ -54,8 +54,7 @@ spec:
     kubernetes.io/hostname: nuc1
   resources:
     cpu: "2000m"
-    memory: "16Gi"
-    memoryLimit: "32Gi"
+    memory: "8Gi"
   modelCache:
     claimName: nuc1-model-cache
   endpoint:

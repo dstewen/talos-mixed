@@ -50,13 +50,13 @@ spec:
   replicas: 1
   priority: high
   nodeSelector:
-    kubernetes.io/hostname: spark2
+    kubernetes.io/hostname: nuc2
   resources:
     cpu: "2000m"
     memory: "16Gi"
     memoryLimit: "24Gi"
   modelCache:
-    claimName: spark2-model-cache
+    claimName: nuc2-model-cache
   endpoint:
     path: /v1/rerank
     port: 8000
