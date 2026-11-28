@@ -2,8 +2,7 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  #  - embed-pvc.yaml
-  #  - embed.yaml
+  - embed.yaml
   - gemma4-26b-a4b-nvfp4-no-thinking.yaml
   - gemma4-26b-a4b-nvfp4.yaml
   #  - google-ai-gemini-2.5-flash-lite.yaml
@@ -32,7 +31,6 @@ resources:
   #  - qwen3-coder-next-fp8.yaml
   #  - ollama-rig-qwen3-5-4b-ollama.yaml
   - qwen3.6-35b-a3b-fp8.yaml
-  #  - rerank-pvc.yaml
-  #  - rerank.yaml
+  - rerank.yaml
   - qwen36-35b-a3b-fp8-no-thinking.yaml
   - utility.yaml
