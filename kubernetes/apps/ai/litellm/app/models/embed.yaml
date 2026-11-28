@@ -1,96 +1,85 @@
----
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/inference.llmkube.dev/model_v1alpha1.json
 apiVersion: inference.llmkube.dev/v1alpha1
 kind: Model
 metadata:
   name: embed
 spec:
-  source: hf://Qwen/Qwen3-Embedding-0.6B-GGUF
+  source: hf://Qwen/Qwen3-Embedding-0.6B
   sourceSecretRef:
     name: huggingface
-  files:
-    - Qwen3-Embedding-0.6B-Q8_0.gguf
-  format: gguf
-  quantization: Q8_0
+  format: safetensors
+  quantization: fp16
   hardware:
-    accelerator: intel
+    accelerator: cuda
     gpu:
       enabled: true
-      vendor: intel
+      vendor: nvidia
       layers: 99
       resourceClaims:
         - name: gpu
-          resourceClaimTemplateName: llmkube-models-intel-gpu
+          resourceClaimTemplateName: llmkube-models-gpu
 ---
 # yaml-language-server: $schema=https://k8s-schemas.home-operations.com/inference.llmkube.dev/inferenceservice_v1alpha1.json
 apiVersion: inference.llmkube.dev/v1alpha1
 kind: InferenceService
 metadata:
   name: embed
+  labels:
+    krr/ignore: "true"
 spec:
   modelRef: embed
-  runtime: llamacpp
+  runtime: vllm
+  image: eugr/spark-vllm-b12x@sha256:19ab778dd57f019c44caf5df91a671cf688923d1ca9fa8ce92be0c9acb46d215
   mode: embedding
   contextSize: 32768
   parallelSlots: 8
   batchSize: 2048
   uBatchSize: 2048
   extraArgs:
-    - --cont-batching
-    - --flash-attn
-    - "on"
-    - --load-mode
-    - mmap
-    - --threads
-    - "4"
-    - --threads-batch
-    - "4"
+    - "--max-model-len"
+    - "32768"
+    - "--max-num-batched-tokens"
+    - "2048"
+    - "--gpu-memory-utilization"
+    - "0.6"
+    - "--load-format"
+    - "safetensors"
   rolloutPolicy:
     waitForIdle: false
     idleTimeoutSeconds: 300
   replicas: 1
   priority: high
   nodeSelector:
-    topology.kubernetes.io/gpus: intel
+    kubernetes.io/hostname: spark2
   resources:
-    cpu: "2"
-    memory: "8Gi"
+    cpu: "2000m"
+    memory: "16Gi"
+    memoryLimit: "32Gi"
+    nvidia.com/gpu: "1"
   modelCache:
     claimName: spark2-model-cache
   endpoint:
-    port: 8080
+    path: /v1/embeddings
+    port: 8000
     type: ClusterIP
   probeOverrides:
     startup:
       httpGet:
         path: /health
-        port: 8080
+        port: 8000
       periodSeconds: 10
       failureThreshold: 120
     liveness:
       httpGet:
         path: /health
-        port: 8080
+        port: 8000
       initialDelaySeconds: 30
       periodSeconds: 30
       failureThreshold: 6
     readiness:
       httpGet:
         path: /health
-        port: 8080
+        port: 8000
       initialDelaySeconds: 20
       periodSeconds: 10
       failureThreshold: 6
----
-# yaml-language-server: $schema=https://k8s-schemas.home-operations.com/litellm.home-operations.com/litellmmodel_v1alpha1.json
-apiVersion: litellm.home-operations.com/v1alpha1
-kind: LiteLLMModel
-metadata:
-  name: embed
-  namespace: ai
-spec:
-  modelName: embed
-  params:
-    apiBase: http://embed.ai.svc.cluster.local:8080
-    apiKey: sk-llmkube-noauth
-    model: openai/embeddings
