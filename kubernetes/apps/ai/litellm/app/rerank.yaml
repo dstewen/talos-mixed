@@ -4,7 +4,7 @@ kind: Model
 metadata:
   name: rerank
 spec:
-  source: hf://Qwen/Qwen3-Reranker-0.6B
+  source: hf://ggml-org/Qwen3-Reranker-0.6B-Q8_0-GGUF
   sourceSecretRef:
     name: huggingface
   files:
