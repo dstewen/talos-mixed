@@ -74,7 +74,7 @@ nodeIP:
 ---
 apiVersion: v1alpha1
 kind: KubeletConfig
-image: ghcr.io/siderolabs/kubelet:v1.37.2
+image: ghcr.io/siderolabs/kubelet:v1.37.3
 config:
   crashLoopBackOff:
     maxContainerRestartPeriod: 60s
